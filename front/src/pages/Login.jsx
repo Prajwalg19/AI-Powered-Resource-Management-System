@@ -5,13 +5,16 @@ import { toast } from "react-toastify";
 import { setCred, logOut } from "../features/auth/userSlice";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { closeModal } from "../features/modalSlice";
 
 function Login() {
     const [data, setData] = useState({
         email: "",
         password: "",
     });
+
     const dispatch = useDispatch();
+    dispatch(closeModal());
     const navigate = useNavigate();
     const { email, password } = data;
     function onChange(e) {

@@ -1,6 +1,8 @@
 import axios from "axios";
-import { setCred } from "../features/auth/userSlice";
+import { setCred, logOut } from "../features/auth/userSlice";
+import { closeModal, openModal } from "../features/modalSlice";
 import store from "../pages/store";
+
 let refresh = false;
 
 const axiosInstance = axios.create({
@@ -26,8 +28,12 @@ axiosInstance.interceptors.response.use(
                 },
                 { withCredentials: true }
             );
-
+            if (response.response?.data?.detail.toLowerCase() == "token is invalid or expired") {
+                store.dispatch(logOut());
+                store.dispatch(openModal());
+            }
             if (response.status === 200) {
+                store.dispatch(closeModal());
                 axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${response.data["access"]}`;
                 store.dispatch(
                     setCred({

@@ -1,7 +1,11 @@
+import { Modal } from "flowbite";
 import { useSelector } from "react-redux";
 import Dashboard from "../pages/Dashboard";
 
 function Panel({ children }) {
+    const store = useSelector((store) => {
+        return store.modal;
+    });
     const { isOpen } = useSelector((store) => {
         return store.sidePanel;
     });

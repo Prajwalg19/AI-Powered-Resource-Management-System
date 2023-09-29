@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineIssuesClose, AiOutlineMenuUnfold } from "react-icons/ai";
 import "../index.css";
@@ -9,21 +8,24 @@ import { ImLab } from "react-icons/im";
 import { FcDepartment } from "react-icons/fc";
 import { BiSearchAlt, BiSolidPurchaseTag } from "react-icons/bi";
 import { RiComputerFill } from "react-icons/ri";
+import Modal from "../Components/Modal";
 function Dashboard() {
     const dispatch = useDispatch();
     const store = useSelector((store) => {
         return store;
     });
-
+    const isAdmin = store?.user?.role?.toLowerCase() === "admin";
+    const isStaff = store?.user?.role?.toLowerCase() === "staff";
+    const modalStatus = store?.modal?.isOpen;
     return (
-        <div className="">
+        <div>
             <button type="button" className="fixed z-50 top-5 left-2" onClick={() => dispatch(openPanel())}>
                 <AiOutlineMenuUnfold />
             </button>
 
-            <aside className={`w-64 h-screen transition-transform ${store.sidePanel.isOpen ? "translate-x-0" : "-translate-x-full"}`}>
+            <aside className={`w-64 h-screen transition-transform ${store?.sidePanel.isOpen ? "translate-x-0" : "-translate-x-full"}`}>
                 <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50">
-                    {store.user.role == "Admin" ? (
+                    {isAdmin ? (
                         <ul className="flex flex-col items-start justify-center pl-1 font-medium space-y-2">
                             <li>
                                 <span className="flex items-center justify-start text-lg font-semibold space-x-2">
@@ -58,7 +60,7 @@ function Dashboard() {
                     ) : (
                         ""
                     )}
-                    {store.user.role == "Staff" ? (
+                    {isStaff ? (
                         <ul className="flex flex-col items-start justify-center pl-1 font-medium space-y-2">
                             <li>
                                 <Link to="/equipmentreviewlist" className="flex items-center justify-center space-x-2">
@@ -77,6 +79,7 @@ function Dashboard() {
                     )}
                 </div>
             </aside>
+            {modalStatus && <Modal />}
         </div>
     );
 }

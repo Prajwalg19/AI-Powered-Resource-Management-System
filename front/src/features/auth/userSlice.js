@@ -24,7 +24,7 @@ const authSlice = createSlice({
                 state.refreshtoken = action.payload.token?.refresh;
             }
         },
-        logOut: (state, action) => {
+        logOut: (state) => {
             state.role = null;
             state.status = false;
             state.refreshtoken = null;

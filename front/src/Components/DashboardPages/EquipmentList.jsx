@@ -1,20 +1,29 @@
 import { useEffect, useState } from "react";
 import Panel from "../Panel";
+import axios from "../../interceptors/axios";
+import { useSelector } from "react-redux";
 function EquipmentList() {
     const [departments, setDepartments] = useState([]);
+    const token = useSelector((store) => {
+        return store.user.accesstoken;
+    });
     useEffect(() => {
         async function fetchData() {
             try {
-                let response = await fetch("http://localhost:8000/api/Equipments/");
-                response = await response.json();
-                response.map((data) => {
+                let response = await axios.get("api/user/equipment/", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                response.data.map((data) => {
                     if (data.status === true) {
                         data.status = "true";
                     } else {
                         data.status = "false";
                     }
                 });
-                setDepartments(response);
+                console.log(response.data);
+                setDepartments(response.data);
             } catch (error) {
                 console.log(error);
             }
@@ -38,17 +47,18 @@ function EquipmentList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {departments.map((data, index) => (
-                            <tr key={index} className="hover:text-white">
-                                <td>{index}</td>
-                                <td>{data.equipment_serial_number}</td>
-                                <td>{data.purchase_order}</td>
-                                <td>{data.purchase_date}</td>
-                                <td>{data.equipment_value}</td>
-                                <td>{data.lab}</td>
-                                <td>{data.status}</td>
-                            </tr>
-                        ))}
+                        {departments &&
+                            departments.map((data, index) => (
+                                <tr key={index} className="hover:text-white">
+                                    <td>{index}</td>
+                                    <td>{data.equipment_serial_number}</td>
+                                    <td>{data.purchase_order}</td>
+                                    <td>{data.purchase_date}</td>
+                                    <td>{data.equipment_value}</td>
+                                    <td>{data.lab}</td>
+                                    <td>{data.status}</td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
             </Panel>

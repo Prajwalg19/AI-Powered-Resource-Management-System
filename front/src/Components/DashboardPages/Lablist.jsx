@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import axios from "../../interceptors/axios";
 import Panel from "../Panel";
 function Lablist() {
     const [departments, setDepartments] = useState([]);
+    const token = useSelector((store) => {
+        return store.user.accesstoken;
+    });
     useEffect(() => {
         async function fetchData() {
             try {
-                let response = await fetch("http://localhost:8000/api/user/lab/");
-                response = await response.json();
-                setDepartments(response);
+                let response = await axios.get("api/user/lab/", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setDepartments(response.data);
             } catch (error) {
                 console.log(error);
             }
@@ -24,18 +32,23 @@ function Lablist() {
                             <th>Lab number</th>
                             <th>Department</th>
                             <th>Location</th>
-                            <th>Lab incharge</th>
+                            {
+                                // <th>Lab incharge</th>
+                            }
                         </tr>
                     </thead>
                     <tbody>
-                        {departments.map((data, index) => (
-                            <tr key={index} className="hover:text-white">
-                                <td>{data.lab_number}</td>
-                                <td>{data.department}</td>
-                                <td>{data.location}</td>
-                                <td>{data.lab_incharge}</td>
-                            </tr>
-                        ))}
+                        {departments &&
+                            departments.map((data, index) => (
+                                <tr key={index} className="hover:text-white">
+                                    <td>{data.lab_number}</td>
+                                    <td>{data.department}</td>
+                                    <td>{data.location}</td>
+                                    {
+                                        // <td>{data.lab_incharge}</td>
+                                    }
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
             </Panel>

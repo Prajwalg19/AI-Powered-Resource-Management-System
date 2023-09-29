@@ -24,13 +24,13 @@ function Head() {
         headerDisplay = false;
     }
 
-    if (user.role === "Admin") {
+    if (user.role?.toLowerCase() === "admin") {
         pageUrls = pageUrls.filter((item) => {
             if (item != "issue" && item != "review") {
                 return true;
             }
         });
-    } else if (user.role === "Staff") {
+    } else if (user.role?.toLowerCase() === "staff") {
         pageUrls = pageUrls.filter((item) => {
             if (item == "issue" || item == "review") return true;
         });

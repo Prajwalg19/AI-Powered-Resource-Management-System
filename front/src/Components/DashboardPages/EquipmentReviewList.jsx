@@ -1,19 +1,27 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import axios from "../../interceptors/axios";
 import Panel from "../Panel";
 function EquipmentsReviewList() {
     const [departments, setDepartments] = useState([]);
+    const token = useSelector((store) => {
+        return store.user.accesstoken;
+    });
     useEffect(() => {
         async function fetchData() {
             try {
-                let response = await fetch("http://127.0.0.1:8000/api/equipment_review/");
-                response = await response.json();
-                setDepartments(response);
+                let response = await axios.get("api/user/equipment_review/", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setDepartments(response.data);
             } catch (error) {
                 console.log(error);
             }
         }
         fetchData();
-    }, []);
+    }, [token]);
     return (
         <>
             <Panel>
@@ -30,16 +38,17 @@ function EquipmentsReviewList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {departments.map((data, index) => (
-                            <tr key={index}>
-                                <td className="bg-gray-100 border-collapse border border-slate-100">{data.equipment}</td>
-                                <td className="bg-gray-100 border-collapse border border-slate-100">{data.quantity}</td>
-                                <td className="bg-gray-100 border-collapse border border-slate-100">{data.date}</td>
-                                <td className="bg-gray-100 border-collapse border border-slate-100">{data.lab_incharge}</td>
-                                <td className="bg-gray-100 border-collapse border border-slate-100">{data.not_working_quantity}</td>
-                                <td className="bg-gray-100 border-collapse border border-slate-100">{data.remarks}</td>
-                            </tr>
-                        ))}
+                        {departments &&
+                            departments.map((data, index) => (
+                                <tr key={index}>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.equipment}</td>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.quantity}</td>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.date}</td>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.lab_incharge}</td>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.not_working_quantity}</td>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.remarks}</td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
             </Panel>
