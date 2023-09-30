@@ -33,7 +33,6 @@ function EquipmentList() {
     }, []);
 
     async function saveFile() {
-        console.log("ok");
         const [...boom] = departments;
 
         let props = {
@@ -42,40 +41,67 @@ function EquipmentList() {
             fileName: "Invoice",
             orientationLandscape: false,
             compress: true,
-
+            logo: {
+                src: "https://raw.githubusercontent.com/Prajwalg19/photo/main/GAT-logo.png",
+                type: "PNG",
+                width: 30.33,
+                height: 26.66,
+                margin: {
+                    top: 0,
+                    left: 0,
+                },
+            },
             business: {
                 name: "Global Academy of Technology",
+                address: "Rajarajeshwarinagar, Ideal Homes Township, Bangalore-560098, Karnataka, India",
+                phone: "+919243190105",
+                email: "info@gat.ac.in",
+                website: "https://gat.ac.in",
             },
             invoice: {
+                invGenDate: Date(),
                 headerBorder: false,
                 tableBodyBorder: false,
                 header: [
                     {
                         title: "SI",
                         style: {
-                            width: 50,
+                            width: 25,
                         },
                     },
                     {
-                        title: "Department Number",
+                        title: "Purchase Date",
                         style: {
-                            width: 50,
+                            width: 25,
                         },
                     },
                     {
-                        title: "Department Name",
+                        title: "Equipment Value",
                         style: {
-                            width: 50,
+                            width: 25,
                         },
                     },
                     {
-                        title: "HOD Name",
+                        title: "Lab No",
                         style: {
-                            width: 50,
+                            width: 25,
+                        },
+                    },
+                    {
+                        title: "Status",
+                        style: {
+                            width: 25,
+                        },
+                    },
+
+                    {
+                        title: "Description",
+                        style: {
+                            width: 75,
                         },
                     },
                 ],
-                table: Array.from([...boom], (item, index) => [index + 1, item.department_number, item.department_name, item.hod_name]),
+                table: Array.from([...boom], (item, index) => [item.equipment_serial_number, item.purchase_date, item.equipment_value, item.lab, item.status, item.description]),
             },
             footer: {
                 text: "The invoice is created on a computer and is valid without the signature and stamp.",
@@ -93,24 +119,24 @@ function EquipmentList() {
                 <table className="bg-white border-collapse border border-slate-50 w-full max-w-6xl mx-auto text-center">
                     <thead>
                         <tr>
-                            <th className=" border-collapse border border-slate-300">SI</th>
                             <th className=" border-collapse border border-slate-300">Serial number</th>
                             <th className=" border-collapse border border-slate-300">Purchase Date</th>
                             <th className=" border-collapse border border-slate-300">Equipment Value</th>
-                            <th className=" border-collapse border border-slate-300">Lab</th>
+                            <th className=" border-collapse border border-slate-300">Lab No</th>
                             <th className=" border-collapse border border-slate-300">Status</th>
+                            <th className=" border-collapse border border-slate-300">Description</th>
                         </tr>
                     </thead>
                     <tbody>
                         {departments &&
                             departments.map((data, index) => (
                                 <tr key={index}>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{index}</td>
                                     <td className="bg-gray-100 border-collapse border border-slate-100">{data.equipment_serial_number}</td>
                                     <td className="bg-gray-100 border-collapse border border-slate-100">{data.purchase_date}</td>
                                     <td className="bg-gray-100 border-collapse border border-slate-100">{data.equipment_value}</td>
                                     <td className="bg-gray-100 border-collapse border border-slate-100">{data.lab}</td>
                                     <td className="bg-gray-100 border-collapse border border-slate-100">{data.status}</td>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.description}</td>
                                 </tr>
                             ))}
                     </tbody>

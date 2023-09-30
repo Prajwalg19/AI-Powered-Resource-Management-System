@@ -137,27 +137,26 @@ function EquipmentsDetails() {
     return (
         <>
             <form onSubmit={onSubmit} className="px-4 pb-5 " encType="multipart/form-data">
-                <p className="text-3xl font-bold text-center lg:py-20 py-14 ">Equipment Details</p>
+                <p className="text-3xl font-bold text-center pt-4  pb-2 ">Equipment Details</p>
                 <main className="flex flex-col flex-wrap items-center justify-center w-full h-full max-w-6xl px-5 mx-auto mt-3 md:px-2">
-                    <img src={require("../img/animatedImage.jpg")} alt="Lab" className=" rounded-xl w-[90%] md:w-[68%] lg:w-[50%] mb-10 " />
                     <div className="w-[90%] md:w-[68%]  lg:w-[50%]">
-                        <input type="text" required id="equipment_serial_number" placeholder="Equipment Serial Number" value={equipment_serial_number} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
+                        <input autoComplete="off" type="text" required id="equipment_serial_number" placeholder="Equipment Serial Number" value={equipment_serial_number} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
                         {errors.equipment_serial_number && <span className="text-red-600">{errors.equipment_serial_number}</span>}
 
-                        <input type="date" required id="purchase_date" value={purchase_date} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
+                        <input type="date" autoComplete="off" required id="purchase_date" value={purchase_date} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
 
-                        <input type="text" required placeholder="Equipment Value" id="equipment_value" value={equipment_value} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 rounded-md transition ease-in-out" />
+                        <input type="text" autoComplete="off" required placeholder="Equipment Value" id="equipment_value" value={equipment_value} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 rounded-md transition ease-in-out" />
                         {errors.equipment_value && <span className="text-red-600">{errors.equipment_value}</span>}
 
-                        <input type="file" accept=".jpg,.png,.jpeg" required id="invoice" onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
+                        <input type="file" autoComplete="off" accept=".jpg,.png,.jpeg" required id="invoice" onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
                         {errors.invoice && <span className="text-red-600">{errors.invoice}</span>}
 
-                        <textarea required placeholder="Description" id="description" value={description} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 rounded-md transition ease-in-out">
+                        <textarea autoComplete="off" required placeholder="Description" id="description" value={description} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 rounded-md transition ease-in-out">
                             {" "}
                         </textarea>
                         {errors.description && <span className="text-red-600">{errors.description}</span>}
 
-                        <input type="text" required placeholder="Lab" id="lab" value={lab} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 rounded-md transition ease-in-out" />
+                        <input autoComplete="off" type="text" required placeholder="Lab" id="lab" value={lab} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 rounded-md transition ease-in-out" />
                         {errors.lab && <span className="text-red-600">{errors.lab}</span>}
 
                         <div className="flex items-center justify-between w-full">

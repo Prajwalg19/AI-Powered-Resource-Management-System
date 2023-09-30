@@ -37,35 +37,35 @@ function Dashboard() {
                             <li>
                                 <Link to="/departmentlist" className="flex items-center justify-center space-x-2">
                                     <FcDepartment />
-                                    <span>Department List</span>{" "}
+                                    <span onClick={() => dispatch(openPanel())}>Department List</span>{" "}
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/lablist" className="flex items-center justify-center space-x-2">
-                                    <ImLab /> <span>Labs List</span>{" "}
+                                    <ImLab /> <span onClick={() => dispatch(openPanel())}>Labs List</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/purchaselist" className="flex items-center justify-center space-x-2">
                                     <BiSolidPurchaseTag />
-                                    <span> Purchase order List</span>
+                                    <span onClick={() => dispatch(openPanel())}> Purchase order List</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/equipmentlist" className="flex items-center justify-center space-x-2">
                                     <RiComputerFill />
-                                    <span>Equipment List</span>{" "}
+                                    <span onClick={() => dispatch(openPanel())}>Equipment List</span>{" "}
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/equipmentreviewlist" className="flex items-center justify-center space-x-2">
                                     <BiSearchAlt />
-                                    <span> Equipment Review List</span>
+                                    <span onClick={() => dispatch(openPanel())}> Equipment Review List</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/issueslist" className="flex items-center justify-center space-x-2">
-                                    <AiOutlineIssuesClose /> <span>Issues List</span>
+                                    <AiOutlineIssuesClose /> <span onClick={() => dispatch(openPanel())}>Equipment Issues List</span>
                                 </Link>
                             </li>
                         </ul>

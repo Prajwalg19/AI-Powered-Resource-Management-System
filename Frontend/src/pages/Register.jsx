@@ -115,20 +115,20 @@ function Register() {
                 <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center top-4 ">
                     <p className="text-3xl font-semibold text-center my-9">Registration Form</p>
                     <div className="flex flex-col w-full max-w-md  gap-8">
-                        <input onChange={onChange} required id="name" type="text" value={name} placeholder="name" className="px-4 py-3 rounded-md" />
+                        <input autoComplete="off" onChange={onChange} required id="name" type="text" value={name} placeholder="name" className="px-4 py-3 rounded-md" />
                         {errors.name && <span className="text-red-600">{errors.name}</span>}
                         <div className="flex items-center justify-between w-full ">
-                            <input onChange={onChange} required id="email" type="email" value={email} placeholder="Email" className=" px-4 py-3 rounded-md" />
+                            <input autoComplete="off" onChange={onChange} required id="email" type="email" value={email} placeholder="Email" className=" px-4 py-3 rounded-md" />
                             {errors.email && <span className="text-red-600">{errors.email}</span>}
                             Role:
                             <select required defaultValue={role} id="role" onChange={onChange}>
-                                <option value="Staff">Staff</option>
+                                <option value="Staff">Incharge</option>
                                 <option value="HOD">HOD</option>
                             </select>
                         </div>
-                        <input onChange={onChange} required id="password" type="password" value={password} placeholder="password" className="px-4 py-3 rounded-md" />
+                        <input autoComplete="off" onChange={onChange} required id="password" type="password" value={password} placeholder="password" className="px-4 py-3 rounded-md" />
                         {errors.password && <span className="text-red-600">{errors.password}</span>}
-                        <input onChange={onChange} required id="password2" type="password" value={password2} placeholder="Confirm Password" className="px-4 py-3 rounded-md" />
+                        <input autoComplete="off" onChange={onChange} required id="password2" type="password" value={password2} placeholder="Confirm Password" className="px-4 py-3 rounded-md" />
                         {errors.password2 && <span className="text-red-600">{errors.password2}</span>}
                         <button className="px-8 py-2 text-white bg-blue-600 hover:bg-blue-700 transition ease-in-out rounded-md ">Register</button>
                         <div className="items-center justify-center w-full text-sm ">

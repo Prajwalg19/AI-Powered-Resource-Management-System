@@ -93,9 +93,8 @@ function DepartmentForm() {
             <form onSubmit={onSubmit} className="px-4 pb-5">
                 <p className="text-3xl font-bold text-center lg:py-20 py-14 ">Department Details</p>
                 <main className="w-full flex h-full justify-center lg:space-x-[10%] items-center mt-3 flex-wrap mx-auto max-w-6xl md:px-2 px-5">
-                    <img src={require("../img/animatedImage.jpg")} alt="Lab" className=" rounded-xl w-[90%] md:w-[68%] lg:w-[50%] mb-6 lg:mb-0" />
                     <div className="w-[90%] md:w-[68%]  lg:w-[40%]">
-                        <input required type="number" id="department_number" placeholder="Department number" value={department_number} min={0} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
+                        <input autoComplete="off" required type="number" id="department_number" placeholder="Department number" value={department_number} min={0} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
                         {errors.department_number && <span className="text-red-600">{errors.department_number}</span>}
 
                         <div className="flex items-center justify-between w-full">
@@ -113,7 +112,7 @@ function DepartmentForm() {
                             {errors.department_name && <span className="text-red-600">{errors.department_name}</span>}
                         </div>
                         <div>
-                            <input type="text" required placeholder="HOD Name" id="hod_name" value={hod_name} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg transition ease-in-out" />
+                            <input type="text" autoComplete="off" required placeholder="HOD Name" id="hod_name" value={hod_name} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg transition ease-in-out" />
                             {errors.hod_name && <span className="text-red-600">{errors.hod_name}</span>}
                         </div>
                         <button

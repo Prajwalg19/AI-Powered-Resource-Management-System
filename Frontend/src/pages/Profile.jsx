@@ -27,7 +27,13 @@ export default function Profile() {
         }
     }
 
-    async function onSubmit() {}
+    async function help() {
+        if (state?.role.toLowerCase() == "staff") {
+            navigate("/help/incharge");
+        } else if (state?.role.toLowerCase() == "admin") {
+            navigate("/help/admin");
+        }
+    }
 
     async function infoEdit(e) {}
 
@@ -38,7 +44,10 @@ export default function Profile() {
                 <form className="w-[95%] m-auto  md:w-[50%] ">
                     <input type="text" disabled={!editable} placeholder="Name" id="name" value={name} className={` w-full p-3 my-4 text-xl rounded transition ease-in-out border border-gray-400 bg-white text-gray-700 ${editable && "bg-rose-300 text-black"} `} onChange={infoEdit} />
                     <input type="text" value={email} id="email" placeholder="Email" className={`w-full p-3 my-4 text-xl rounded transition ease-in-out border-gray-400 bg-white `} disabled />
-                    <div className="flex items-center justify-end uppercase mt-1">
+                    <div className="flex items-center justify-between uppercase mt-1">
+                        <p className="text-blue-600 text-lg cursor-pointer " onClick={help}>
+                            Help
+                        </p>
                         <p className="text-lg text-red-600 cursor-pointer hover:text-red-800 transition ease-in-out duration-100" onClick={() => SignOut()}>
                             Log out
                         </p>

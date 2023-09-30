@@ -121,25 +121,24 @@ function EquipmentsReview() {
     return (
         <>
             <form onSubmit={onSubmit} method="POST" className="px-4 pb-5 " encType="multipart/form-data">
-                <p className="text-3xl font-bold text-center lg:py-20 py-14 ">Equipment Review</p>
+                <p className="text-3xl font-bold text-center  pt-4 pb-2">Equipment Review</p>
                 <main className="flex flex-col flex-wrap items-center justify-center w-full h-full max-w-6xl px-5 mx-auto mt-3 md:px-2">
-                    <img src={require("../img/animatedImage.jpg")} alt="Lab" className=" rounded-xl w-[90%] md:w-[68%] lg:w-[50%] mb-10 " />
                     <div className="w-[90%] md:w-[68%]  lg:w-[50%]">
-                        <input type="text" required id="equipment" placeholder="Equipment" value={equipment} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
+                        <input autoComplete="off" type="text" required id="equipment" placeholder="Equipment" value={equipment} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
                         {errors.equipment && <span className="text-red-600">{errors.equipment}</span>}
 
-                        <input type="number" min={0} required id="quantity" placeholder="Number of Quantity" value={quantity} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
+                        <input autoComplete="off" type="number" min={0} required id="quantity" placeholder="Number of Quantity" value={quantity} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
                         {errors.quantity && <span className="text-red-600">{errors.quantity}</span>}
 
-                        <input type="date" required id="date" value={date} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
+                        <input autoComplete="off" type="date" required id="date" value={date} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
 
-                        <input type="text" required placeholder="Incharge" id="lab_incharge" value={lab_incharge} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 rounded-md transition ease-in-out" />
+                        <input autoComplete="off" type="text" required placeholder="Incharge" id="lab_incharge" value={lab_incharge} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 rounded-md transition ease-in-out" />
                         {errors.lab_incharge && <span className="text-red-600">{errors.lab_incharge}</span>}
 
-                        <input type="number" min={0} required id="not_working_quantity" placeholder="Number of not working Quantity" value={not_working_quantity} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
+                        <input autoComplete="off" type="number" min={0} required id="not_working_quantity" placeholder="Number of not working Quantity" value={not_working_quantity} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
                         {errors.not_working_quantity && <span className="text-red-600">{errors.not_working_quantity}</span>}
 
-                        <textarea required placeholder="Enter Remark" id="remarks" value={remarks} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 rounded-md transition ease-in-out">
+                        <textarea autoComplete="off" required placeholder="Enter Remark" id="remarks" value={remarks} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 rounded-md transition ease-in-out">
                             {" "}
                         </textarea>
                         {errors.remarks && <span className="text-red-600">{errors.remarks}</span>}

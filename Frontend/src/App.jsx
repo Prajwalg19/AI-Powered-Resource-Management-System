@@ -20,6 +20,8 @@ import EquipmentsReview from "./pages/EquipmentsReview";
 import Register from "./pages/Register";
 import PrivateRoute from "./Hooks/PrivateRoute";
 import DepartmentList from "./Components/DashboardPages/DpList";
+import Help from "./pages/Help";
+import AdminLogin from "./pages/AdminLogin";
 function App() {
     return (
         <div className="App">
@@ -43,9 +45,11 @@ function App() {
                         <Route path="/departmentlist" element={<DepartmentList />} />
                         <Route path="/equipmentreviewlist" element={<EquipmentsReviewList />} />
                         <Route path="/Equipments_Review" element={<EquipmentsReview />} />
+                        <Route path="/help/incharge" element={<Help />} />
                     </Route>
                     <Route path="/login" element={<Login />}></Route>
                     <Route path="/register" element={<Register />} />
+                    <Route path="/login/admin" element={<AdminLogin />} />
                 </Routes>
             </BrowserRouter>
         </div>

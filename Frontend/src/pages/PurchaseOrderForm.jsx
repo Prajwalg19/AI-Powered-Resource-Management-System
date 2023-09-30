@@ -105,9 +105,8 @@ function PurchaseOrderForm() {
     return (
         <>
             <form onSubmit={onSubmit} className="px-4 pb-5">
-                <p className="text-3xl font-bold text-center lg:py-20 py-14 ">Purchase Order Details</p>
+                <p className="text-3xl font-bold text-center lg:py-6 py-6 ">Purchase Order Details</p>
                 <main className="w-full flex h-full justify-center lg:space-x-[10%] items-center mt-3 flex-wrap mx-auto max-w-6xl md:px-2 px-5">
-                    <img src={require("../img/animatedImage.jpg")} alt="Lab" className=" rounded-xl w-[90%] md:w-[68%] lg:w-[50%] mb-6 lg:mb-0" />
                     <div className="w-[90%] md:w-[68%]  lg:w-[40%]">
                         <input required type="text" id="purchase_order_number" placeholder="Purchase Order number" value={purchase_order_number} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
                         {errors.purchase_order_number && <span className="text-red-600">{errors.purchase_order_number}</span>}

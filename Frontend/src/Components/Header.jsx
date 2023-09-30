@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { openPanel } from "../features/auth/sidePanelSlice";
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
@@ -42,11 +43,11 @@ function Head() {
     return (
         <>
             {headerDisplay && (
-                <div className="sticky z-50 flex items-center justify-between w-full py-2 shadow-lg space-x-3 bg-slate-50">
+                <div className={`sticky z-50 flex items-center justify-between w-full py-2 shadow-lg space-x-3 bg-slate-50 ${(user?.role.toLowerCase() == "admin" && "bg-purple-300") || (user?.role.toLowerCase() == "hod" && "bg-green-300") || (user?.role.toLowerCase() == "staff" && "bg-lime-200")}`}>
                     <div className="flex font-semibold gap-16 ">
                         <img onClick={() => nav("/")} src={require("../img/GAT-logo.png")} alt="college logo" className="w-12 cursor-pointer ml-9 " />
-                        <button className="px-3 hover:shadow-md rounded-md hover:bg-blue-400 hover:text-white transition ease-in-out" onClick={() => nav("/dashboard")}>
-                            {user.role}'s Dashboard
+                        <button className="capitalize px-3 hover:shadow-md rounded-md hover:bg-blue-400 hover:text-white transition ease-in-out" onClick={() => nav("/dashboard") && dispatch(openPanel())}>
+                            {user.role.toLowerCase() == "staff" ? "Incharge" : user.role}'s Dashboard
                         </button>
                     </div>
                     <div className="flex items-center ">
