@@ -68,35 +68,6 @@ class PurchaseOrder(models.Model):
     def __str__(self):
         return f"{self.purchase_order_number}, {self.purchase_date}"
 
-# class LabInchargeRegister(models.Model):
-#     lab_incharge = models.ForeignKey(LabInCharge, on_delete=models.CASCADE, default=1)
-#     password = models.CharField(max_length=20)
-#     confirm_password = models.CharField(max_length=20)
-#     email = models.EmailField(unique=True)
-#     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-#     lab = models.ForeignKey(Lab, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return f"{self.lab_incharge}, {self.email}"
-    
-
-# class LabInchargeLogin(models.Model):
-#     email = models.ForeignKey(
-#         LabInchargeRegister,
-#         on_delete=models.CASCADE,
-#         related_name='lab_incharge_login_emails'  
-#     )
-#     password = models.ForeignKey(
-#         LabInchargeRegister,
-#         on_delete=models.CASCADE,
-#         related_name='lab_incharge_login_passwords' 
-#     )
-
-
-
-#     def __str__(self):
-#         return f"{self.email}, {self.password}"
-    
 
 class UserManager(BaseUserManager):
     def create_user(self, email, name, password=None, password2=None, role=None):
@@ -131,6 +102,7 @@ class UserManager(BaseUserManager):
       user.is_admin = True
       user.save(using=self._db)
       return user
+    
 
 #  Custom User Model
 class User(AbstractBaseUser):

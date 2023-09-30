@@ -29,12 +29,6 @@ class UserModelAdmin(BaseUserAdmin):
 
 # Now register the new UserModelAdmin...
 admin.site.register(User, UserModelAdmin)
-
-
-
-
-
-# Register your models here.
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
     list_display = ('department_number', 'department_name', 'hod_name')

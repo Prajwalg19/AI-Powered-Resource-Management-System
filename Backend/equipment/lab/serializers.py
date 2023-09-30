@@ -46,16 +46,6 @@ class LabInChargeSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 
-# class LabInchargeRegisterSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = LabInchargeRegister
-#         fields = '__all__'
-
-
-# class LabInchargeLoginSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = LabInchargeLogin
-#         fields = '__all__'
         
 class UserRegistrationSerializer(serializers.ModelSerializer):
       # We are writing this becoz we need confirm password field in our Registratin Request

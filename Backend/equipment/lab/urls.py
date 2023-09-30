@@ -13,9 +13,7 @@ router.register(r'equipment', EquipmentViewSet)
 router.register(r'equipment_issue', EquipmentIssueViewSet)
 router.register(r'equipment_review', EquipmentReviewViewSet)
 router.register(r'labincharge', LabInChargeViewSet)
-# # router.register(r'Login_api', Login_api)
-# router.register(r'LabInchargeRegister', LabInchargeRegisterViewSet)
-# router.register(r'LabInchargeLogin', LabInchargeLoginViewSet)
+
 
 
 urlpatterns = [

@@ -57,16 +57,6 @@ class LabInChargeViewSet(viewsets.ModelViewSet):
     queryset = LabInCharge.objects.all()
 
 
-# class LabInchargeRegisterViewSet(viewsets.ModelViewSet):
-#     serializer_class = LabInchargeRegisterSerializer
-#     queryset = LabInchargeRegister.objects.all()
-
-
-# class LabInchargeLoginViewSet(viewsets.ModelViewSet):
-#     serializer_class = LabInchargeLoginSerializer
-#     queryset = LabInchargeLogin.objects.all()
-
-
 def get_tokens_for_user(user):
       refresh = RefreshToken.for_user(user)
       return {
@@ -102,6 +92,7 @@ class UserLoginView(APIView):
             token = get_tokens_for_user(user)
             return Response({'token': token, 'role': role, 'msg': 'Login Success'}, status=status.HTTP_200_OK)
         else:
+            # Handle the case where user is None (authentication failed)
             return Response({'errors': {'non_field_errors': ['Email or Password is not Valid']}}, status=status.HTTP_404_NOT_FOUND)
 
 class UserProfileView(APIView):
