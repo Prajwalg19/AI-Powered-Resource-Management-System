@@ -41,17 +41,6 @@ function DepartmentList() {
                     left: 0,
                 },
             },
-            stamp: {
-                inAllPages: true, //by default = false, just in the last page
-                src: "https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/qr_code.jpg",
-                type: "JPG", //optional, when src= data:uri (nodejs case)
-                width: 20, //aspect ratio = width/height
-                height: 20,
-                margin: {
-                    top: 0, //negative or positive num, from the current position
-                    left: 0, //negative or positive num, from the current position
-                },
-            },
             business: {
                 name: "Global Academy of Technology",
                 address: "Rajarajeshwarinagar, Ideal Homes Township, Bangalore-560098, Karnataka, India",
