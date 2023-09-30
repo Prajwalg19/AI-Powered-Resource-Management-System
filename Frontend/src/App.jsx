@@ -22,6 +22,7 @@ import PrivateRoute from "./Hooks/PrivateRoute";
 import DepartmentList from "./Components/DashboardPages/DpList";
 import Help from "./pages/Help";
 import AdminLogin from "./pages/AdminLogin";
+import HelpAdmin from "./pages/HelpAdmin";
 function App() {
     return (
         <div className="App">
@@ -46,6 +47,7 @@ function App() {
                         <Route path="/equipmentreviewlist" element={<EquipmentsReviewList />} />
                         <Route path="/Equipments_Review" element={<EquipmentsReview />} />
                         <Route path="/help/incharge" element={<Help />} />
+                        <Route path="/help/admin" element={<HelpAdmin />} />
                     </Route>
                     <Route path="/login" element={<Login />}></Route>
                     <Route path="/register" element={<Register />} />

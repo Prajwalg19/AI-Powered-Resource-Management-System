@@ -11,8 +11,11 @@ const sidePanelSlice = createSlice({
         openPanel: (state) => {
             state.isOpen = !state.isOpen;
         },
+        keepOpen: (state) => {
+            state.isOpen = true;
+        },
     },
 });
 
-export const { openPanel } = sidePanelSlice.actions;
+export const { openPanel , keepOpen} = sidePanelSlice.actions;
 export default sidePanelSlice.reducer;

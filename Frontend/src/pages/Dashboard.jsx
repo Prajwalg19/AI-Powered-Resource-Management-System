@@ -77,12 +77,12 @@ function Dashboard() {
                             <li>
                                 <Link to="/equipmentreviewlist" className="flex items-center justify-center space-x-2">
                                     <BiSearchAlt />
-                                    <span> Equipment Review List</span>
+                                    <span onClick={() => dispatch(openPanel())}> Equipment Review List</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/issueslist" className="flex items-center justify-center space-x-2">
-                                    <AiOutlineIssuesClose /> <span>Issues List</span>
+                                    <AiOutlineIssuesClose /> <span onClick={() => dispatch(openPanel())}>Issues List</span>
                                 </Link>
                             </li>
                         </ul>
