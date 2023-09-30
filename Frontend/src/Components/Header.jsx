@@ -46,7 +46,7 @@ function Head() {
                 <div className={`sticky z-50 flex items-center justify-between w-full py-2 shadow-lg space-x-3 bg-slate-50 ${(user?.role.toLowerCase() == "admin" && "bg-purple-300") || (user?.role.toLowerCase() == "hod" && "bg-green-300") || (user?.role.toLowerCase() == "staff" && "bg-lime-200")}`}>
                     <div className="flex font-semibold gap-16 ">
                         <img onClick={() => nav("/")} src={require("../img/GAT-logo.png")} alt="college logo" className="w-12 cursor-pointer ml-9 " />
-                        <button className="capitalize px-3 hover:shadow-md rounded-md hover:bg-blue-400 hover:text-white transition ease-in-out" onClick={() => nav("/dashboard") && dispatch(keepOpen())}>
+                        <button className="px-3 capitalize hover:shadow-md rounded-md hover:bg-blue-400 hover:text-white transition ease-in-out" onClick={() => dispatch(keepOpen()) && nav("/dashboard")}>
                             {user.role.toLowerCase() == "staff" ? "Incharge" : user.role}'s Dashboard
                         </button>
                     </div>
@@ -81,7 +81,7 @@ export function DropDown(prop) {
 
             <Transition as={Fragment} enter="transition ease-out duration-100" enterFrom="transform opacity-0 scale-95" enterTo="transform opacity-100 scale-100" leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100" leaveTo="transform opacity-0 scale-95">
                 <Menu.Items className="absolute right-0 z-10 mt-5 bg-white shadow-lg w-42 origin-top-right rounded-md ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <div className="py-1 flex justify-center flex-col items-center">
+                    <div className="flex flex-col items-center justify-center py-1">
                         {pageUrls.map((item, index) => (
                             <Menu.Item key={index}>
                                 {({ active }) => (
