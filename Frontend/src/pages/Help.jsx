@@ -3,8 +3,8 @@ import React from "react";
 const Helpstaff = () => {
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-4">Welcome to Our Project</h1>
-            <p className="text-xl mb-6">Our project is an innovative web application that aims to address invenotory management. With a focus on maintaining the stocks and reporting any issues in the equipment, our platform provides a unique and valuable experience for our users.</p>
+            <h1 className="text-3xl font-bold mb-4">Welcome</h1>
+            <p className="text-xl mb-6"></p>
 
             <h2 className="text-2xl font-bold mb-2">Key Features:</h2>
             <ul className="text-xl list-disc pl-6 mb-6">

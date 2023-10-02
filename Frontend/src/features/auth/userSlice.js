@@ -6,6 +6,7 @@ const initialState = {
     status: null,
     refreshtoken: null,
     userInfo: null,
+    profileInfo: null,
 };
 const authSlice = createSlice({
     name: "userSlice",
@@ -30,8 +31,11 @@ const authSlice = createSlice({
             state.refreshtoken = null;
             state.accesstoken = null;
         },
+        profileFill: (state, action) => {
+            state.profileFill = action.payload;
+        },
     },
 });
 
 export default authSlice.reducer;
-export const { setCred, logOut } = authSlice.actions;
+export const { setCred, logOut, profileFill} = authSlice.actions;

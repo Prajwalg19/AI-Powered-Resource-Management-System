@@ -7,16 +7,26 @@ import { CgProfile } from "react-icons/cg";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { keepOpen, openPanel } from "../features/auth/sidePanelSlice";
+import { BiHelpCircle } from "react-icons/bi";
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
 function Head() {
+    const navigate = useNavigate();
     let pageUrls = ["Equipments_Issues", "Department_Info", "Purchase_Details", "Lab_Details", "Equipments_Info", "Equipments_Review"];
     let dispatch = useDispatch();
     let user = useSelector((store) => {
         return store.user;
     });
+    async function help() {
+        if (user?.role.toLowerCase() == "staff") {
+            navigate("/help/incharge");
+        } else if (user?.role.toLowerCase() == "admin" || "hod") {
+            navigate("/help/admin");
+        }
+    }
+
     const nav = useNavigate();
     let headerDisplay;
     if (user.status) {
@@ -50,10 +60,13 @@ function Head() {
                             {user.role.toLowerCase() == "staff" ? "Incharge" : user.role}'s Dashboard
                         </button>
                     </div>
-                    <div className="flex items-center ">
+                    <div className="font-semibold text-lg -translate-x-16 transition-transform ease-in-out ">Global Academy Of Technology</div>
+                    <div className="flex items-center cursor-pointer">
+                        <div className="px-2">
+                            <BiHelpCircle className="text-2xl" onClick={() => help()} />
+                        </div>
                         <DropDown pageUrls={pageUrls} />
                         <div className="px-3">
-                            {" "}
                             <CgProfile
                                 onClick={() => {
                                     nav("/profile");

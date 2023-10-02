@@ -17,9 +17,7 @@ function Slider() {
                             backgroundSize: "cover",
                         }}
                         className="  relative w-full h-[450px] "
-                    >
-                        <div className="capitalize absolute px-3 py-1 font-semibold text-white bg-blue-500 top-4 left-2 rounded-br-xl rounded-tl-xl opacity-80 ">{Names[ind]}</div>
-                    </div>
+                    ></div>
                 </SwiperSlide>
             ))}
         </Swiper>

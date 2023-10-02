@@ -23,6 +23,7 @@ import DepartmentList from "./Components/DashboardPages/DpList";
 import Help from "./pages/Help";
 import AdminLogin from "./pages/AdminLogin";
 import HelpAdmin from "./pages/HelpAdmin";
+import ChangePassword from "./pages/ChangePassword"
 function App() {
     return (
         <div className="App">
@@ -48,6 +49,7 @@ function App() {
                         <Route path="/Equipments_Review" element={<EquipmentsReview />} />
                         <Route path="/help/incharge" element={<Help />} />
                         <Route path="/help/admin" element={<HelpAdmin />} />
+                        <Route path="/changepassword" element={<ChangePassword />} />
                     </Route>
                     <Route path="/login" element={<Login />}></Route>
                     <Route path="/register" element={<Register />} />
