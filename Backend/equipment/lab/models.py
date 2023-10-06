@@ -12,8 +12,9 @@ class Department(models.Model):
         return f"{self.department_number}, {self.department_name}"
 
 class Lab(models.Model):
-    lab_id = models.AutoField(primary_key=True)
-    lab_number = models.CharField(max_length=10)
+    lab_number = models.CharField(max_length=10, unique=True)
+    lab_name = models.CharField(max_length=10)
+    lab_incharge()
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     location = models.CharField(max_length=100)
 
@@ -60,9 +61,10 @@ class EquipmentReview(models.Model):
         return f"Review for {self.equipment.equipment_serial_number} on {self.date}"
     
 class PurchaseOrder(models.Model):
-    purchase_order_number = models.CharField(max_length=10, unique=True)
+    purchase_order_number = models.CharField(max_length=10, unique=True, primary_key=True)
     purchase_date = models.DateField()
-    supplier = models.CharField(max_length=200)
+    originator = models.ForeignKey(Department, on_delete=models.CASCADE)
+    supplier = models.CharField(max_length=20)
     total_value = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
@@ -145,12 +147,12 @@ class User(AbstractBaseUser):
   
 # invoice
 class Invoice(models.Model):
-    purchase_order_no = models.CharField(max_length=10, unique=True, primary_key=True)
+    purchase_order_no = models.ForeignKey(PurchaseOrder, on_delete=models.CASCADE)
     purchase_date = models.DateField()
     cost = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField()
     item_name = models.CharField(max_length=100)
-    invoice_number = models.CharField(max_length=20, unique=True)
+    invoice_number = models.CharField(max_length=20, unique=True, primary_key=True)
 
     def __str__(self):
         return f"Invoice {self.invoice_number} - {self.item_name}"
