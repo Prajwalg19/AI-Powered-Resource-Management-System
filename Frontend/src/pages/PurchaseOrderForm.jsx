@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../Components/Button";
@@ -9,19 +9,33 @@ function PurchaseOrderForm() {
         purchase_order_number: "",
         supplier: "",
         total_value: "",
-        purchase_date: "",
+        purchase_order_date: "",
         originator: "",
+        dummyOri: [],
     });
 
-    const { purchase_date, supplier, total_value, purchase_order_number, originator } = data;
+    const { dummyOri, purchase_order_date, supplier, total_value, purchase_order_number, originator } = data;
     function onChange(e) {
         setData((prev) => ({
             ...prev,
             [e.target.id]: e.target.value,
         }));
     }
+
+    useEffect(() => {
+        async function getLabs() {
+            let response = await axios.get("api/user/department/");
+            setData((prev) => ({
+                ...prev,
+                dummyOri: response.data,
+            }));
+        }
+        getLabs();
+    }, []);
+
     async function onSubmit(e) {
         e.preventDefault();
+        delete data.dummyOri;
         try {
             let response = await axios.post(
                 "api/user/purchase_order/",
@@ -32,11 +46,16 @@ function PurchaseOrderForm() {
                 { withCredentials: true }
             );
 
-            toast.success("Purchase Order Details Recorded");
-            navigate("/");
+            if (response.status == 201) {
+                toast.success("Purchase Order Details Recorded");
+                navigate("/");
+            } else {
+                toast.error("Enter the correct details");
+                return;
+            }
         } catch (error) {
             console.log(error);
-            toast.error("Enter the correct details");
+            toast.error("Something went wrong");
         }
     }
     const [errors, setErrors] = useState({
@@ -44,6 +63,7 @@ function PurchaseOrderForm() {
         supplier: "",
         total_value: "",
         purchase_date: "",
+        originator: "",
     });
     function onChange(e) {
         const { id, value } = e.target;
@@ -114,30 +134,28 @@ function PurchaseOrderForm() {
     return (
         <>
             <form onSubmit={onSubmit} className="px-4 pb-5">
-                <p className="text-3xl font-bold text-center lg:py-6 py-6 ">Purchase Order Details</p>
+                <p className="py-6 text-3xl font-bold text-center lg:py-6 my-10 ">Purchase Order Details</p>
                 <main className="w-full flex h-full justify-center lg:space-x-[10%] items-center mt-3 flex-wrap mx-auto max-w-6xl md:px-2 px-5">
                     <div className="w-[90%] md:w-[68%]  lg:w-[40%]">
-                        <input required type="text" id="purchase_order_number" placeholder="Purchase Order number" value={purchase_order_number} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
-                        {errors.purchase_order_number && <span className="text-red-600">{errors.purchase_order_number}</span>}
+                        <input required type="text" id="purchase_order_number" placeholder="Purchase Order number" value={purchase_order_number} onChange={onChange} className="w-full py-3 pl-2 mb-6 text-lg border border-gray-300 rounded-md text-center" />
 
-                        <div className="flex space-x-2">
-                            <input type="date" required id="purchase_date" value={purchase_date} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 transition ease-in-out rounded-md" />
-                            {errors.purchase_date && <span className="text-red-600">{errors.purchase_date}</span>}
+                        <div className="flex  space-x-2 mb-6">
+                            <input type="date" required id="purchase_order_date" value={purchase_order_date} onChange={onChange} className="w-full py-3 pl-2 text-lg border-gray-300 transition ease-in-out rounded-md text-center" />
 
-                            <select required className="border border-gray-300 bg-white text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 " value={originator} onChange={onChange} id="originator">
-                                <option value="">Choose</option>
-                                <option value="CSE">CSE</option>
-                                <option value="ISE">ISE</option>
-                                <option value="ECE">ECE</option>
-                                <option value="EEE">EEE</option>
+                            <select required className="text-center bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" value={originator} onChange={onChange} id="originator">
+                                <option value="">Originator</option>
+                                {dummyOri?.map((item, index) => (
+                                    <option key={index} value={item.department_number}>
+                                        {item.department_name}
+                                    </option>
+                                ))}
                             </select>
-                            {errors.originator && <span className="text-red-600">{errors.originator}</span>}
                         </div>
-                        <input type="text" required id="supplier" value={supplier} placeholder="Supplier" onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 rounded-md transition ease-in-out" />
-                        {errors.supplier && <span className="text-red-600">{errors.supplier}</span>}
+                        <div className="w-full flex items-center  space-x-3 mb-6">
+                            <input type="text" required id="supplier" value={supplier} placeholder="Supplier" onChange={onChange} className="w-full py-3 pl-2 text-lg border-gray-300 rounded-md transition ease-in-out text-center" />
 
-                        <input required type="text" id="total_value" placeholder="Purchase Order Value" value={total_value} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
-                        {errors.total_value && <span className="text-red-600">{errors.total_value}</span>}
+                            <input required type="text" id="total_value" placeholder="Purchase Order Value" value={total_value} onChange={onChange} className="w-full py-3 pl-2  text-lg border border-gray-300 rounded-md text-center" />
+                        </div>
 
                         <Button />
                     </div>

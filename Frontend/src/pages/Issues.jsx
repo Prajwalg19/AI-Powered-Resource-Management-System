@@ -47,7 +47,7 @@ function Issue() {
 
     return (
         <div className="my-3 px-4 ">
-            <h1 className="font-bold text-center  text-3xl py-10">Issues Forms</h1>
+            <h1 className="font-bold text-center  text-3xl py-6 my-10">Issues Forms</h1>
             <form className="max-w-lg mx-auto flex flex-col  w-full justify-center items-center " onSubmit={onSubmit}>
                 <input autoComplete="off" type="text" placeholder="Experiment Name" value={experiment} className=" border border-gray-300 w-full rounded-md transition ease-in-out py-3 mb-4 px-2" id="experiment" onChange={onChange} />
                 <input autoComplete="off" type="text" onChange={onChange} value={lab_incharge} id="lab_incharge" placeholder="Lab Incharge ID" className="border border-gray-300 w-full rounded-md transition ease-in-out py-3 mb-4 px-2" />

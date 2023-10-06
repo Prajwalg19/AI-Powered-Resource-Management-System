@@ -121,36 +121,26 @@ function EquipmentsReview() {
     return (
         <>
             <form onSubmit={onSubmit} method="POST" className="px-4 pb-5 " encType="multipart/form-data">
-                <p className="text-3xl font-bold text-center  pt-4 pb-2">Equipment Review</p>
-                <main className="flex flex-col flex-wrap items-center justify-center w-full h-full max-w-6xl px-5 mx-auto mt-3 md:px-2">
+                <p className="my-10 text-3xl font-bold text-center  pt-4 pb-2">Equipment Review</p>
+                <main className=" flex flex-col flex-wrap items-center justify-center w-full h-full max-w-6xl px-5 mx-auto mt-3 md:px-2">
                     <div className="w-[90%] md:w-[68%]  lg:w-[50%]">
-                        <input autoComplete="off" type="text" required id="equipment" placeholder="Equipment" value={equipment} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
-                        {errors.equipment && <span className="text-red-600">{errors.equipment}</span>}
+                        <div className="flex items-center space-x-3 mb-10">
+                            <input autoComplete="off" type="text" required id="equipment" placeholder="Equipment" value={equipment} onChange={onChange} className="w-1/2 py-3 pl-2  text-lg border border-gray-300 rounded-md text-center" />
 
-                        <input autoComplete="off" type="number" min={0} required id="quantity" placeholder="Number of Quantity" value={quantity} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
-                        {errors.quantity && <span className="text-red-600">{errors.quantity}</span>}
+                            <input autoComplete="off" type="number" min={0} required id="quantity" placeholder="Quantity" value={quantity} onChange={onChange} className="w-1/2 py-3 pl-2  text-lg border border-gray-300 rounded-md  text-center" />
+                        </div>
 
-                        <input autoComplete="off" type="date" required id="date" value={date} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
-
-                        <input autoComplete="off" type="text" required placeholder="Incharge" id="lab_incharge" value={lab_incharge} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 rounded-md transition ease-in-out" />
-                        {errors.lab_incharge && <span className="text-red-600">{errors.lab_incharge}</span>}
-
-                        <input autoComplete="off" type="number" min={0} required id="not_working_quantity" placeholder="Number of not working Quantity" value={not_working_quantity} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
-                        {errors.not_working_quantity && <span className="text-red-600">{errors.not_working_quantity}</span>}
-
-                        <textarea autoComplete="off" required placeholder="Enter Remark" id="remarks" value={remarks} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 rounded-md transition ease-in-out">
+                        <div className="flex items-center space-x-3 mb-10">
+                            {" "}
+                            <input autoComplete="off" type="date" required id="date" value={date} onChange={onChange} className="w-full py-3 pl-2  text-lg border border-gray-300 rounded-md " />
+                            <input autoComplete="off" type="text" required placeholder="Incharge" id="lab_incharge" value={lab_incharge} onChange={onChange} className="w-full py-3 pl-2  text-lg border-gray-300 rounded-md transition ease-in-out text-center" />
+                            <input autoComplete="off" type="number" min={0} required id="not_working_quantity" placeholder="Defective" value={not_working_quantity} onChange={onChange} className="w-full py-3 pl-2  text-lg border border-gray-300 rounded-md text-center" />
+                        </div>
+                        <textarea autoComplete="off" required placeholder="Enter Remark" id="remarks" value={remarks} onChange={onChange} className="w-full py-3 pl-2 mb-6 text-lg border-gray-300 rounded-md transition ease-in-out">
                             {" "}
                         </textarea>
-                        {errors.remarks && <span className="text-red-600">{errors.remarks}</span>}
-                        <button
-                            type="submit"
-                            className="w-full mt-2 px-8 py-2 text-white bg-blue-600 hover:bg-blue-700 transition ease-in-out rounded-md"
-                            disabled={
-                                !!Object.values(errors).find((error) => error) // Disable if any error is not an empty string
-                            }
-                        >
-                            Submit
-                        </button>
+
+                        <Button />
                     </div>
                 </main>
             </form>

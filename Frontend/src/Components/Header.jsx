@@ -14,7 +14,7 @@ function classNames(...classes) {
 
 function Head() {
     const navigate = useNavigate();
-    let pageUrls = ["Equipments_Issues", "Department_Info", "Purchase_Details", "Lab_Details", "Equipments_Info", "Equipments_Review", "Invoice"];
+    let pageUrls = ["Department_Info", "Lab_Details", "Purchase_Details", "Invoice", "Equipments_Issues", "Equipments_Info", "Equipments_Review"];
     let dispatch = useDispatch();
     let user = useSelector((store) => {
         return store.user;

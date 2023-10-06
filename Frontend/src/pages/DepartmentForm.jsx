@@ -22,7 +22,7 @@ function DepartmentForm() {
         e.preventDefault();
         try {
             let response = await axios.post(
-                "api/user/department/",
+                "http://localhost:8000/api/user/department/",
                 data,
                 {
                     headers: { "Content-type": "application/json" },
@@ -95,7 +95,7 @@ function DepartmentForm() {
     return (
         <>
             <form onSubmit={onSubmit} className="px-4 pb-5">
-                <p className="text-3xl font-bold text-center lg:py-20 py-14 ">Department Details</p>
+                <p className="text-3xl font-bold text-center mt-10 py-6 ">Department Details</p>
                 <main className="w-full flex h-full justify-center lg:space-x-[10%] items-center mt-3 flex-wrap mx-auto max-w-6xl md:px-2 px-5">
                     <div className="w-[90%] md:w-[68%]  lg:w-[40%]">
                         <input autoComplete="off" required type="number" id="department_number" placeholder="Department number" value={department_number} min={0} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />

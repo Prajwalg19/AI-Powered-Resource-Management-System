@@ -27,7 +27,7 @@ class EquipmentIssue(models.Model):
     experiment = models.CharField(max_length=100)
     lab_incharge = models.ForeignKey(Lab, on_delete=models.CASCADE, default=1)
     number_of_equipments = models.PositiveIntegerField()
-    details = models.TextField()
+    details = models.TextField(max_length=100, help_text='Enter your details here.')
 
     def __str__(self):
         return f"Equipment Issue ({self.experiment})"
@@ -42,7 +42,7 @@ class PurchaseOrder(models.Model):
     total_value = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"{self.purchase_order_number}, {self.purchase_date}"
+        return f"{self.purchase_order_number}, {self.purchase_order_date}"
 
 # Invoice
 class Invoice(models.Model):
@@ -66,7 +66,7 @@ class Equipment(models.Model):
     life = models.PositiveBigIntegerField()
 
     def __str__(self):
-        return f"{self.equipment_serial_number}, {'Working' if self.status else 'Not Working'}"
+        return f"{self.equipment_serial_number}"
 
 #Equipment Review
 class EquipmentReview(models.Model):
