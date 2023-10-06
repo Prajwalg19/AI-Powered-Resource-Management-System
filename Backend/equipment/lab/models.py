@@ -142,3 +142,35 @@ class User(AbstractBaseUser):
       "Is the user a member of staff?"
       # Simplest possible answer: All admins are staff
       return self.is_admin
+  
+# invoice
+class Invoice(models.Model):
+    purchase_order_no = models.CharField(max_length=10, unique=True, primary_key=True)
+    purchase_date = models.DateField()
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.PositiveIntegerField()
+    item_name = models.CharField(max_length=100)
+    invoice_number = models.CharField(max_length=20, unique=True)
+
+    def __str__(self):
+        return f"Invoice {self.invoice_number} - {self.item_name}"
+    
+#Consumables
+class Consumable(models.Model):
+    part_number = models.CharField(max_length=50)
+    invoice_number = models.CharField(max_length=50, unique=True)
+    lab_number = models.CharField(max_length=10)
+    purchase_quantity = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"Consumable {self.part_number} - Invoice {self.invoice_number}"
+
+#Consumable stock
+class ConsumableStock(models.Model):
+    part_number = models.CharField(max_length=50, unique=True)
+    stock_quantity = models.PositiveIntegerField()
+    lead = models.PositiveIntegerField()
+    lag = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"Consumable Stock for {self.part_number}"
