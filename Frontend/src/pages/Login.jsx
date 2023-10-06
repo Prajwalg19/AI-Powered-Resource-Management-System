@@ -55,6 +55,9 @@ function Login() {
     return (
         <>
             <form onSubmit={onSubmit}>
+                <div className="w-full flex flex-col items-center justify-center mt-10 mb-4 pb-3">
+                    <p className="font-semibold mb-3">Global Academy of Technology</p> <img src={require("../img/GAT-logo.png")} className="w-20 h-20 " />
+                </div>
                 <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center -top-4">
                     <p className="text-3xl font-semibold text-center my-9">Login</p>
                     <div className="flex flex-col w-full max-w-md gap-8 ">

@@ -32,11 +32,16 @@ function Issue() {
                 { withCredentials: true }
             );
 
-            toast.success("Issues Recorded");
-            navigate("/");
+            if (response.status == 201) {
+                toast.success("Issues Recorded");
+                navigate("/");
+            } else {
+                toast.error("Enter the Correct Details");
+                return;
+            }
         } catch (error) {
             toast.dismiss();
-            toast.error("Enter the Correct Details");
+            toast.error("Somethinf went wrong");
         }
     }
 

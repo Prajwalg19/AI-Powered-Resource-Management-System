@@ -23,7 +23,8 @@ import DepartmentList from "./Components/DashboardPages/DpList";
 import Help from "./pages/Help";
 import AdminLogin from "./pages/AdminLogin";
 import HelpAdmin from "./pages/HelpAdmin";
-import ChangePassword from "./pages/ChangePassword"
+import ChangePassword from "./pages/ChangePassword";
+import Invoice from "./pages/Invoice";
 function App() {
     return (
         <div className="App">
@@ -50,6 +51,7 @@ function App() {
                         <Route path="/help/incharge" element={<Help />} />
                         <Route path="/help/admin" element={<HelpAdmin />} />
                         <Route path="/changepassword" element={<ChangePassword />} />
+                        <Route path="/invoice" element={<Invoice />} />
                     </Route>
                     <Route path="/login" element={<Login />}></Route>
                     <Route path="/register" element={<Register />} />

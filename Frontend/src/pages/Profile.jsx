@@ -29,16 +29,20 @@ export default function Profile() {
 
     useEffect(() => {
         async function getProfile() {
-            setLoading(true);
-            let response = await axios.get("api/user/profile/", {
-                headers: { Authorization: `Bearer ${state.accesstoken}` },
-            });
-            setFormData((prev) => ({
-                ...prev,
-                ...response.data,
-            }));
-            dispatch(profileFill(response.data));
-            setLoading(false);
+            try {
+                setLoading(true);
+                let response = await axios.get("api/user/profile/", {
+                    headers: { Authorization: `Bearer ${state.accesstoken}` },
+                });
+                setFormData((prev) => ({
+                    ...prev,
+                    ...response.data,
+                }));
+                dispatch(profileFill(response.data));
+                setLoading(false);
+            } catch (_) {
+                toast.error("Something went wrong");
+            }
         }
         getProfile();
     }, [state.accesstoken, dispatch]);
@@ -50,7 +54,8 @@ export default function Profile() {
         <div>
             <div className="flex flex-col flex-wrap items-center justify-center max-w-6xl mx-auto ">
                 <div className="my-10 text-3xl font-bold text-center ">{state.role}'s Profile</div>
-                <form className="w-[95%] m-auto  md:w-[50%] ">
+                <img alt="profile" src={require("../img/profile.jpeg")} className="w-24  h-24 rounded-full mb-5" />
+                <form className="w-[95%] m-auto  md:w-[50%]">
                     <input type="text" disabled placeholder="Name" id="name" value={name} className={` w-full p-3 my-4 text-xl rounded transition ease-in-out border border-gray-400 bg-white text-gray-700`} />
                     <input type="text" value={email} id="email" placeholder="Email" className={`w-full p-3 my-4 text-xl rounded transition ease-in-out border-gray-400 bg-white `} disabled />
                     <div className="w-full flex justify-between items-center">

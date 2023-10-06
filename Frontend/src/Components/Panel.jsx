@@ -1,4 +1,3 @@
-import { Modal } from "flowbite";
 import { useSelector } from "react-redux";
 import Dashboard from "../pages/Dashboard";
 

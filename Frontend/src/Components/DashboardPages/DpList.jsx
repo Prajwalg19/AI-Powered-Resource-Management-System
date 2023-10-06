@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import axios from "../../interceptors/axios";
 import Panel from "../Panel";
 import Button from "../Button";
+import { toast } from "react-toastify";
 function DepartmentList() {
     const [departments, setDepartments] = useState([]);
     const store = useSelector((store) => {
@@ -86,7 +87,11 @@ function DepartmentList() {
             pageEnable: true,
             pageLabel: "Page ",
         };
-        const pdfObject = jsPDFInvoiceTemplate(props);
+        try {
+            const pdfObject = jsPDFInvoiceTemplate(props);
+        } catch (error) {
+            toast.error("Something went wrong");
+        }
     }
     return (
         <div className="flex flex-col ">

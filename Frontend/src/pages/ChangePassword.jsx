@@ -30,6 +30,10 @@ function ChangePassword() {
             toast.error("Password doesn't match");
             return;
         }
+        if (data.password.length < 8 || data.password2.length < 8) {
+            toast.error("Password cannot be less than 8 ");
+            return;
+        }
         let dummy = { ...data, uid: userId };
         try {
             let response = await axios.post("api/user/changepassword/", dummy, {
@@ -50,7 +54,7 @@ function ChangePassword() {
                 return;
             }
         } catch (error) {
-            console.log(error);
+            toast.error("Something Went Wrong");
         }
     }
 

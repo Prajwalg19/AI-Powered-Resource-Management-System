@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import axios from "../../interceptors/axios";
 import Panel from "../Panel";
 import jsPDFInvoiceTemplate, { OutputType, jsPDF } from "jspdf-invoice-template";
+import { toast } from "react-toastify";
 function IssuesList() {
     const [departments, setDepartments] = useState([]);
     const token = useSelector((store) => {
@@ -94,7 +95,11 @@ function IssuesList() {
             pageEnable: true,
             pageLabel: "Page ",
         };
-        const pdfObject = jsPDFInvoiceTemplate(props);
+        try {
+            const pdfObject = jsPDFInvoiceTemplate(props);
+        } catch (error) {
+            toast.error("Something went wrong");
+        }
     }
 
     return (

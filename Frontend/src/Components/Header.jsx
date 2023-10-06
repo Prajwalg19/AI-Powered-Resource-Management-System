@@ -14,7 +14,7 @@ function classNames(...classes) {
 
 function Head() {
     const navigate = useNavigate();
-    let pageUrls = ["Equipments_Issues", "Department_Info", "Purchase_Details", "Lab_Details", "Equipments_Info", "Equipments_Review"];
+    let pageUrls = ["Equipments_Issues", "Department_Info", "Purchase_Details", "Lab_Details", "Equipments_Info", "Equipments_Review", "Invoice"];
     let dispatch = useDispatch();
     let user = useSelector((store) => {
         return store.user;
@@ -53,14 +53,16 @@ function Head() {
     return (
         <>
             {headerDisplay && (
-                <div className={`sticky z-50 flex items-center justify-between w-full py-2 shadow-lg space-x-3 bg-slate-50 ${(user?.role.toLowerCase() == "admin" && "bg-purple-300") || (user?.role.toLowerCase() == "hod" && "bg-green-300") || (user?.role.toLowerCase() == "staff" && "bg-lime-200")}`}>
+                <main
+                    className={`sticky z-50 flex items-center justify-between w-full py-2 shadow-lg space-x-3 bg-slate-50 ${(user?.role.toLowerCase() == "admin" && "bg-purple-300") || (user?.role.toLowerCase() == "hod" && "bg-green-300") || (user?.role.toLowerCase() == "staff" && "bg-lime-200")}`}
+                >
                     <div className="flex font-semibold gap-16 ">
                         <img onClick={() => nav("/")} src={require("../img/GAT-logo.png")} alt="college logo" className="w-12 cursor-pointer ml-9 " />
-                        <button className="px-3 capitalize hover:shadow-md rounded-md hover:bg-blue-400 hover:text-white transition ease-in-out" onClick={() => dispatch(keepOpen()) && nav("/dashboard")}>
+                        <button className=" px-3 capitalize hover:shadow-md rounded-md hover:bg-blue-400 hover:text-white transition ease-in-out" onClick={() => dispatch(keepOpen()) && nav("/dashboard")}>
                             {user.role.toLowerCase() == "staff" ? "Incharge" : user.role}'s Dashboard
                         </button>
                     </div>
-                    <div className="font-semibold text-lg -translate-x-16 transition-transform ease-in-out ">Global Academy Of Technology</div>
+                    <div className="relative -left-12 font-semibold text-lg whitespace-nowrap ">Global Academy Of Technology</div>
                     <div className="flex items-center cursor-pointer">
                         <div className="px-2">
                             <BiHelpCircle className="text-2xl" onClick={() => help()} />
@@ -75,7 +77,7 @@ function Head() {
                             />
                         </div>
                     </div>
-                </div>
+                </main>
             )}
         </>
     );

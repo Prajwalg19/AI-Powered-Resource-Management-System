@@ -29,10 +29,14 @@ function DepartmentForm() {
                 },
                 { withCredentials: true }
             );
-            toast.success("Department Details Recorded");
-            navigate("/");
+            if (response.status == 201) {
+                toast.success("Department Details Recorded");
+                navigate("/");
+            } else {
+                toast.error("Department Details were not recorded");
+            }
         } catch (error) {
-            toast.error("Department Details were not recorded");
+            toast.error("Something went wrong");
         }
     }
     const [errors, setErrors] = useState({
@@ -112,7 +116,7 @@ function DepartmentForm() {
                             {errors.department_name && <span className="text-red-600">{errors.department_name}</span>}
                         </div>
                         <div>
-                            <input type="text" autoComplete="off" required placeholder="HOD Name" id="hod_name" value={hod_name} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg transition ease-in-out" />
+                            <input type="text" autoComplete="off" required placeholder="HOD Name" id="hod_name" value={hod_name} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg transition ease-in-out rounded-md border-gray-300" />
                             {errors.hod_name && <span className="text-red-600">{errors.hod_name}</span>}
                         </div>
                         <button
