@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Department, Lab, LabInCharge, Equipment, EquipmentIssue, EquipmentReview, PurchaseOrder
+from .models import Department, Lab, Equipment, EquipmentIssue, EquipmentReview, PurchaseOrder, Invoice
 from lab.models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
@@ -35,32 +35,24 @@ class DepartmentAdmin(admin.ModelAdmin):
 
 @admin.register(Lab)
 class LabAdmin(admin.ModelAdmin):
-    list_display = ('lab_number', 'department', 'location')
-
-@admin.register(LabInCharge)
-class LabInChargeAdmin(admin.ModelAdmin):
-    list_display = ('lab_incharge_name', 'lab')
+    list_display = ('lab_number','lab_name','lab_incharge', 'department_number', 'location')
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
-    list_display = ('equipment_serial_number', 'lab', 'purchase_date', 'status')
+    list_display = ('equipment_serial_number', 'lab_number','description','invoice_number','life')
 
 @admin.register(EquipmentIssue)
 class EquipmentIssueAdmin(admin.ModelAdmin):
-    list_display = ('experiment', 'lab_incharge', 'number_of_equipments')
+    list_display = ('experiment', 'lab_incharge', 'number_of_equipments','details')
 
 @admin.register(EquipmentReview)
 class EquipmentReviewAdmin(admin.ModelAdmin):
-    list_display = ('equipment', 'quantity', 'date', 'lab_incharge')
+    list_display = ('equipment', 'quantity', 'date', 'lab_incharge','not_working_quantity','remarks')
 
 @admin.register(PurchaseOrder)
 class PurchaseOrderAdmin(admin.ModelAdmin):
-    list_display = ('purchase_order_number', 'purchase_date', 'supplier', 'total_value')
-
-# @admin.register(LabInchargeRegister)
-# class LabInchargeRegisterAdmin(admin.ModelAdmin):
-#     list_display = ('lab_incharge', 'password', 'confirm_password', 'email','department','lab')
-
-# @admin.register(LabInchargeLogin)
-# class LabInchargeLoginAdmin(admin.ModelAdmin):
-#     list_display = ('email', 'password')
+    list_display = ('purchase_order_number', 'purchase_order_date', 'originator', 'supplier', 'total_value')
+    
+@admin.register(Invoice)
+class InvoiceAdmin(admin.ModelAdmin):
+    list_display = ('invoice_number', 'purchase_order_no', 'purchase_date', 'item_name', 'item_cost', 'quantity','item_name')

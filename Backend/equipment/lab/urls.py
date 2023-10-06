@@ -1,7 +1,22 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import DepartmentViewSet, LabViewSet, PurchaseOrderViewSet, EquipmentViewSet, EquipmentIssueViewSet, EquipmentReviewViewSet, LabInChargeViewSet
-from lab.views import SendPasswordResetEmailView, UserChangePasswordView, UserLoginView, UserProfileView, UserRegistrationView, UserPasswordResetView
+from .views import (
+    DepartmentViewSet,
+    LabViewSet,
+    PurchaseOrderViewSet,
+    EquipmentViewSet,
+    EquipmentIssueViewSet,
+    EquipmentReviewViewSet,
+    InvoiceViewSet,  # Added InvoiceViewSet
+)
+from lab.views import (
+    SendPasswordResetEmailView,
+    UserChangePasswordView,
+    UserLoginView,
+    UserProfileView,
+    UserRegistrationView,
+    UserPasswordResetView,
+)
 from rest_framework_simplejwt import views as jwt_views
 
 # Create a router and register your viewsets with it.
@@ -12,9 +27,7 @@ router.register(r'purchase_order', PurchaseOrderViewSet)
 router.register(r'equipment', EquipmentViewSet)
 router.register(r'equipment_issue', EquipmentIssueViewSet)
 router.register(r'equipment_review', EquipmentReviewViewSet)
-router.register(r'labincharge', LabInChargeViewSet)
-
-
+router.register(r'invoice', InvoiceViewSet)  # Register InvoiceViewSet
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -24,5 +37,5 @@ urlpatterns = [
     path('changepassword/', UserChangePasswordView.as_view(), name='changepassword'),
     path('send-reset-password-email/', SendPasswordResetEmailView.as_view(), name='send-reset-password-email'),
     path('reset-password/<uid>/<token>/', UserPasswordResetView.as_view(), name='reset-password'),
-    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name ='token_refresh'),
+    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 ]
