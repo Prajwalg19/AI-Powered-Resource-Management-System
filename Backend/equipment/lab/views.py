@@ -13,9 +13,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import AllowAny
-
+from django.db.models import Q
+from django.db import models
 @authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
 class DepartmentViewSet(viewsets.ModelViewSet):
     serializer_class = DepartmentSerializer
     queryset = Department.objects.all()
@@ -111,3 +111,58 @@ class UserPasswordResetView(APIView):
         serializer = UserPasswordResetSerializer(data=request.data, context={'uid': uid, 'token': token})
         serializer.is_valid(raise_exception=True)
         return Response({'msg': 'Password Reset Successfully'}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def search(request):
+    query = request.GET.get('query', '')
+
+    # Define a list of models you want to search across
+    models_to_search = [
+        Department,
+        Lab,
+        Equipment,
+        PurchaseOrder,
+        Invoice,
+        EquipmentIssue,
+        EquipmentReview,
+    ]
+
+    # Create a dictionary to store search results for each model
+    search_results = {}
+
+    for model in models_to_search:
+        # Get the serializer for the current model
+        if model == Department:
+            serializer_class = DepartmentSerializer
+        elif model == Lab:
+            serializer_class = LabSerializer
+        elif model == Equipment:
+            serializer_class = EquipmentSerializer
+        elif model == PurchaseOrder:
+            serializer_class = PurchaseOrderSerializer
+        elif model == Invoice:
+            serializer_class = InvoiceSerializer
+        elif model == EquipmentIssue:
+            serializer_class = EquipmentIssueSerializer
+        elif model == EquipmentReview:
+            serializer_class = EquipmentReviewSerializer
+        # Add more elif statements for other models if needed
+
+        # Create a Q object to search across all text fields of the model
+        q_objects = Q()
+        for field in model._meta.get_fields():
+            if isinstance(field, (models.CharField, models.TextField)):
+                q_objects |= Q(**{f"{field.name}__icontains": query})
+
+        # Query the model using the Q object
+        results = model.objects.filter(q_objects)
+
+        # Serialize the results using the corresponding serializer
+        serializer = serializer_class(results, many=True)
+        model_data = serializer.data
+
+        # Store the results in the search_results dictionary
+        search_results[model._meta.model_name.lower()] = model_data
+
+    return Response(search_results)

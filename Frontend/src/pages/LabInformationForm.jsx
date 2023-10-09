@@ -25,7 +25,7 @@ function LabInformation() {
 
     useEffect(() => {
         async function getDepNo() {
-            let depNo = await axios.get("http://localhost:8000/api/user/department/");
+            let depNo = await axios.get("api/user/department/");
             setData((prev) => ({
                 ...prev,
                 dpDummy: depNo.data,

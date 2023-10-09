@@ -13,7 +13,7 @@ axiosInstance.interceptors.response.use(
     (resp) => resp,
     async (error) => {
         const state = store.getState().user;
-        if (error.response.status === 401 && !refresh) {
+        if (error?.response?.status === 401 && !refresh) {
             refresh = true;
 
             const response = await axiosInstance.post(

@@ -39,7 +39,7 @@ class LabAdmin(admin.ModelAdmin):
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
-    list_display = ('equipment_serial_number', 'lab_number','description','invoice_number','life')
+    list_display = ('equipment_serial_number', 'lab','description','invoice_number','life')
 
 @admin.register(EquipmentIssue)
 class EquipmentIssueAdmin(admin.ModelAdmin):

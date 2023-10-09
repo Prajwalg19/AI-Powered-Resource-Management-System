@@ -9,12 +9,13 @@ function EquipmentsDetails() {
         equipment_serial_number: "",
         description: "",
         invoice_number: "",
-        lab_number: "",
+        lab: "",
         life: "",
         dummyInvoice: [],
+        dummyDp: [],
     });
 
-    const { invoice_number, equipment_serial_number, description, life, lab_number, dummyInvoice } = data;
+    const { dummyDp, invoice_number, equipment_serial_number, description, life, lab, dummyInvoice } = data;
     function onChange(e) {
         // if (e.target.files) {
         //     setData((prev) => ({
@@ -31,17 +32,26 @@ function EquipmentsDetails() {
     useEffect(() => {
         async function getInvoiceNo() {
             let response = await axios.get("api/user/invoice/");
-
             setData((prev) => ({
                 ...prev,
                 dummyInvoice: response.data,
             }));
         }
+        async function getDepNo() {
+            let response = await axios.get("api/user/lab/");
+            console.log(response.data);
+            setData((prev) => ({
+                ...prev,
+                dummyDp: response.data,
+            }));
+        }
         getInvoiceNo();
+        getDepNo();
     }, []);
     async function onSubmit(e) {
         e.preventDefault();
         delete data.dummyInvoice;
+        delete data.dummyDp;
         try {
             let response = await axios.post(
                 "api/user/equipment/",
@@ -74,19 +84,19 @@ function EquipmentsDetails() {
                         <input autoComplete="off" type="text" required id="equipment_serial_number" placeholder="Equipment Serial Number" value={equipment_serial_number} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
 
                         <div className="flex items-center w-full space-x-2">
-                            <select className="w-1/2 rounded-md border-gray-300 " required id="department_number" onChange={onChange}>
-                                <option value="">Department Number</option>
-                                {data?.dpDummy?.map((item, index) => (
-                                    <option key={index} value={`${item.department_number}`}>
-                                        {item.department_name}
+                            <select className="w-1/2 rounded-md border-gray-300" required id="lab" onChange={onChange}>
+                                <option value="">Lab</option>
+                                {dummyDp?.map((item, index) => (
+                                    <option key={index} value={`${item.lab_number}`}>
+                                        {item.lab_name} - {item.lab_incharge}
                                     </option>
                                 ))}
                             </select>
-                            <input type="number" placeholder="Life" min="0" className="w-1/2 py-2 pl-2 border border-gray-300 rounded-md " />
+                            <input type="number" placeholder="Life" id="life" onChange={onChange} value={life} min="0" className="w-1/2 py-2 pl-2 border border-gray-300 rounded-md " />
 
                             <select value={invoice_number} onChange={onChange} id="invoice_number" className="border-gray-300 rounded-md">
                                 <option value="">Invoice Number</option>
-                                {data?.dummyInvoice?.map((item, index) => (
+                                {dummyInvoice?.map((item, index) => (
                                     <option key={index} value={item.invoice_number}>
                                         {item.invoice_number}
                                     </option>

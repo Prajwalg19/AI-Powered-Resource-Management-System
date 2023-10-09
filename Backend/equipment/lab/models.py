@@ -4,8 +4,8 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 # Department
 class Department(models.Model):
     department_number = models.CharField(max_length=10, primary_key=True, unique=True)
-    department_name = models.CharField(max_length=20)
-    hod_name = models.CharField(max_length=20)
+    department_name = models.CharField(max_length=20, unique=True)
+    hod_name = models.CharField(max_length=30)
 
     def __str__(self):
         return f"{self.department_number}, {self.department_name}"
@@ -19,7 +19,7 @@ class Lab(models.Model):
     location = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"{self.department_number.department_name}"  # Use department_name
+        return f"{self.department_number.department_name},{self.lab_incharge}"  # Use department_name
 
 
 
@@ -60,13 +60,13 @@ class Invoice(models.Model):
 # Equipment
 class Equipment(models.Model):
     equipment_serial_number = models.CharField(max_length=50, unique=True, primary_key=True)
-    lab_number = models.ForeignKey(Lab, on_delete=models.CASCADE)
+    lab = models.ForeignKey(Lab, on_delete=models.CASCADE)
     description = models.TextField()
     invoice_number = models.ForeignKey(Invoice, on_delete=models.CASCADE)  # Use 'Invoice' as a string
     life = models.PositiveBigIntegerField()
 
     def __str__(self):
-        return f"{self.equipment_serial_number}"
+        return f"{self.equipment_serial_number },{'Working' if self.life else 'Not Working'}"
 
 #Equipment Review
 class EquipmentReview(models.Model):

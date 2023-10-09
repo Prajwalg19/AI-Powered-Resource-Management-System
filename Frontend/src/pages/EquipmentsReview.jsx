@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../Components/Button";
@@ -12,9 +12,32 @@ function EquipmentsReview() {
         lab_incharge: "",
         not_working_quantity: "",
         remarks: "",
+        dummyEq: [],
+        dummyLabIncharge: [],
     });
 
-    const { equipment, quantity, date, lab_incharge, not_working_quantity, remarks } = data;
+    const { dummyLabIncharge, dummyEq, equipment, quantity, date, lab_incharge, not_working_quantity, remarks } = data;
+
+    useEffect(() => {
+        async function getEq() {
+            let response = await axios.get("api/user/equipment/");
+            setData((prev) => ({
+                ...prev,
+                dummyEq: response.data,
+            }));
+        }
+        async function getLabIncharge() {
+            let response = await axios.get("api/user/lab/");
+            console.log(response.data);
+            setData((prev) => ({
+                ...prev,
+                dummyLabIncharge: response.data,
+            }));
+        }
+        getEq();
+        getLabIncharge();
+    }, []);
+
     function onChange(e) {
         let boolean = null;
         if (e.target.value == "true") {
@@ -36,6 +59,8 @@ function EquipmentsReview() {
     }
     async function onSubmit(e) {
         console.log(data);
+        delete data.dummyEq;
+        delete data.dummyLabIncharge;
         e.preventDefault();
         try {
             let response = await axios.post(
@@ -125,7 +150,14 @@ function EquipmentsReview() {
                 <main className=" flex flex-col flex-wrap items-center justify-center w-full h-full max-w-6xl px-5 mx-auto mt-3 md:px-2">
                     <div className="w-[90%] md:w-[68%]  lg:w-[50%]">
                         <div className="flex items-center space-x-3 mb-10">
-                            <input autoComplete="off" type="text" required id="equipment" placeholder="Equipment" value={equipment} onChange={onChange} className="w-1/2 py-3 pl-2  text-lg border border-gray-300 rounded-md text-center" />
+                            <select className="w-1/2 rounded-md border-gray-300 py-4 pl-2 " required id="equipment" onChange={onChange}>
+                                <option value="">Equipment no.</option>
+                                {dummyEq?.map((item, index) => (
+                                    <option key={index} value={`${item.equipment_serial_number}`}>
+                                        {item.equipment_serial_number}
+                                    </option>
+                                ))}
+                            </select>
 
                             <input autoComplete="off" type="number" min={0} required id="quantity" placeholder="Quantity" value={quantity} onChange={onChange} className="w-1/2 py-3 pl-2  text-lg border border-gray-300 rounded-md  text-center" />
                         </div>
@@ -133,7 +165,14 @@ function EquipmentsReview() {
                         <div className="flex items-center space-x-3 mb-10">
                             {" "}
                             <input autoComplete="off" type="date" required id="date" value={date} onChange={onChange} className="w-full py-3 pl-2  text-lg border border-gray-300 rounded-md " />
-                            <input autoComplete="off" type="text" required placeholder="Incharge" id="lab_incharge" value={lab_incharge} onChange={onChange} className="w-full py-3 pl-2  text-lg border-gray-300 rounded-md transition ease-in-out text-center" />
+                            <select className="w-1/2 rounded-md border-gray-300 py-3 pl-2" required id="lab_incharge" onChange={onChange}>
+                                <option value="">Lab Incharge</option>
+                                {dummyLabIncharge?.map((item, index) => (
+                                    <option key={index} value={`${item.lab_number}`}>
+                                        {item.lab_incharge}
+                                    </option>
+                                ))}
+                            </select>
                             <input autoComplete="off" type="number" min={0} required id="not_working_quantity" placeholder="Defective" value={not_working_quantity} onChange={onChange} className="w-full py-3 pl-2  text-lg border border-gray-300 rounded-md text-center" />
                         </div>
                         <textarea autoComplete="off" required placeholder="Enter Remark" id="remarks" value={remarks} onChange={onChange} className="w-full py-3 pl-2 mb-6 text-lg border-gray-300 rounded-md transition ease-in-out">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../Components/Button";
@@ -10,9 +10,10 @@ function Issue() {
         lab_incharge: "",
         number_of_equipments: "",
         details: "",
+        dummyIncharge: [],
     });
 
-    const { experiment, lab_incharge, number_of_equipments, details } = data;
+    const { experiment, lab_incharge, number_of_equipments, details, dummyIncharge } = data;
     function onChange(e) {
         e.preventDefault();
         setData((prev) => ({
@@ -20,8 +21,21 @@ function Issue() {
             [e.target.id]: e.target.value,
         }));
     }
+    useEffect(() => {
+        async function getIncharge() {
+            let response = await axios.get("api/user/lab/");
+            console.log(response.data);
+            setData((prev) => ({
+                ...prev,
+                dummyIncharge: response.data,
+            }));
+        }
+        getIncharge();
+    }, []);
+
     async function onSubmit(e) {
         e.preventDefault();
+        delete data.dummyIncharge;
         try {
             let response = await axios.post(
                 "api/user/equipment_issue/",
@@ -41,7 +55,7 @@ function Issue() {
             }
         } catch (error) {
             toast.dismiss();
-            toast.error("Somethinf went wrong");
+            toast.error("Something went wrong");
         }
     }
 
@@ -50,7 +64,14 @@ function Issue() {
             <h1 className="font-bold text-center  text-3xl py-6 my-10">Issues Forms</h1>
             <form className="max-w-lg mx-auto flex flex-col  w-full justify-center items-center " onSubmit={onSubmit}>
                 <input autoComplete="off" type="text" placeholder="Experiment Name" value={experiment} className=" border border-gray-300 w-full rounded-md transition ease-in-out py-3 mb-4 px-2" id="experiment" onChange={onChange} />
-                <input autoComplete="off" type="text" onChange={onChange} value={lab_incharge} id="lab_incharge" placeholder="Lab Incharge ID" className="border border-gray-300 w-full rounded-md transition ease-in-out py-3 mb-4 px-2" />
+                <select className="w-full border-gray-300 rounded-md py-3 mb-4 px-2" onChange={onChange} id="lab_incharge" value={lab_incharge}>
+                    <option value="">Lab Incharge</option>
+                    {dummyIncharge?.map((item, index) => (
+                        <option key={index} value={item.lab_number}>
+                            {item.lab_incharge}
+                        </option>
+                    ))}
+                </select>
                 <input autoComplete="off" type="text" id="number_of_equipments" placeholder="Number of Equipments" onChange={onChange} value={number_of_equipments} className="border border-gray-300 w-full rounded-md transition ease-in-out py-3 mb-4 px-2" />
                 <textarea autoComplete="off" minLength="10" rows="2" onChange={onChange} value={details} id="details" className="border border-gray-300 w-full rounded-md transition ease-in-out py-3 mb-4 px-2" placeholder="Details"></textarea>
                 <Button />
