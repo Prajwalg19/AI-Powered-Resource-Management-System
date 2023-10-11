@@ -1,11 +1,11 @@
-from .serializers import DepartmentSerializer, LabSerializer, PurchaseOrderSerializer, EquipmentSerializer, EquipmentIssueSerializer, EquipmentReviewSerializer, InvoiceSerializer
+from .serializers import ConsumableSerializer, DepartmentSerializer, LabSerializer, PurchaseOrderSerializer, EquipmentSerializer, EquipmentIssueSerializer, EquipmentReviewSerializer, InvoiceSerializer
 from rest_framework import viewsets
-from .models import Department, Lab, PurchaseOrder, Equipment, EquipmentIssue, EquipmentReview, Invoice
+from .models import Department,Consumable, ConsumableStock , Lab, PurchaseOrder, Equipment, EquipmentIssue, EquipmentReview, Invoice
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from lab.serializers import SendPasswordResetEmailSerializer, UserChangePasswordSerializer, UserLoginSerializer, UserPasswordResetSerializer, UserProfileSerializer, UserRegistrationSerializer
+from lab.serializers import SendPasswordResetEmailSerializer,ConsumableStockSerializer, UserChangePasswordSerializer, UserLoginSerializer, UserPasswordResetSerializer, UserProfileSerializer, UserRegistrationSerializer
 from django.contrib.auth import authenticate
 from lab.renderers import UserRenderer
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -14,8 +14,11 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import AllowAny
 from django.db.models import Q
+from django.db.models import ForeignKey, ManyToManyField
 from django.db import models
+
 @authentication_classes([JWTAuthentication])
+# @permission_classes([IsAuthenticated])
 class DepartmentViewSet(viewsets.ModelViewSet):
     serializer_class = DepartmentSerializer
     queryset = Department.objects.all()
@@ -43,6 +46,7 @@ class EquipmentReviewViewSet(viewsets.ModelViewSet):
 class InvoiceViewSet(viewsets.ModelViewSet):
     serializer_class = InvoiceSerializer
     queryset = Invoice.objects.all()
+    
 
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
@@ -113,40 +117,60 @@ class UserPasswordResetView(APIView):
         return Response({'msg': 'Password Reset Successfully'}, status=status.HTTP_200_OK)
 
 
+    
+from django.db.models import ForeignKey, ManyToManyField
+from django.db.models import Q
+
+
+from django.db.models import Q
+from .serializers import DepartmentSerializer, LabSerializer, PurchaseOrderSerializer, EquipmentSerializer, EquipmentIssueSerializer, EquipmentReviewSerializer, InvoiceSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from django.db.models import Q
+from .serializers import DepartmentSerializer, LabSerializer, PurchaseOrderSerializer, EquipmentSerializer, EquipmentIssueSerializer, EquipmentReviewSerializer, InvoiceSerializer, ConsumableSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 @api_view(['GET'])
 def search(request):
     query = request.GET.get('query', '')
 
-    # Query departments based on department_name
-    departments = Department.objects.filter(department_name__icontains=query)
-
-    # Create a list to store related data
     related_data = []
 
-    # Loop through departments and gather related data
+    # Query departments based on department_name
+    departments = Department.objects.filter(Q(department_name__icontains=query) | Q(hod_name__icontains=query))
     for department in departments:
-        department_serializer = DepartmentSerializer(department).data
+        department_data = DepartmentSerializer(department).data
+
         labs = Lab.objects.filter(department_number=department)
-        lab_serializer = LabSerializer(labs, many=True).data
+        lab_data = LabSerializer(labs, many=True).data
+
         equipment = Equipment.objects.filter(lab_number__in=labs)
-        equipment_serializer = EquipmentSerializer(equipment, many=True).data
+        equipment_data = EquipmentSerializer(equipment, many=True).data
+
         purchase_orders = PurchaseOrder.objects.filter(originator=department)
-        purchase_order_serializer = PurchaseOrderSerializer(purchase_orders, many=True).data
+        purchase_order_data = PurchaseOrderSerializer(purchase_orders, many=True).data
+
         invoices = Invoice.objects.filter(purchase_order_no__in=purchase_orders)
-        invoice_serializer = InvoiceSerializer(invoices, many=True).data
+        invoice_data = InvoiceSerializer(invoices, many=True).data
+
         equipment_issues = EquipmentIssue.objects.filter(lab_incharge__in=labs)
-        equipment_issue_serializer = EquipmentIssueSerializer(equipment_issues, many=True).data
+        equipment_issue_data = EquipmentIssueSerializer(equipment_issues, many=True).data
+
         equipment_reviews = EquipmentReview.objects.filter(equipment__in=equipment)
-        equipment_review_serializer = EquipmentReviewSerializer(equipment_reviews, many=True).data
+        equipment_review_data = EquipmentReviewSerializer(equipment_reviews, many=True).data
 
         related_data.append({
-            'department': department_serializer,
-            'labs': lab_serializer,
-            'equipment': equipment_serializer,
-            'purchase_orders': purchase_order_serializer,
-            'invoices': invoice_serializer,
-            'equipment_issues': equipment_issue_serializer,
-            'equipment_reviews': equipment_review_serializer,
+            'department': department_data,
+            'labs': lab_data,
+            'equipment': equipment_data,
+            'purchase_orders': purchase_order_data,
+            'invoices': invoice_data,
+            'equipment_issues': equipment_issue_data,
+            'equipment_reviews': equipment_review_data,
         })
+
+    # Similarly, repeat the above pattern for other entities like labs, equipment, purchase orders, invoices, etc.
 
     return Response(related_data)

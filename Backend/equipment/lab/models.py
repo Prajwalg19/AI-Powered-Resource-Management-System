@@ -4,7 +4,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 # Department
 class Department(models.Model):
     department_number = models.CharField(max_length=10, primary_key=True, unique=True)
-    department_name = models.CharField(max_length=20)
+    department_name = models.CharField(max_length=20 , unique=True)
     hod_name = models.CharField(max_length=20)
 
     def str(self):

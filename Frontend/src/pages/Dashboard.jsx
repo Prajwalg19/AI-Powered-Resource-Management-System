@@ -20,7 +20,7 @@ function Dashboard() {
     const modalStatus = store?.modal?.isOpen;
     return (
         <div>
-            <button type="button" className="fixed z-50 top-5 left-2" onClick={() => dispatch(openPanel())}>
+            <button type="button" className="fixed z-40 top-5 left-2" onClick={() => dispatch(openPanel())}>
                 <AiOutlineMenuUnfold />
             </button>
 
