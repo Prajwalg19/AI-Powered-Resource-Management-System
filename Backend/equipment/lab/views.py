@@ -117,52 +117,36 @@ class UserPasswordResetView(APIView):
 def search(request):
     query = request.GET.get('query', '')
 
-    # Define a list of models you want to search across
-    models_to_search = [
-        Department,
-        Lab,
-        Equipment,
-        PurchaseOrder,
-        Invoice,
-        EquipmentIssue,
-        EquipmentReview,
-    ]
+    # Query departments based on department_name
+    departments = Department.objects.filter(department_name__icontains=query)
 
-    # Create a dictionary to store search results for each model
-    search_results = {}
+    # Create a list to store related data
+    related_data = []
 
-    for model in models_to_search:
-        # Get the serializer for the current model
-        if model == Department:
-            serializer_class = DepartmentSerializer
-        elif model == Lab:
-            serializer_class = LabSerializer
-        elif model == Equipment:
-            serializer_class = EquipmentSerializer
-        elif model == PurchaseOrder:
-            serializer_class = PurchaseOrderSerializer
-        elif model == Invoice:
-            serializer_class = InvoiceSerializer
-        elif model == EquipmentIssue:
-            serializer_class = EquipmentIssueSerializer
-        elif model == EquipmentReview:
-            serializer_class = EquipmentReviewSerializer
-        # Add more elif statements for other models if needed
+    # Loop through departments and gather related data
+    for department in departments:
+        department_serializer = DepartmentSerializer(department).data
+        labs = Lab.objects.filter(department_number=department)
+        lab_serializer = LabSerializer(labs, many=True).data
+        equipment = Equipment.objects.filter(lab_number__in=labs)
+        equipment_serializer = EquipmentSerializer(equipment, many=True).data
+        purchase_orders = PurchaseOrder.objects.filter(originator=department)
+        purchase_order_serializer = PurchaseOrderSerializer(purchase_orders, many=True).data
+        invoices = Invoice.objects.filter(purchase_order_no__in=purchase_orders)
+        invoice_serializer = InvoiceSerializer(invoices, many=True).data
+        equipment_issues = EquipmentIssue.objects.filter(lab_incharge__in=labs)
+        equipment_issue_serializer = EquipmentIssueSerializer(equipment_issues, many=True).data
+        equipment_reviews = EquipmentReview.objects.filter(equipment__in=equipment)
+        equipment_review_serializer = EquipmentReviewSerializer(equipment_reviews, many=True).data
 
-        # Create a Q object to search across all text fields of the model
-        q_objects = Q()
-        for field in model._meta.get_fields():
-            if isinstance(field, (models.CharField, models.TextField)):
-                q_objects |= Q(**{f"{field.name}__icontains": query})
+        related_data.append({
+            'department': department_serializer,
+            'labs': lab_serializer,
+            'equipment': equipment_serializer,
+            'purchase_orders': purchase_order_serializer,
+            'invoices': invoice_serializer,
+            'equipment_issues': equipment_issue_serializer,
+            'equipment_reviews': equipment_review_serializer,
+        })
 
-        # Query the model using the Q object
-        results = model.objects.filter(q_objects)
-
-        # Serialize the results using the corresponding serializer
-        serializer = serializer_class(results, many=True)
-        model_data = serializer.data
-
-        # Store the results in the search_results dictionary
-        search_results[model._meta.model_name.lower()] = model_data
-
-    return Response(search_results)
+    return Response(related_data)

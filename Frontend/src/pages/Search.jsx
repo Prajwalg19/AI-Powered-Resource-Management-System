@@ -1,11 +1,15 @@
 import axios from "../interceptors/axios";
-import { useState } from "react";
+import { createContext, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
+// import Filter from "../Components/Filter";
+export const DateContext = createContext();
 function Search() {
     const [didFind, setDidFind] = useState(true);
     const [searchStr, setStr] = useState("");
     const [result, setResult] = useState([]);
+    const [descPanel, setDescPanel] = useState(false);
     async function SearchIt(e) {
+        setDescPanel(false);
         e.preventDefault();
         if (searchStr == "") return;
         setDidFind(true);
@@ -16,49 +20,35 @@ function Search() {
                 return true;
             }
         });
+
+        console.log(ans);
         setResult(ans);
+
         if (ans.length === 0) {
             setDidFind(false);
         }
     }
-
+    function updateContext(result) {
+        setResult(result);
+    }
+    function descDisplay(desc) {
+        setDescPanel({ panel: true, value: desc });
+    }
     return (
         <>
-            <main className="py-2 max-w-6xl w-full mx-auto flex px-3 flex-col items-center">
-                <form className="flex space-x-3 my-8 w-full justify-center items-center ">
+            <main className="flex flex-col items-center w-full max-w-6xl px-3 py-2 mx-auto">
+                <form className="flex items-center justify-center w-full my-8 space-x-3 ">
                     <input type="text" onChange={(e) => setStr(e.target.value)} placeholder="Search" className="w-[20%] border-gray-300 rounded-md" />
                     <button type="submit" className="" onClick={SearchIt}>
                         <AiOutlineSearch />
                     </button>
-                </form>
 
-                {didFind ? (
-                    result?.map((bigArray, index) => (
-                        <table key={index} className="justify-between flex flex-col items-center border-x-0 border-y-0 mt-3 mb-6 w-full ">
-                            <caption className="py-2 font-bold text-lg capitalize flex w-full justify-center">{bigArray[0]}</caption>
-                            <tbody className="">
-                                <tr>
-                                    {Object.keys(bigArray[1][0]).map((header, index) => (
-                                        <th className="px-2 text-center" key={index}>
-                                            {header}
-                                        </th>
-                                    ))}
-                                </tr>
-                                {bigArray[1].map((miniArray, index) => (
-                                    <tr key={index} className="">
-                                        {Object.values(miniArray).map((obj, index) => (
-                                            <td key={index} className="px-2 text-center">
-                                                {obj}
-                                            </td>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    ))
-                ) : (
-                    <div className="text-lg">No such entries found</div>
-                )}
+                    {
+                        // <DateContext.Provider value={{ result, updateContext }}>
+                        // <Filter />
+                        // </DateContext.Provider>
+                    }
+                </form>
             </main>
         </>
     );

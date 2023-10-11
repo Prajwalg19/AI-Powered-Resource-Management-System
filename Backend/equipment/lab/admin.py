@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Department, Lab, Equipment, EquipmentIssue, EquipmentReview, PurchaseOrder, Invoice
+from .models import Department, Lab, Equipment, EquipmentIssue, EquipmentReview, PurchaseOrder, Invoice, Consumable , ConsumableStock
 from lab.models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
@@ -39,7 +39,7 @@ class LabAdmin(admin.ModelAdmin):
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
-    list_display = ('equipment_serial_number', 'lab','description','invoice_number','life')
+    list_display = ('equipment_serial_number', 'lab_number','description','invoice_number','life', 'residual_value')
 
 @admin.register(EquipmentIssue)
 class EquipmentIssueAdmin(admin.ModelAdmin):
@@ -56,3 +56,11 @@ class PurchaseOrderAdmin(admin.ModelAdmin):
 @admin.register(Invoice)
 class InvoiceAdmin(admin.ModelAdmin):
     list_display = ('invoice_number', 'purchase_order_no', 'purchase_date', 'item_name', 'item_cost', 'quantity','item_name')
+
+@admin.register(Consumable)
+class ConsumableAdmin(admin.ModelAdmin):
+    list_display = ('part_number', 'invoice_number', 'lab_number', 'distributed_quantity')
+
+@admin.register(ConsumableStock)
+class ConsumableStockAdmin(admin.ModelAdmin):
+    list_display = ('part_number', 'stock_quantity', 'lead', 'lag')
