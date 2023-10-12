@@ -4,71 +4,108 @@ import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, profileFill } from "../features/auth/userSlice";
 import axios from "../interceptors/axios";
+
 export default function Profile() {
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch();
-    const state = useSelector((store) => {
-        return store.user;
-    });
-    const [formData, setFormData] = useState({
-        id: "",
-        name: "",
-        email: "",
-    });
-    const { name, email } = formData;
-    function SignOut() {
-        try {
-            dispatch(logOut());
-            toast.success("Signed Out", { position: "bottom-center", hideProgressBar: true, delay: 1200, theme: "dark" });
-            navigate("/login");
-        } catch (e) {
-            toast.error("Something went wrong", { position: "bottom-center", hideProgressBar: true, delay: 1200, theme: "dark" });
-        }
-    }
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const state = useSelector((store) => store.user);
 
-    useEffect(() => {
-        async function getProfile() {
-            try {
-                setLoading(true);
-                let response = await axios.get("api/user/profile/", {
-                    headers: { Authorization: `Bearer ${state.accesstoken}` },
-                });
-                setFormData((prev) => ({
-                    ...prev,
-                    ...response.data,
-                }));
-                dispatch(profileFill(response.data));
-                setLoading(false);
-            } catch (_) {
-                toast.error("Something went wrong");
-            }
-        }
-        getProfile();
-    }, [state.accesstoken, dispatch]);
+  const [formData, setFormData] = useState({
+    id: "",
+    name: "",
+    email: "",
+    department: "",
+    lab: "",
+  });
 
-    if (loading) {
-        return <>Loading...</>;
+  const { name, email, lab, department } = formData;
+
+  function SignOut() {
+    try {
+      dispatch(logOut());
+      toast.success("Signed Out", {
+        position: "bottom-center",
+        hideProgressBar: true,
+        delay: 1200,
+        theme: "dark",
+      });
+      navigate("/login");
+    } catch (e) {
+      toast.error("Something went wrong", {
+        position: "bottom-center",
+        hideProgressBar: true,
+        delay: 1200,
+        theme: "dark",
+      });
     }
-    return (
-        <div>
-            <div className="flex flex-col flex-wrap items-center justify-center max-w-6xl mx-auto ">
-                <div className="my-10 text-3xl font-bold text-center ">{state.role}'s Profile</div>
-                <img alt="profile" src={require("../img/profile.jpeg")} className="w-24  h-24 rounded-full mb-5" />
-                <form className="w-[95%] m-auto  md:w-[50%]">
-                    <input type="text" disabled placeholder="Name" id="name" value={name} className={` w-full p-3 my-4 text-xl rounded transition ease-in-out border border-gray-400 bg-white text-gray-700`} />
-                    <input type="text" value={email} id="email" placeholder="Email" className={`w-full p-3 my-4 text-xl rounded transition ease-in-out border-gray-400 bg-white `} disabled />
-                    <div className="w-full flex justify-between items-center">
-                        <p className="text-lg text-red-600 cursor-pointer hover:text-red-800 transition ease-in-out duration-100" onClick={() => SignOut()}>
-                            Log out
-                        </p>
-                        <p className="text-lg text-blue-600 cursor-pointer hover:text-blue-800 transition ease-in-out duration-100" onClick={() => navigate("/changepassword")}>
-                            Change password
-                        </p>
-                    </div>
-                </form>
-            </div>
+  }
+
+  useEffect(() => {
+    async function getProfile() {
+      try {
+        setLoading(true);
+        let response = await axios.get("api/user/profile/", {
+          headers: { Authorization: `Bearer ${state.accesstoken}` },
+        });
+        setFormData((prev) => ({
+          ...prev,
+          ...response.data,
+        }));
+        dispatch(profileFill(response.data));
+        setLoading(false);
+      } catch (_) {
+        toast.error("Something went wrong");
+      }
+    }
+    getProfile();
+  }, [state.accesstoken, dispatch]);
+
+  if (loading) {
+    return <>Loading...</>;
+  }
+
+  return (
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+      <div className="bg-white shadow-md rounded-lg p-8 max-w-lg w-full text-center">
+        <img
+          alt="profile"
+          src={require("../img/profile.jpeg")}
+          className="w-24 h-24 rounded-full mx-auto mb-4"
+        />
+        <h1 className="text-2xl font-bold mb-2">{state.role}'s Profile</h1>
+        <div className="text-left space-y-2">
+          <div>
+            <span className="font-semibold">Name:</span> {name}
+          </div>
+          <div>
+            <span className="font-semibold">Email:</span> {email}
+          </div>
+          <div>
+            <span className="font-semibold">Lab:</span> {lab}
+          </div>
+          <div>
+            <span className="font-semibold">Department:</span> {department}
+          </div>
+          <div>
+            <span className="font-semibold">College:</span> GLOBAL ACADEMY OF TECHNOLOGY
+          </div>
         </div>
-    );
+        <div className="mt-4 flex justify-between">
+          <button
+            className="text-blue-600 cursor-pointer hover:text-blue-800 focus:outline-none"
+            onClick={() => navigate("/changepassword")}
+          >
+            Change Password
+          </button>
+          <button
+            className="text-red-600 cursor-pointer hover:text-red-800 focus:outline-none"
+            onClick={SignOut}
+          >
+            Log Out
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
-// flex justify-between w-[95%] md:w-[50%]  m-auto
