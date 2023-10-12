@@ -33,16 +33,6 @@ function PurchaseList() {
             fileName: "Invoice",
             orientationLandscape: false,
             compress: true,
-            logo: {
-                src: "https://raw.githubusercontent.com/Prajwalg19/photo/main/GAT-logo.png",
-                type: "PNG",
-                width: 30.33,
-                height: 26.66,
-                margin: {
-                    top: 0,
-                    left: 0,
-                },
-            },
             business: {
                 name: "Global Academy of Technology",
                 address: "Rajarajeshwarinagar, Ideal Homes Township, Bangalore-560098, Karnataka, India",

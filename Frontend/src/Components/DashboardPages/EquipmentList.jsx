@@ -42,16 +42,6 @@ function EquipmentList() {
             fileName: "Invoice",
             orientationLandscape: false,
             compress: true,
-            logo: {
-                src: "https://raw.githubusercontent.com/Prajwalg19/photo/main/GAT-logo.png",
-                type: "PNG",
-                width: 30.33,
-                height: 26.66,
-                margin: {
-                    top: 0,
-                    left: 0,
-                },
-            },
             business: {
                 name: "Global Academy of Technology",
                 address: "Rajarajeshwarinagar, Ideal Homes Township, Bangalore-560098, Karnataka, India",
@@ -125,10 +115,9 @@ function EquipmentList() {
                     <thead>
                         <tr>
                             <th className=" border-collapse border border-slate-300">Serial number</th>
-                            <th className=" border-collapse border border-slate-300">Purchase Date</th>
-                            <th className=" border-collapse border border-slate-300">Equipment Value</th>
-                            <th className=" border-collapse border border-slate-300">Lab No</th>
-                            <th className=" border-collapse border border-slate-300">Status</th>
+                            <th className=" border-collapse border border-slate-300">Lab no.</th>
+                            <th className=" border-collapse border border-slate-300">Invoice no.</th>
+                            <th className=" border-collapse border border-slate-300">Life</th>
                             <th className=" border-collapse border border-slate-300">Description</th>
                         </tr>
                     </thead>
@@ -137,10 +126,9 @@ function EquipmentList() {
                             departments.map((data, index) => (
                                 <tr key={index}>
                                     <td className="bg-gray-100 border-collapse border border-slate-100">{data.equipment_serial_number}</td>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.purchase_date}</td>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.equipment_value}</td>
                                     <td className="bg-gray-100 border-collapse border border-slate-100">{data.lab_number}</td>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.status}</td>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.invoice_number}</td>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.life}</td>
                                     <td className="bg-gray-100 border-collapse border border-slate-100">{data.description}</td>
                                 </tr>
                             ))}

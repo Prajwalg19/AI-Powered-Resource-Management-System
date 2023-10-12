@@ -118,12 +118,13 @@ function Register() {
                         <input autoComplete="off" onChange={onChange} required id="name" type="text" value={name} placeholder="name" className="px-4 py-3 rounded-md" />
                         {errors.name && <span className="text-red-600">{errors.name}</span>}
                         <div className="flex items-center justify-between w-full ">
-                            <input autoComplete="off" onChange={onChange} required id="email" type="email" value={email} placeholder="Email" className=" px-4 py-3 rounded-md" />
+                            <input autoComplete="off" onChange={onChange} required id="email" type="email" value={email} placeholder="Email" className=" px-4 py-3 rounded-md w-1/2" />
                             {errors.email && <span className="text-red-600">{errors.email}</span>}
-                            Role:
-                            <select required defaultValue={role} id="role" onChange={onChange}>
-                                <option value="Staff">Incharge</option>
+                            <span className="mx-1">Role:</span>
+                            <select className="rounded-md border-gray-300 w-1/2 text-center" required defaultValue={role} id="role" onChange={onChange}>
+                                <option value="Staff">Staff</option>
                                 <option value="HOD">HOD</option>
+                                <option value="Incharge">Incharge</option>
                             </select>
                         </div>
                         <input autoComplete="off" onChange={onChange} required id="password" type="password" value={password} placeholder="password" className="px-4 py-3 rounded-md" />

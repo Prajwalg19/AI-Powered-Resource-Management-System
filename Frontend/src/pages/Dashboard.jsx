@@ -20,7 +20,7 @@ function Dashboard() {
     const modalStatus = store?.modal?.isOpen;
     return (
         <div>
-            <button type="button" className="fixed z-40 top-5 left-2" onClick={() => dispatch(openPanel())}>
+            <button type="button" className="fixed z-50 top-5 left-2" onClick={() => dispatch(openPanel())}>
                 <AiOutlineMenuUnfold />
             </button>
 
@@ -29,7 +29,7 @@ function Dashboard() {
                     {isAdmin || isHOD ? (
                         <ul className="flex flex-col items-start justify-center pl-1 font-medium space-y-2">
                             <li>
-                                <span className="flex items-center justify-start text-lg font-semibold space-x-2">
+                                <span className="flex underline  items-center justify-center text-lg font-semibold space-x-2">
                                     <MdSpaceDashboard />
                                     <p> Dashboard </p>
                                 </span>

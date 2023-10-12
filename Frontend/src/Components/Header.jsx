@@ -10,6 +10,7 @@ import { keepOpen, openPanel } from "../features/auth/sidePanelSlice";
 import { BiHelpCircle } from "react-icons/bi";
 import { FiSearch } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { FaRupeeSign } from "react-icons/fa";
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
@@ -22,7 +23,7 @@ function Head() {
         return store.user;
     });
     async function help() {
-        if (user?.role.toLowerCase() == "staff") {
+        if (user?.role.toLowerCase() == "staff" || "incharge") {
             navigate("/help/incharge");
         } else if (user?.role.toLowerCase() == "admin" || "hod") {
             navigate("/help/admin");
@@ -41,7 +42,7 @@ function Head() {
         pageUrls = pageUrls.filter((item) => {
             return true;
         });
-    } else if (user.role?.toLowerCase() === "staff") {
+    } else if (user.role?.toLowerCase() === "staff" || "incharge") {
         pageUrls = pageUrls.filter((item) => {
             if (item == "Equipments_Issues" || item == "Equipments_Review") return true;
         });
@@ -56,22 +57,26 @@ function Head() {
         <>
             {headerDisplay && (
                 <main
-                    className={`sticky z-50 flex items-center justify-between w-full py-2 shadow-lg space-x-3 bg-slate-50 ${(user?.role.toLowerCase() == "admin" && "bg-purple-300") || (user?.role.toLowerCase() == "hod" && "bg-green-300") || (user?.role.toLowerCase() == "staff" && "bg-lime-200")}`}
+                    className={`sticky z-50 flex flex-col md:flex-row items-center justify-between w-full py-2 shadow-lg space-x-3 bg-slate-50 ${
+                        (user?.role.toLowerCase() == "admin" && "bg-purple-300") || (user?.role.toLowerCase() == "hod" && "bg-green-300") || (user?.role.toLowerCase() == "staff" && "bg-lime-200")
+                    }`}
                 >
-                    <div className="flex font-semibold gap-16 ">
-                        <img onClick={() => nav("/")} src={require("../img/GAT-logo.png")} alt="college logo" className="w-12 cursor-pointer ml-9 " />
-                        <button className=" px-3 capitalize hover:shadow-md rounded-md hover:bg-blue-400 hover:text-white transition ease-in-out" onClick={() => dispatch(keepOpen()) && nav("/dashboard")}>
+                    <div className="flex flex-col md:flex-row items-center justify-center md:justify-start">
+                        <img onClick={() => nav("/")} src={require("../img/GAT-logo.png")} alt="college logo" className="w-12 cursor-pointer ml-9" />
+                        <button className="ml-6 py-2 font-bold px-3 capitalize hover:shadow-md rounded-md hover:bg-blue-400 hover:text-white transition ease-in-out" onClick={() => dispatch(keepOpen()) && nav("/dashboard")}>
                             {user.role.toLowerCase() == "staff" ? "Incharge" : user.role}'s Dashboard
                         </button>
                     </div>
-                    <div className="relative -left-12 font-semibold text-lg whitespace-nowrap ">Global Academy Of Technology</div>
-                    <div>
-                        <Link to="/search">
+                    <div className="font-semibold text-lg text-center md:text-left whitespace-nowrap md:static">Global Academy Of Technology</div>
+                    <div className="flex items-center cursor-pointer">
+                        <Link className="px-2" to="/search">
                             {" "}
                             <FiSearch className="cursor-pointer" />
                         </Link>
-                    </div>
-                    <div className="flex items-center cursor-pointer">
+                        <Link className="px-2" to="/depreciation">
+                            <FaRupeeSign />
+                        </Link>
+
                         <div className="px-2">
                             <BiHelpCircle className="text-2xl" onClick={() => help()} />
                         </div>

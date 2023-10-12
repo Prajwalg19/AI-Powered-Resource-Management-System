@@ -34,16 +34,6 @@ function EquipmentsReviewList() {
             fileName: "Invoice",
             orientationLandscape: false,
             compress: true,
-            logo: {
-                src: "https://raw.githubusercontent.com/Prajwalg19/photo/main/GAT-logo.png",
-                type: "PNG",
-                width: 30.33,
-                height: 26.66,
-                margin: {
-                    top: 0,
-                    left: 0,
-                },
-            },
             business: {
                 name: "Global Academy of Technology",
                 address: "Rajarajeshwarinagar, Ideal Homes Township, Bangalore-560098, Karnataka, India",
@@ -112,27 +102,27 @@ function EquipmentsReviewList() {
         <>
             <Panel departments={departments} saveFile={saveFile}>
                 <h1 className="mt-10 mb-5 text-2xl font-semibold text-center">Equipment Review List</h1>
-                <table className="bg-white border-collapse border border-slate-50 w-full max-w-6xl mx-auto text-center">
+                <table className="w-full max-w-6xl mx-auto text-center bg-white border border-collapse border-slate-50">
                     <thead>
                         <tr>
-                            <th className=" border-collapse border border-slate-300">Equipment</th>
-                            <th className=" border-collapse border border-slate-300">Quantity</th>
-                            <th className=" border-collapse border border-slate-300">Date</th>
-                            <th className=" border-collapse border border-slate-300">Lab Incharge</th>
-                            <th className=" border-collapse border border-slate-300">Not Working Quantity</th>
-                            <th className=" border-collapse border border-slate-300">Remarks</th>
+                            <th className="border border-collapse  border-slate-300">Equipment</th>
+                            <th className="border border-collapse  border-slate-300">Quantity</th>
+                            <th className="border border-collapse  border-slate-300">Date</th>
+                            <th className="border border-collapse  border-slate-300">Lab Incharge</th>
+                            <th className="border border-collapse  border-slate-300">Not Working Quantity</th>
+                            <th className="border border-collapse  border-slate-300">Remarks</th>
                         </tr>
                     </thead>
                     <tbody>
                         {departments &&
                             departments.map((data, index) => (
                                 <tr key={index}>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.equipment}</td>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.quantity}</td>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.date}</td>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.lab_incharge}</td>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.not_working_quantity}</td>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.remarks}</td>
+                                    <td className="bg-gray-100 border border-collapse border-slate-100">{data.equipment}</td>
+                                    <td className="bg-gray-100 border border-collapse border-slate-100">{data.quantity}</td>
+                                    <td className="bg-gray-100 border border-collapse border-slate-100">{data.date}</td>
+                                    <td className="bg-gray-100 border border-collapse border-slate-100">{data.lab_incharge}</td>
+                                    <td className="bg-gray-100 border border-collapse border-slate-100">{data.not_working_quantity}</td>
+                                    <td className="bg-gray-100 border border-collapse border-slate-100">{data.remarks}</td>
                                 </tr>
                             ))}
                     </tbody>

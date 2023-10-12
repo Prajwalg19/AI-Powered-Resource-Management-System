@@ -34,16 +34,6 @@ function IssuesList() {
             fileName: "Invoice",
             orientationLandscape: false,
             compress: true,
-            logo: {
-                src: "https://raw.githubusercontent.com/Prajwalg19/photo/main/GAT-logo.png",
-                type: "PNG",
-                width: 30.33,
-                height: 26.66,
-                margin: {
-                    top: 0,
-                    left: 0,
-                },
-            },
             business: {
                 name: "Global Academy of Technology",
                 address: "Rajarajeshwarinagar, Ideal Homes Township, Bangalore-560098, Karnataka, India",
@@ -106,23 +96,23 @@ function IssuesList() {
         <>
             <Panel departments={departments} saveFile={saveFile}>
                 <h1 className="mt-10 mb-5 text-2xl font-semibold text-center">Equipments Issues List</h1>
-                <table className="bg-white border-collapse border border-slate-50 w-full max-w-6xl mx-auto text-center">
+                <table className="w-full max-w-6xl mx-auto text-center bg-white border border-collapse border-slate-50">
                     <thead>
                         <tr>
-                            <th className=" border-collapse border border-slate-300">Lab Incharge</th>
-                            <th className=" border-collapse border border-slate-300">Experminet Name</th>
-                            <th className=" border-collapse border border-slate-300">Number of Equipments</th>
-                            <th className=" border-collapse border border-slate-300">Details</th>
+                            <th className="border border-collapse  border-slate-300">Lab Incharge</th>
+                            <th className="border border-collapse  border-slate-300">Experminet Name</th>
+                            <th className="border border-collapse  border-slate-300">Number of Equipments</th>
+                            <th className="border border-collapse  border-slate-300">Details</th>
                         </tr>
                     </thead>
                     <tbody>
                         {departments &&
                             departments.map((data, index) => (
                                 <tr key={index}>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.lab_incharge}</td>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.experiment}</td>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.number_of_equipments}</td>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.details}</td>
+                                    <td className="bg-gray-100 border border-collapse border-slate-100">{data.lab_incharge}</td>
+                                    <td className="bg-gray-100 border border-collapse border-slate-100">{data.experiment_name}</td>
+                                    <td className="bg-gray-100 border border-collapse border-slate-100">{data.number_of_equipments}</td>
+                                    <td className="bg-gray-100 border border-collapse border-slate-100">{data.details}</td>
                                 </tr>
                             ))}
                     </tbody>
