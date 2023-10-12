@@ -142,7 +142,7 @@ function LabInformation() {
 
                         <div className="flex space-x-4 mb-10  w-full ">
                             <select className="w-1/2 rounded-md border-gray-300 text-center" required id="department_number" onChange={onChange}>
-                                <option value="">Department Number</option>
+                                <option value="">Department</option>
                                 {data?.dpDummy?.map((item, index) => (
                                     <option key={index} value={`${item.department_number}`}>
                                         {item.department_name}

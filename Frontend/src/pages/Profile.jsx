@@ -4,26 +4,41 @@ import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, profileFill } from "../features/auth/userSlice";
 import axios from "../interceptors/axios";
+import Spinner from "../Components/Spinner";
+
 export default function Profile() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
-    const state = useSelector((store) => {
-        return store.user;
-    });
+    const state = useSelector((store) => store.user);
+
     const [formData, setFormData] = useState({
         id: "",
         name: "",
         email: "",
+        department: "",
+        lab: "",
     });
-    const { name, email } = formData;
+
+    const { name, email, lab, department } = formData;
+
     function SignOut() {
         try {
             dispatch(logOut());
-            toast.success("Signed Out", { position: "bottom-center", hideProgressBar: true, delay: 1200, theme: "dark" });
+            toast.success("Signed Out", {
+                position: "bottom-center",
+                hideProgressBar: true,
+                delay: 1200,
+                theme: "dark",
+            });
             navigate("/login");
         } catch (e) {
-            toast.error("Something went wrong", { position: "bottom-center", hideProgressBar: true, delay: 1200, theme: "dark" });
+            toast.error("Something went wrong", {
+                position: "bottom-center",
+                hideProgressBar: true,
+                delay: 1200,
+                theme: "dark",
+            });
         }
     }
 
@@ -34,6 +49,7 @@ export default function Profile() {
                 let response = await axios.get("api/user/profile/", {
                     headers: { Authorization: `Bearer ${state.accesstoken}` },
                 });
+
                 setFormData((prev) => ({
                     ...prev,
                     ...response.data,
@@ -48,27 +64,48 @@ export default function Profile() {
     }, [state.accesstoken, dispatch]);
 
     if (loading) {
-        return <>Loading...</>;
+        return (
+            <>
+                <Spinner />
+            </>
+        );
     }
+
     return (
-        <div>
-            <div className="flex flex-col flex-wrap items-center justify-center max-w-6xl mx-auto ">
-                <div className="my-10 text-3xl font-bold text-center ">{state.role}'s Profile</div>
-                <img alt="profile" src={require("../img/profile.jpeg")} className="w-24  h-24 rounded-full mb-5" />
-                <form className="w-[95%] m-auto  md:w-[50%]">
-                    <input type="text" disabled placeholder="Name" id="name" value={name} className={` w-full p-3 my-4 text-xl rounded transition ease-in-out border border-gray-400 bg-white text-gray-700`} />
-                    <input type="text" value={email} id="email" placeholder="Email" className={`w-full p-3 my-4 text-xl rounded transition ease-in-out border-gray-400 bg-white `} disabled />
-                    <div className="w-full flex justify-between items-center">
-                        <p className="text-lg text-red-600 cursor-pointer hover:text-red-800 transition ease-in-out duration-100" onClick={() => SignOut()}>
-                            Log out
-                        </p>
-                        <p className="text-lg text-blue-600 cursor-pointer hover:text-blue-800 transition ease-in-out duration-100" onClick={() => navigate("/changepassword")}>
-                            Change password
-                        </p>
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+            <div className="w-full max-w-lg p-8 text-center bg-white rounded-lg shadow-md">
+                <img alt="profile" src={require("../img/profile.jpeg")} className="w-24 h-24 mx-auto mb-4 rounded-full" />
+                <h1 className="mb-2 text-2xl font-bold">{state.role}'s Profile</h1>
+                <div className="text-left space-y-2">
+                    <div>
+                        <span className="font-semibold">Name:</span> {name}
                     </div>
-                </form>
+                    <div>
+                        <span className="font-semibold">Email:</span> {email}
+                    </div>
+                    {state.role == "admin" && (
+                        <>
+                            <div>
+                                <span className="font-semibold">Lab:</span> {lab}
+                            </div>
+                            <div>
+                                <span className="font-semibold">Department:</span> {department}
+                            </div>
+                        </>
+                    )}
+                    <div>
+                        <span className="font-semibold">College:</span> GLOBAL ACADEMY OF TECHNOLOGY
+                    </div>
+                </div>
+                <div className="flex justify-between mt-4">
+                    <button className="text-blue-600 cursor-pointer hover:text-blue-800 focus:outline-none" onClick={() => navigate("/changepassword")}>
+                        Change Password
+                    </button>
+                    <button className="text-red-600 cursor-pointer hover:text-red-800 focus:outline-none" onClick={SignOut}>
+                        Log Out
+                    </button>
+                </div>
             </div>
         </div>
     );
 }
-// flex justify-between w-[95%] md:w-[50%]  m-auto

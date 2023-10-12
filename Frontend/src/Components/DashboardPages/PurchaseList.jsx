@@ -119,7 +119,7 @@ function PurchaseList() {
                             departments.map((data, index) => (
                                 <tr key={index}>
                                     <td className="bg-gray-100 border-collapse border border-slate-100">{data.purchase_order_number}</td>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.purchase_date}</td>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.purchase_order_date}</td>
                                     <td className="bg-gray-100 border-collapse border border-slate-100">{data.supplier}</td>
                                     <td className="bg-gray-100 border-collapse border border-slate-100">&#8377;{data.total_value}</td>
                                 </tr>

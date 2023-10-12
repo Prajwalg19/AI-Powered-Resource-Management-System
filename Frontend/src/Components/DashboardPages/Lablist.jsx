@@ -101,8 +101,10 @@ function Lablist() {
                 <table className="w-full max-w-6xl mx-auto text-center bg-white border border-collapse border-slate-50">
                     <thead>
                         <tr>
+                            <th className="border border-collapse  border-slate-300">Department number</th>
                             <th className="border border-collapse  border-slate-300">Lab number</th>
-                            <th className="border border-collapse  border-slate-300">Department</th>
+                            <th className="border border-collapse  border-slate-300">Lab name</th>
+                            <th className="border border-collapse  border-slate-300">Lab incharge</th>
                             <th className="border border-collapse  border-slate-300">Location</th>
                             {
                                 // <th>Lab incharge</th>
@@ -113,9 +115,11 @@ function Lablist() {
                         {departments &&
                             departments.map((data, index) => (
                                 <tr key={index}>
-                                    <td className="bg-gray-100 border border-collapse border-slate-100">{data.lab_number}</td>
-                                    <td className="bg-gray-100 border border-collapse border-slate-100">{data.department}</td>
-                                    <td className="bg-gray-100 border border-collapse border-slate-100">{data.location}</td>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.department_name}</td>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.lab_number}</td>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.lab_name}</td>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.lab_incharge}</td>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.location}</td>
                                     {
                                         // <td>{data.lab_incharge}</td>
                                     }

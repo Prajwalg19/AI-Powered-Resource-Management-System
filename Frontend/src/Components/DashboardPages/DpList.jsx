@@ -103,8 +103,10 @@ function DepartmentList() {
                             <thead>
                                 <tr>
                                     <th className=" border-collapse border border-slate-300">Department Number</th>
-                                    <th className=" border-collapse border border-slate-300">Department Name</th>
-                                    <th className=" border-collapse border border-slate-300">Head of Department</th>
+                                    <th className=" border-collapse border border-slate-300">Lab number</th>
+                                    <th className=" border-collapse border border-slate-300">Lab name</th>
+                                    <th className=" border-collapse border border-slate-300">Lab incharge</th>
+                                    <th className=" border-collapse border border-slate-300">Location</th>
                                 </tr>
                             </thead>
 
@@ -112,8 +114,10 @@ function DepartmentList() {
                                 {departments?.map((data, index) => (
                                     <tr key={index}>
                                         <td className="bg-gray-100 border-collapse border border-slate-100">{data.department_number}</td>
-                                        <td className="bg-gray-100 border-collapse border border-slate-100">{data.department_name}</td>
-                                        <td className="bg-gray-100 border-collapse border border-slate-100">{data.hod_name}</td>
+                                        <td className="bg-gray-100 border-collapse border border-slate-100">{data.lab_number}</td>
+                                        <td className="bg-gray-100 border-collapse border border-slate-100">{data.lab_name}</td>
+                                        <td className="bg-gray-100 border-collapse border border-slate-100">{data.lab_incharge}</td>
+                                        <td className="bg-gray-100 border-collapse border border-slate-100">{data.location}</td>
                                     </tr>
                                 ))}
                             </tbody>

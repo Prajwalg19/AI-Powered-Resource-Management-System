@@ -139,7 +139,7 @@ function EquipmentList() {
                                     <td className="bg-gray-100 border-collapse border border-slate-100">{data.equipment_serial_number}</td>
                                     <td className="bg-gray-100 border-collapse border border-slate-100">{data.purchase_date}</td>
                                     <td className="bg-gray-100 border-collapse border border-slate-100">{data.equipment_value}</td>
-                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.lab}</td>
+                                    <td className="bg-gray-100 border-collapse border border-slate-100">{data.lab_number}</td>
                                     <td className="bg-gray-100 border-collapse border border-slate-100">{data.status}</td>
                                     <td className="bg-gray-100 border-collapse border border-slate-100">{data.description}</td>
                                 </tr>

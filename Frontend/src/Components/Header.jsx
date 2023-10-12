@@ -8,6 +8,8 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { keepOpen, openPanel } from "../features/auth/sidePanelSlice";
 import { BiHelpCircle } from "react-icons/bi";
+import { FiSearch } from "react-icons/fi";
+import { Link } from "react-router-dom";
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
@@ -63,6 +65,12 @@ function Head() {
                         </button>
                     </div>
                     <div className="relative -left-12 font-semibold text-lg whitespace-nowrap ">Global Academy Of Technology</div>
+                    <div>
+                        <Link to="/search">
+                            {" "}
+                            <FiSearch className="cursor-pointer" />
+                        </Link>
+                    </div>
                     <div className="flex items-center cursor-pointer">
                         <div className="px-2">
                             <BiHelpCircle className="text-2xl" onClick={() => help()} />
