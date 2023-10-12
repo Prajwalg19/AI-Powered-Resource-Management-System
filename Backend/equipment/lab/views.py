@@ -1,11 +1,11 @@
-from .serializers import ConsumableSerializer, DepartmentSerializer, LabSerializer, PurchaseOrderSerializer, EquipmentSerializer, EquipmentIssueSerializer, EquipmentReviewSerializer, InvoiceSerializer 
+from .serializers import ConsumableSerializer, DepartmentSerializer, LabSerializer, PurchaseOrderSerializer, EquipmentSerializer, EquipmentIssueSerializer, EquipmentReviewSerializer, InvoiceSerializer
 from rest_framework import viewsets
-from .models import Department,Consumable, ConsumableStock , Lab, PurchaseOrder, Equipment, EquipmentIssue, EquipmentReview, Invoice,Experiment,Apparatus
+from .models import Department,Consumable, ConsumableStock , Lab, PurchaseOrder, Equipment, EquipmentIssue, EquipmentReview, Invoice
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from lab.serializers import SendPasswordResetEmailSerializer,ConsumableStockSerializer, UserChangePasswordSerializer, UserLoginSerializer, UserPasswordResetSerializer, UserProfileSerializer, UserRegistrationSerializer, ExperimentSerializer, ApparatusSerializer
+from lab.serializers import SendPasswordResetEmailSerializer,ConsumableStockSerializer, UserChangePasswordSerializer, UserLoginSerializer, UserPasswordResetSerializer, UserProfileSerializer, UserRegistrationSerializer
 from django.contrib.auth import authenticate
 from lab.renderers import UserRenderer
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -35,25 +35,18 @@ class EquipmentViewSet(viewsets.ModelViewSet):
     serializer_class = EquipmentSerializer
     queryset = Equipment.objects.all()
 
+class EquipmentIssueViewSet(viewsets.ModelViewSet):
+    serializer_class = EquipmentIssueSerializer
+    queryset = EquipmentIssue.objects.all()
+
+class EquipmentReviewViewSet(viewsets.ModelViewSet):
+    serializer_class = EquipmentReviewSerializer
+    queryset = EquipmentReview.objects.all()
+
 class InvoiceViewSet(viewsets.ModelViewSet):
     serializer_class = InvoiceSerializer
     queryset = Invoice.objects.all()
-   
-class ConsumableViewSet(viewsets.ModelViewSet):
-    serializer_class = ConsumableSerializer
-    queryset = Consumable.objects.all()
-
-class ConsumableStockViewSet(viewsets.ModelViewSet):
-    serializer_class = ConsumableStockSerializer
-    queryset = ConsumableStock.objects.all()
-
-class ExperimentViewSet(viewsets.ModelViewSet):
-    serializer_class = ExperimentSerializer
-    queryset = Experiment.objects.all()
-
-class ApparatusViewSet(viewsets.ModelViewSet):
-    serializer_class = ApparatusSerializer
-    queryset = Apparatus.objects.all()
+    
 
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
@@ -123,17 +116,16 @@ class UserPasswordResetView(APIView):
         serializer.is_valid(raise_exception=True)
         return Response({'msg': 'Password Reset Successfully'}, status=status.HTTP_200_OK)
 
-class EquipmentIssueViewSet(viewsets.ModelViewSet):
-    serializer_class = EquipmentIssueSerializer
-    queryset = EquipmentIssue.objects.all()
 
-class EquipmentReviewViewSet(viewsets.ModelViewSet):
-    serializer_class = EquipmentReviewSerializer
-    queryset = EquipmentReview.objects.all()
     
 from django.db.models import ForeignKey, ManyToManyField
 from django.db.models import Q
 
+
+from django.db.models import Q
+from .serializers import DepartmentSerializer, LabSerializer, PurchaseOrderSerializer, EquipmentSerializer, EquipmentIssueSerializer, EquipmentReviewSerializer, InvoiceSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from django.db.models import Q
 from .serializers import DepartmentSerializer, LabSerializer, PurchaseOrderSerializer, EquipmentSerializer, EquipmentIssueSerializer, EquipmentReviewSerializer, InvoiceSerializer, ConsumableSerializer

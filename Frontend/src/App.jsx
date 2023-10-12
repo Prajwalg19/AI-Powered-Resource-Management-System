@@ -26,6 +26,7 @@ import HelpAdmin from "./pages/HelpAdmin";
 import ChangePassword from "./pages/ChangePassword";
 import Invoice from "./pages/Invoice";
 import Search from "./pages/Search";
+import Depreciation from "./pages/Depreciation";
 function App() {
     return (
         <div className="App">
@@ -55,6 +56,7 @@ function App() {
                         <Route path="/changepassword" element={<ChangePassword />} />
                         <Route path="/invoice" element={<Invoice />} />
                         <Route path="/search" element={<Search />} />
+                        <Route path="/depreciation" element={<Depreciation />} />
                     </Route>
                     <Route path="/login" element={<Login />}></Route>
                     <Route path="/register" element={<Register />} />
