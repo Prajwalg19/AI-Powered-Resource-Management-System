@@ -1,5 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+
+
 from .views import (
     DepartmentViewSet,
     LabViewSet,
@@ -7,7 +9,12 @@ from .views import (
     EquipmentViewSet,
     EquipmentIssueViewSet,
     EquipmentReviewViewSet,
-    InvoiceViewSet,  # Added InvoiceViewSet
+    InvoiceViewSet, 
+    ConsumableViewSet,
+    ConsumableStockViewSet,
+    ExperimentViewSet,
+    ApparatusViewSet
+      # Added InvoiceViewSet
 )
 from lab.views import (
     SendPasswordResetEmailView,
@@ -28,6 +35,10 @@ router.register(r'equipment', EquipmentViewSet)
 router.register(r'equipment_issue', EquipmentIssueViewSet)
 router.register(r'equipment_review', EquipmentReviewViewSet)
 router.register(r'invoice', InvoiceViewSet)  # Register InvoiceViewSet
+router.register(r'Consumable', ConsumableViewSet)  # Register InvoiceViewSet
+router.register(r'ConsumableStock', ConsumableStockViewSet)  # Register InvoiceViewSet
+router.register(r'Experiment', ExperimentViewSet)  # Register InvoiceViewSet
+router.register(r'Apparatus', ApparatusViewSet)  # Register InvoiceViewSet
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -38,4 +49,5 @@ urlpatterns = [
     path('send-reset-password-email/', SendPasswordResetEmailView.as_view(), name='send-reset-password-email'),
     path('reset-password/<uid>/<token>/', UserPasswordResetView.as_view(), name='reset-password'),
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+
 ]

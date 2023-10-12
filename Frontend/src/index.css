@@ -11,16 +11,16 @@ html::-webkit-scrollbar {
     display: none;
 }
 
-table,
-th,
-td {
-    border: 2px solid black;
-}
+/* table, */
+/* th, */
+/* td { */
+/*     border: 2px solid black; */
+/* } */
 
-table tr:hover {
-    background-color: #9fa9a3;
-}
+/* table tr:hover { */
+/*     background-color: #9fa9a3; */
+/* } */
 
-th {
-    background-color: #c0ded9;
-}
+/* th { */
+/*     background-color: #c0ded9; */
+/* } */

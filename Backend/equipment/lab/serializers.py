@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Department, Lab, PurchaseOrder, Equipment, EquipmentIssue, EquipmentReview, User, Invoice,Consumable ,ConsumableStock
+from .models import Department, Lab, PurchaseOrder, Equipment, EquipmentIssue, EquipmentReview, User, Invoice,Consumable ,ConsumableStock, Experiment,Apparatus
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, smart_str
@@ -141,14 +141,28 @@ class UserPasswordResetSerializer(serializers.Serializer):
             raise serializers.ValidationError('Token is not valid or has expired')
 
 
+
 class ConsumableSerializer(serializers.ModelSerializer):
     class Meta:
         model = Consumable
-        fields = '_all_'
+        fields = '_all'  # Change '_all' to '_all_'
         
 class ConsumableStockSerializer(serializers.ModelSerializer):
-    part_number = ConsumableSerializer()  # Assuming you have a ConsumableSerializer
 
     class Meta:
         model = ConsumableStock
-        fields = '_all_'
+        fields = '_all'  # Change '_all' to '_all_'
+
+
+class ExperimentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Experiment
+        fields = '_all'  # Change '_all' to '_all_'
+
+
+class ApparatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Apparatus
+        fields = '_all'  # Change '_all' to '_all_'

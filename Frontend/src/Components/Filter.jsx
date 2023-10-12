@@ -7,9 +7,16 @@ function Filter() {
     let dateData = result;
     function onClick(e) {
         e.preventDefault();
+        console.log(dateData);
         const res = dateData.map((bigArray, index) => {
-            const arrayWithDate = bigArray[1].find((item) => Object.keys(item).some((key) => key.includes("date")));
-            if (arrayWithDate) return dateData[index];
+            let arrayWithDate = [];
+            if (Array.isArray(bigArray[1])) {
+                arrayWithDate = bigArray[1]?.find((item) => Object.keys(item).some((key) => key.includes("date")));
+                if (arrayWithDate) return dateData[index];
+            } else {
+                arrayWithDate = Object.keys(bigArray[1]).find((key) => key.includes("date"));
+                if (arrayWithDate) return dateData[index];
+            }
         });
 
         let result = res.filter((item) => {
