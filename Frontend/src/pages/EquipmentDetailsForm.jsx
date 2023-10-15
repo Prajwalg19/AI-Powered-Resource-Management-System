@@ -9,13 +9,13 @@ function EquipmentsDetails() {
         equipment_serial_number: "",
         description: "",
         invoice_number: "",
-        lab: "",
+        lab_number: "",
         life: "",
         dummyInvoice: [],
         dummyDp: [],
     });
 
-    const { dummyDp, invoice_number, equipment_serial_number, description, life, lab, dummyInvoice } = data;
+    const { dummyDp, invoice_number, equipment_serial_number, description, life, lab_number, dummyInvoice } = data;
     function onChange(e) {
         // if (e.target.files) {
         //     setData((prev) => ({
@@ -84,7 +84,7 @@ function EquipmentsDetails() {
                         <input autoComplete="off" type="text" required id="equipment_serial_number" placeholder="Equipment Serial Number" value={equipment_serial_number} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border border-gray-300 rounded-md " />
 
                         <div className="flex items-center w-full space-x-2">
-                            <select className="w-1/2 rounded-md border-gray-300" required id="lab" onChange={onChange}>
+                            <select className="w-1/2 rounded-md border-gray-300" required id="lab_number" onChange={onChange}>
                                 <option value="">Lab</option>
                                 {dummyDp?.map((item, index) => (
                                     <option key={index} value={`${item.lab_number}`}>

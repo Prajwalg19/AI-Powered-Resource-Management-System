@@ -4,7 +4,6 @@ import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, profileFill } from "../features/auth/userSlice";
 import axios from "../interceptors/axios";
-import Spinner from "../Components/Spinner";
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -63,19 +62,19 @@ export default function Profile() {
         getProfile();
     }, [state.accesstoken, dispatch]);
 
-    if (loading) {
-        return (
-            <>
-                <Spinner />
-            </>
-        );
-    }
+    // if (loading) {
+    //     return (
+    //         <>
+    //             <Spinner />
+    //         </>
+    //     );
+    // }
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="w-full max-w-lg p-8 text-center bg-white rounded-lg shadow-md">
                 <img alt="profile" src={require("../img/profile.jpeg")} className="w-24 h-24 mx-auto mb-4 rounded-full" />
-                <h1 className="mb-2 text-2xl font-bold">{state.role}'s Profile</h1>
+                <h1 className="mb-2 text-2xl font-bold">{state?.role}'s Profile</h1>
                 <div className="text-left space-y-2">
                     <div>
                         <span className="font-semibold">Name:</span> {name}
@@ -83,7 +82,7 @@ export default function Profile() {
                     <div>
                         <span className="font-semibold">Email:</span> {email}
                     </div>
-                    {state.role == "admin" && (
+                    {state?.role == "admin" && (
                         <>
                             <div>
                                 <span className="font-semibold">Lab:</span> {lab}

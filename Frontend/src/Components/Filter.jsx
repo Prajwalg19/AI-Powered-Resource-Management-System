@@ -3,13 +3,22 @@ import { DateContext } from "../pages/Search";
 function Filter() {
     const [show, setShow] = useState(false);
     const { result, updateContext } = useContext(DateContext);
+    console.log("result boom ", result);
     const [date, setDate] = useState({ from: "", to: "" });
     let dateData = result;
     function onClick(e) {
         e.preventDefault();
         const res = dateData.map((bigArray, index) => {
-            const arrayWithDate = bigArray[1].find((item) => Object.keys(item).some((key) => key.includes("date")));
-            if (arrayWithDate) return dateData[index];
+            let arrayWithDate;
+            if (Array.isArray(bigArray[1])) {
+                arrayWithDate = bigArray[1].find((item) => Object.keys(item).some((key) => key.includes("date")));
+                if (arrayWithDate) return dateData[index];
+            } else {
+                if (Object.keys(bigArray).some((item) => item.includes("date"))) {
+                    arrayWithDate = bigArray;
+                    return arrayWithDate;
+                }
+            }
         });
 
         let result = res.filter((item) => {
@@ -46,22 +55,24 @@ function Filter() {
 
     return (
         <>
-            <main className="relative">
-                <button
-                    onClick={(e) => {
-                        e.preventDefault();
-                        setShow(!show);
-                    }}
-                    className="px-2 font-semibold bg-slate-200 rounded-md"
-                >
-                    Filter
-                </button>
+            <main className="relative justify-center  item-center  flex space-x-2 ">
+                <div>
+                    <button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setShow(!show);
+                        }}
+                        className="px-2  font-semibold bg-slate-200 rounded-md"
+                    >
+                        Filter
+                    </button>
+                </div>
 
                 {show && (
-                    <div className="w-20 h-20 my-2">
-                        <input type="date" className="rounded-md border-gray-300" id="from" onChange={onChange} />
-                        <input type="date" id="to" onChange={onChange} className="mt-2 rounded-md border-gray-300" />
-                        <button onClick={onClick} className="mt-2 px-2 py-2 bg-blue-500 w-full flex justify-center rounded-md text-white">
+                    <div className="w-48 h-20 my-2 space-x-2 ">
+                        <input type="date" className="border-gray-300 rounded-md w-1/2" id="from" onChange={onChange} />
+                        <input type="date" id="to" onChange={onChange} className="mt-2 w-1/2 border-gray-300 rounded-md" />
+                        <button onClick={onClick} className="flex justify-center  px-2 w-1/2 items-center py-2 mt-2 text-white bg-blue-500 rounded-md">
                             click
                         </button>
                     </div>
