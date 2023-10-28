@@ -27,7 +27,7 @@ function Invoice() {
             let response = await axios.get("api/user/purchase_order/");
             setState((prev) => ({
                 ...prev,
-                dummyPurchaseOrderNo: response.data,
+                dummyPurchaseOrderNo: response?.data ?? [],
             }));
         }
         getPurchaseOrderNo();
@@ -66,7 +66,7 @@ function Invoice() {
                     <p className="py-6 text-3xl font-bold text-center lg:py-6 my-10">Invoice Entry</p>
                     <main className="w-full flex h-full justify-center lg:space-x-[10%] items-center mt-3 flex-wrap mx-auto max-w-6xl md:px-2 px-5">
                         <div className="w-[90%] md:w-[68%]  lg:w-[40%]">
-                            <input required type="number" id="invoice_number" autoComplete="off" placeholder="Invoice number" value={invoice_number} onChange={onChange} className="w-full py-3 pl-2 mb-6 text-lg border border-gray-300 rounded-md text-center" />
+                            <input required type="text" id="invoice_number" autoComplete="off" placeholder="Invoice number" value={invoice_number} onChange={onChange} className="w-full py-3 pl-2 mb-6 text-lg border border-gray-300 rounded-md text-center" />
 
                             <div className="mb-6 flex space-x-1  items-center">
                                 <span className="whitespace-nowrap font-medium w-1/3">Purchase Order No: </span>

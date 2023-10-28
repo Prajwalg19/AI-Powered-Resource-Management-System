@@ -17,7 +17,7 @@ function EquipmentList() {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                response.data.map((data) => {
+                response?.data.map((data) => {
                     if (data.status === true) {
                         data.status = "true";
                     } else {
@@ -55,27 +55,21 @@ function EquipmentList() {
                 tableBodyBorder: false,
                 header: [
                     {
-                        title: "SI",
+                        title: "Equipment SI No.",
+                        style: {
+                            width: 30,
+                        },
+                    },
+                    {
+                        title: "Invoice No.",
                         style: {
                             width: 25,
                         },
                     },
                     {
-                        title: "Purchase Date",
+                        title: "Lab No.",
                         style: {
-                            width: 25,
-                        },
-                    },
-                    {
-                        title: "Equipment Value",
-                        style: {
-                            width: 25,
-                        },
-                    },
-                    {
-                        title: "Lab No",
-                        style: {
-                            width: 25,
+                            width: 20,
                         },
                     },
                     {
@@ -92,7 +86,7 @@ function EquipmentList() {
                         },
                     },
                 ],
-                table: Array.from([...boom], (item, index) => [item.equipment_serial_number, item.purchase_date, item.equipment_value, item.lab, item.status, item.description]),
+                table: Array.from([...boom], (item, index) => [item.equipment_serial_number, item.invoice_number, item.lab_number, item.status, item.description]),
             },
             footer: {
                 text: "The invoice is created on a computer and is valid without the signature and stamp.",
@@ -103,7 +97,7 @@ function EquipmentList() {
         try {
             const pdfObject = jsPDFInvoiceTemplate(props);
         } catch (error) {
-            toast.error("Something went wrong");
+            console.log(error);
         }
     }
 

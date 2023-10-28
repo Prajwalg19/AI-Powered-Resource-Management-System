@@ -23,9 +23,7 @@ function Search() {
                 setResult(Object.entries(response?.data[0]));
                 console.log(Object.entries(response?.data[0]));
             }
-        } catch (e) {
-            toast.error("Server didn't respond");
-        }
+        } catch (e) {}
     }
     function updateContext(result) {
         setResult(result);

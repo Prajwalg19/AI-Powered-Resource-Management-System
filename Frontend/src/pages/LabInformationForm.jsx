@@ -10,11 +10,11 @@ function LabInformation() {
         location: "",
         lab_incharge: "",
         lab_name: "",
-        department_number: "",
+        department_name: "",
         dpDummy: [],
     });
 
-    const { department_number, dpDummy, lab_number, lab_incharge, lab_name, location } = data;
+    const { department_name, dpDummy, lab_number, lab_incharge, lab_name, location } = data;
     function onChange(e) {
         console.log(e.target.value);
         setData((prev) => ({
@@ -47,85 +47,17 @@ function LabInformation() {
                 { withCredentials: true }
             );
 
-            toast.success("Lab Information Recorded");
-            navigate("/");
+            if (response.status == 201) {
+                toast.success("Lab Information Recorded");
+                navigate("/");
+            } else {
+                toast.dismiss();
+                toast.error("Enter the Correct Details");
+            }
         } catch (error) {
             toast.dismiss();
             toast.error("Enter the Correct Details");
         }
-    }
-    const [errors, setErrors] = useState({
-        lab_name: "",
-        lab_number: "",
-        department_number: "",
-        location: "",
-        lab_incharge: "",
-    });
-
-    function onChange(e) {
-        const { id, value } = e.target;
-        let error = "";
-
-        switch (id) {
-            case "lab_number":
-                // Add validation logic for lab number
-                // For example, check if it's not empty
-                if (!value.trim()) {
-                    error = "Lab Number is required";
-                } else if (isNaN(value)) {
-                    error = "Value must be a valid number";
-                }
-                break;
-
-            case "department_number":
-                // Add validation logic for department
-                // For example, check if it's not empty
-                if (!value.trim()) {
-                    error = "Department is required";
-                } else if (isNaN(value)) {
-                    error = "Value must be a valid number";
-                }
-                break;
-
-            case "location":
-                // Add validation logic for location
-                // For example, check if it's not empty
-                if (!value.trim()) {
-                    error = "Location is required";
-                }
-                break;
-
-            case "lab_incharge":
-                // Add validation logic for lab incharge
-                // For example, check if it's not empty
-                if (!value.trim()) {
-                    error = "Lab Incharge is required";
-                }
-                break;
-
-            case "lab_name":
-                // Add validation logic for lab incharge
-                // For example, check if it's not empty
-                if (!value.trim()) {
-                    error = "Lab Incharge is required";
-                }
-                break;
-
-            default:
-                break;
-        }
-
-        // Update the state with the error for the current field
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            [id]: error,
-        }));
-
-        // Update the data state as before
-        setData((prev) => ({
-            ...prev,
-            [id]: value,
-        }));
     }
 
     return (
@@ -141,7 +73,7 @@ function LabInformation() {
                         </div>
 
                         <div className="flex space-x-4 mb-10  w-full ">
-                            <select className="w-1/2 rounded-md border-gray-300 text-center" required id="department_number" onChange={onChange}>
+                            <select className="w-1/2 rounded-md border-gray-300 text-center" required id="department_name" onChange={onChange}>
                                 <option value="">Department</option>
                                 {data?.dpDummy?.map((item, index) => (
                                     <option key={index} value={`${item.department_number}`}>
@@ -154,13 +86,7 @@ function LabInformation() {
                         </div>
                         <input required type="text" id="lab_incharge" placeholder="Lab Incharge" value={lab_incharge} onChange={onChange} className="w-full py-3 pl-2 mb-6 text-lg border border-gray-300 rounded-md text-center" />
 
-                        <button
-                            type="submit"
-                            className="w-full px-8 py-2 mt-2 text-white bg-blue-600 hover:bg-blue-700 transition ease-in-out rounded-md"
-                            disabled={
-                                !!Object.values(errors).find((error) => error) // Disable if any error is not an empty string
-                            }
-                        >
+                        <button type="submit" className="w-full px-8 py-2 mt-2 text-white bg-blue-600 hover:bg-blue-700 transition ease-in-out rounded-md">
                             Submit
                         </button>
                     </div>

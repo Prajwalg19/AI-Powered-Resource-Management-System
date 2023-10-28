@@ -17,6 +17,7 @@ function PurchaseList() {
                         Authorization: `Bearer ${token}`,
                     },
                 });
+                console.log(response.data);
                 setDepartments(response.data);
             } catch (error) {
                 console.log(error);
@@ -46,37 +47,31 @@ function PurchaseList() {
                 tableBodyBorder: false,
                 header: [
                     {
-                        title: "SI",
-                        style: {
-                            width: 40,
-                        },
-                    },
-                    {
                         title: "Purchase Order Number",
                         style: {
-                            width: 40,
+                            width: 50,
                         },
                     },
                     {
                         title: "Purchase Date",
                         style: {
-                            width: 40,
+                            width: 50,
                         },
                     },
                     {
                         title: "Supplier",
                         style: {
-                            width: 40,
+                            width: 50,
                         },
                     },
                     {
                         title: "Total Value(in Rupees)",
                         style: {
-                            width: 40,
+                            width: 50,
                         },
                     },
                 ],
-                table: Array.from([...boom], (item, index) => [index + 1, item.purchase_order_number, item.purchase_date, item.supplier, item.total_value]),
+                table: Array.from([...boom], (item) => [item.purchase_order_number, item.purchase_order_date, item.supplier, item.total_value]),
             },
             footer: {
                 text: "The invoice is created on a computer and is valid without the signature and stamp.",

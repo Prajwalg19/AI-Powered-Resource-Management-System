@@ -17,7 +17,8 @@ function EquipmentsReviewList() {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                setDepartments(response.data);
+                console.log(response.data);
+                setDepartments(response?.data ?? []);
             } catch (error) {
                 console.log(error);
             }
@@ -47,7 +48,7 @@ function EquipmentsReviewList() {
                 tableBodyBorder: false,
                 header: [
                     {
-                        title: "Equipment",
+                        title: "Equipment SI no.",
                         style: {
                             width: 30,
                         },
@@ -55,7 +56,7 @@ function EquipmentsReviewList() {
                     {
                         title: "Quantity",
                         style: {
-                            width: 30,
+                            width: 25,
                         },
                     },
                     {

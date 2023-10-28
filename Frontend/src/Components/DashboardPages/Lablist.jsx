@@ -17,6 +17,7 @@ function Lablist() {
                         Authorization: `Bearer ${token}`,
                     },
                 });
+                console.log(response.data);
                 setDepartments(response.data);
             } catch (error) {
                 console.log(error);
@@ -46,31 +47,37 @@ function Lablist() {
                 tableBodyBorder: false,
                 header: [
                     {
-                        title: "SI",
+                        title: "Dep number",
                         style: {
-                            width: 50,
+                            width: 40,
                         },
                     },
                     {
                         title: "Lab Number",
                         style: {
-                            width: 50,
+                            width: 40,
                         },
                     },
                     {
-                        title: "Department",
+                        title: "Lab Name",
                         style: {
-                            width: 50,
+                            width: 40,
+                        },
+                    },
+                    {
+                        title: "Lab Incharge",
+                        style: {
+                            width: 40,
                         },
                     },
                     {
                         title: "Location",
                         style: {
-                            width: 50,
+                            width: 40,
                         },
                     },
                 ],
-                table: Array.from([...boom], (item, index) => [index + 1, item.lab_number, item.department, item.location]),
+                table: Array.from([...boom], (item, index) => [item.department_name, item.lab_number, item.lab_name, item.lab_incharge, item.location]),
             },
             footer: {
                 text: "The invoice is created on a computer and is valid without the signature and stamp.",

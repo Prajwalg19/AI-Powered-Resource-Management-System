@@ -23,15 +23,14 @@ function EquipmentsReview() {
             let response = await axios.get("api/user/equipment/");
             setData((prev) => ({
                 ...prev,
-                dummyEq: response.data,
+                dummyEq: response?.data ?? [],
             }));
         }
         async function getLabIncharge() {
             let response = await axios.get("api/user/lab/");
-            console.log(response.data);
             setData((prev) => ({
                 ...prev,
-                dummyLabIncharge: response.data,
+                dummyLabIncharge: response?.data ?? [],
             }));
         }
         getEq();

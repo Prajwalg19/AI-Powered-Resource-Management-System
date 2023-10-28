@@ -51,9 +51,9 @@ export default function Profile() {
 
                 setFormData((prev) => ({
                     ...prev,
-                    ...response.data,
+                    ...response?.data  ,
                 }));
-                dispatch(profileFill(response.data));
+                dispatch(profileFill(response?.data));
                 setLoading(false);
             } catch (_) {
                 toast.error("Something went wrong");

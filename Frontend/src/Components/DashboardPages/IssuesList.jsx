@@ -17,6 +17,7 @@ function IssuesList() {
                         Authorization: `Bearer ${token}`,
                     },
                 });
+                console.log(response.data);
                 setDepartments(response.data);
             } catch (error) {
                 console.log(error);
@@ -49,35 +50,35 @@ function IssuesList() {
                     {
                         title: "SI",
                         style: {
-                            width: 40,
+                            width: 20,
                         },
                     },
                     {
-                        title: "Lab Incharge",
+                        title: "Lab Incharge ID",
                         style: {
-                            width: 40,
+                            width: 20,
                         },
                     },
                     {
-                        title: "Experminet Name",
+                        title: "Experiment Name",
                         style: {
-                            width: 40,
+                            width: 50,
                         },
                     },
                     {
-                        title: "Number of Equipments",
+                        title: "No. of Equipments",
                         style: {
-                            width: 40,
+                            width: 30,
                         },
                     },
                     {
                         title: "Details",
                         style: {
-                            width: 40,
+                            width: 80,
                         },
                     },
                 ],
-                table: Array.from([...boom], (item, index) => [index + 1, item.lab_incharge, item.experiment, item.number_of_equipments, item.details]),
+                table: Array.from([...boom], (item, index) => [index + 1, item.lab_incharge, item.experiment_name, item.number_of_equipments, item.details]),
             },
             footer: {
                 text: "The invoice is created on a computer and is valid without the signature and stamp.",

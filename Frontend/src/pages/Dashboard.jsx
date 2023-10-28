@@ -16,7 +16,7 @@ function Dashboard() {
     });
     const isAdmin = store?.user?.role?.toLowerCase() === "admin";
     const isHOD = store?.user?.role?.toLowerCase() === "hod";
-    const isLabIncharge = store?.user?.role?.toLowerCase() === "staff";
+    const isLabIncharge = store?.user?.role?.toLowerCase() === "staff" || store?.user?.role?.toLowerCase() === "incharge";
     const modalStatus = store?.modal?.isOpen;
     return (
         <div>

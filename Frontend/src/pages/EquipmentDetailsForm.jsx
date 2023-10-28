@@ -34,15 +34,14 @@ function EquipmentsDetails() {
             let response = await axios.get("api/user/invoice/");
             setData((prev) => ({
                 ...prev,
-                dummyInvoice: response.data,
+                dummyInvoice: response?.data,
             }));
         }
         async function getDepNo() {
             let response = await axios.get("api/user/lab/");
-            console.log(response.data);
             setData((prev) => ({
                 ...prev,
-                dummyDp: response.data,
+                dummyDp: response?.data,
             }));
         }
         getInvoiceNo();

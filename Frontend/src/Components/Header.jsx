@@ -23,9 +23,9 @@ function Head() {
         return store.user;
     });
     async function help() {
-        if (user?.role.toLowerCase() == "staff" || "incharge") {
+        if (user?.role.toLowerCase() == "staff" || user?.role.toLowerCase() == "incharge") {
             navigate("/help/incharge");
-        } else if (user?.role.toLowerCase() == "admin" || "hod") {
+        } else if (user?.role.toLowerCase() == "admin" || user?.role.toLowerCase() == "hod") {
             navigate("/help/admin");
         }
     }
@@ -64,7 +64,7 @@ function Head() {
                     <div className="flex flex-col md:flex-row items-center justify-center md:justify-start">
                         <img onClick={() => nav("/")} src={require("../img/GAT-logo.png")} alt="college logo" className="w-12 cursor-pointer ml-9" />
                         <button className="ml-6 py-2 font-bold px-3 capitalize hover:shadow-md rounded-md hover:bg-blue-400 hover:text-white transition ease-in-out" onClick={() => dispatch(keepOpen()) && nav("/dashboard")}>
-                            {user.role.toLowerCase() == "staff" ? "Incharge" : user.role}'s Dashboard
+                            {user.role.toLowerCase() == "staff" ? "incharge" : user.role}'s Dashboard
                         </button>
                     </div>
                     <div className="font-semibold text-lg text-center md:text-left whitespace-nowrap md:static">Global Academy Of Technology</div>

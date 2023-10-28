@@ -1,32 +1,36 @@
 import { useEffect, useState } from "react";
 import axios from "../interceptors/axios";
+import { toast } from "react-toastify";
 function Depriciation() {
     const [target, setTarget] = useState([]);
     const [keys, setKeys] = useState([]);
     useEffect(() => {
         async function getData() {
-            let invRes = await axios.get("http://localhost:8000/api/user/invoice/");
-            invRes = invRes.data;
-            let eqRes = await axios.get("http://localhost:8000/api/user/equipment/");
-            eqRes = eqRes.data;
-            console.log(eqRes);
-            console.log(invRes);
+            try {
+                let invRes = await axios.get("http://localhost:8000/api/user/invoice/");
+                invRes = invRes?.data;
+                let eqRes = await axios.get("http://localhost:8000/api/user/equipment/");
+                eqRes = eqRes?.data;
 
-            let v = [];
-            eqRes.forEach((obj) => {
-                invRes.forEach((element) => {
-                    if (element.invoice_number === obj.invoice_number) {
-                        let x = [obj.equipment_serial_number, element.item_name, element.item_cost, obj.life, obj.residual_value];
-                        v.push(x);
-                    }
+                let v = [];
+                eqRes.forEach((obj) => {
+                    invRes.forEach((element) => {
+                        if (element.invoice_number === obj.invoice_number) {
+                            let x = [obj.equipment_serial_number, element.item_name, element.item_cost, obj.life, obj.residual_value];
+                            v.push(x);
+                        }
+                    });
                 });
-            });
-            v.forEach((item) => {
-                let depre = (parseFloat(item[2]) + parseFloat(item[item.length - 1])) / parseFloat(item[3]);
-                item[4] = depre.toFixed(2);
-            });
-            setTarget(v);
-            setKeys(["Equipment serial no.", "Equipment Name", "Cost", "Life(in years)", "Depreciation Value"]);
+                v.forEach((item) => {
+                    let depre = (parseFloat(item[2]) + parseFloat(item[item.length - 1])) / parseFloat(item[3]);
+                    item[4] = depre.toFixed(2);
+                });
+                setTarget(v);
+                setKeys(["Equipment serial no.", "Equipment Name", "Cost", "Life(in years)", "Depreciation Value"]);
+            } catch (error) {
+                toast.dismiss();
+                toast.error("Something went wrong");
+            }
         }
         getData();
     }, []);

@@ -32,14 +32,15 @@ function Login() {
                 },
             });
             let statusCode = response.status;
-            if (response.data.role == "admin") {
+            if (response.data.role.toLowerCase() == "admin") {
                 toast.error("Not Permitted");
                 return;
             }
+            console.log("boom");
             if (statusCode == 200) {
                 dispatch(setCred(response.data));
+                toast.dismiss();
                 toast.success(`Logged Successful`);
-
                 navigate("/");
             } else if (statusCode == 404) {
                 dispatch(logOut(response));
@@ -48,7 +49,8 @@ function Login() {
                 return;
             }
         } catch (error) {
-            console.log(error);
+            toast.dismiss();
+            toast.error("Email or Password is not Valid");
         }
     }
 

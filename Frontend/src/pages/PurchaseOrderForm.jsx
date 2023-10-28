@@ -27,7 +27,7 @@ function PurchaseOrderForm() {
             let response = await axios.get("api/user/department/");
             setData((prev) => ({
                 ...prev,
-                dummyOri: response.data,
+                dummyOri: response?.data,
             }));
         }
         getLabs();
