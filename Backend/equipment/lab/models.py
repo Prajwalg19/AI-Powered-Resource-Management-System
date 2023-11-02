@@ -191,3 +191,8 @@ class EquipmentReview(models.Model):
 
     def __str__(self):
         return f"Review for {self.equipment.equipment_serial_number} on {self.date}"
+
+class Person(models.Model):
+    name = models.CharField(max_length=100)
+    marks = models.CharField(max_length=100)
+

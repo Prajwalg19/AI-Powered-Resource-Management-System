@@ -1,6 +1,6 @@
 from .serializers import ConsumableSerializer, DepartmentSerializer, LabSerializer, PurchaseOrderSerializer, EquipmentSerializer, EquipmentIssueSerializer, EquipmentReviewSerializer, InvoiceSerializer 
 from rest_framework import viewsets
-from .models import Department,Consumable, ConsumableStock , Lab, PurchaseOrder, Equipment, EquipmentIssue, EquipmentReview, Invoice,Experiment,Apparatus
+from .models import Department,Consumable, ConsumableStock , Lab, PurchaseOrder, Equipment, EquipmentIssue, EquipmentReview, Invoice,Experiment,Apparatus,Person
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -16,7 +16,9 @@ from rest_framework.permissions import AllowAny
 from django.db.models import Q
 from django.db.models import ForeignKey, ManyToManyField
 from django.db import models
-
+from tablib import Dataset
+from .resources import PersonResource, DepResource
+from django.shortcuts import render
 @authentication_classes([JWTAuthentication])
 # @permission_classes([IsAuthenticated])
 class DepartmentViewSet(viewsets.ModelViewSet):
@@ -247,3 +249,26 @@ def search(request):
         })
 
     return Response(related_data)
+
+def importExcel (request):
+    if request.method == 'POST':
+        person_resource = PersonResource()
+        dataset = Dataset()
+        new_persons = request.FILES["boom"]
+        imported_data = dataset.load(new_persons.read(),format="xlsx")
+        for data in  imported_data :
+            value = Person(data[0], data[1],data[2])
+            value.save()
+    return render(request, 'dashboard/index.html')
+
+def importExcel (request):
+    if request.method == 'POST':
+        person_resource = DepResource()
+        dataset = Dataset()
+        new_persons = request.FILES["boom"]
+        imported_data = dataset.load(new_persons.read(),format="xlsx")
+        for data in  imported_data :
+            value = Department(data[0], data[1],data[2])
+            value.save()
+    return render(request, 'dashboard/index.html')
+
