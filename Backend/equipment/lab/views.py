@@ -17,8 +17,21 @@ from django.db.models import Q
 from django.db.models import ForeignKey, ManyToManyField
 from django.db import models
 from tablib import Dataset
-from .resources import PersonResource, DepResource
+# from .resources import PersonResource, DepResource
 from django.shortcuts import render
+
+from .resources import (
+    PurchaseOrderResource,
+    InvoiceResource,
+    EquipmentResource,
+    ConsumableResource,
+    ConsumableStockResource,
+    ExperimentResource,
+    ApparatusResource,
+    EquipmentIssueResource,
+    EquipmentReviewResource,
+)
+
 @authentication_classes([JWTAuthentication])
 # @permission_classes([IsAuthenticated])
 class DepartmentViewSet(viewsets.ModelViewSet):
@@ -150,7 +163,7 @@ def search(request):
     related_data = []
 
     # Query departments based on department_name
-    departments = Department.objects.filter(Q(department_name__icontains=query) | Q(hod_name__icontains=query))
+    departments = Department.objects.filter(Q(department_name_icontains=query) | Q(hod_name_icontains=query))
     for department in departments:
         department_data = DepartmentSerializer(department).data
         labs = Lab.objects.filter(department_name=department)
@@ -177,7 +190,7 @@ def search(request):
         })
 
     # Query labs
-    labs = Lab.objects.filter(Q(lab_name__icontains=query) | Q(lab_incharge__icontains=query))
+    labs = Lab.objects.filter(Q(lab_name_icontains=query) | Q(lab_incharge_icontains=query))
     for lab in labs:
         lab_data = LabSerializer(lab).data
         department = lab.department_name  # Assuming lab has a foreign key to department
@@ -250,25 +263,152 @@ def search(request):
 
     return Response(related_data)
 
-def importExcel (request):
-    if request.method == 'POST':
-        person_resource = PersonResource()
-        dataset = Dataset()
-        new_persons = request.FILES["boom"]
-        imported_data = dataset.load(new_persons.read(),format="xlsx")
-        for data in  imported_data :
-            value = Person(data[0], data[1],data[2])
-            value.save()
-    return render(request, 'dashboard/index.html')
+# def importExcel (request):
+#     if request.method == 'POST':
+#         person_resource = PersonResource()
+#         dataset = Dataset()
+#         new_persons = request.FILES["boom"]
+#         imported_data = dataset.load(new_persons.read(),format="xlsx")
+#         for data in  imported_data :
+#             value = Person(data[0], data[1],data[2])
+#             value.save()
+#     return render(request, 'dashboard/index.html')
 
-def importExcel (request):
-    if request.method == 'POST':
-        person_resource = DepResource()
-        dataset = Dataset()
-        new_persons = request.FILES["boom"]
-        imported_data = dataset.load(new_persons.read(),format="xlsx")
-        for data in  imported_data :
-            value = Department(data[0], data[1],data[2])
-            value.save()
-    return render(request, 'dashboard/index.html')
+# def importExcel (request):
+#     if request.method == 'POST':
+#         person_resource = DepResource()
+#         dataset = Dataset()
+#         new_persons = request.FILES["boom"]
+#         imported_data = dataset.load(new_persons.read(),format="xlsx")
+#         for data in  imported_data :
+#             value = Department(data[0], data[1],data[2])
+#             value.save()
+#     return render(request, 'dashboard/index.html')
 
+# Import Excel for PurchaseOrder
+
+def purImport(request):
+    if request.method == 'POST':
+        dataset = Dataset()
+        new_experiments = request.FILES["boom"]
+        imported_data = dataset.load(new_experiments.read(), format="xlsx")
+        
+        headers = imported_data.headers
+        pur_or_index = headers.index("purchase_order_number") if "purchase_order_number" in headers else -1
+        pur_date_index = headers.index("purchase_date") if "purchase_date" in headers else -1
+        item_cost_index = headers.index("item_cost") if "item_cost" in headers else -1
+        item_name_index = headers.index("item_name") if "item_name" in headers else -1
+        quantity_index = headers.index("quantity") if "quantity" in headers else -1
+        invoice_index = headers.index("invoice_number") if "invoice_number" in headers else -1
+        
+        if item_name_index != -1 and item_name_index != -1 and pur_date_index != -1 and pur_or_index !=-1 and invoice_index != -1 and quantity_index !=-1:
+           for data in imported_data:
+               purchase_order_number = data[pur_or_index]
+               purchase_date = data[pur_date_index]
+               item_name = data[item_name_index]
+               item_cost = data[item_cost_index]
+               quantity = data[quantity_index]
+               invoice_number = data[invoice_index]
+               
+               try:
+    
+                   print(PurchaseOrder.objects.get(purchase_order_number=purchase_order_number))
+                   purchase_order = PurchaseOrder.objects.get(purchase_order_number=purchase_order_number)
+
+               except PurchaseOrder.DoesNotExist:
+                   # Create a new PurchaseOrder if it doesn't exist
+                   continue 
+               
+               # Create the Invoice using the PurchaseOrder instance
+               value = Invoice(
+                   purchase_order_no=purchase_order,
+                   purchase_date=purchase_date,
+                   item_name=item_name,
+                   item_cost=item_cost,
+                   quantity=quantity,
+                   invoice_number=invoice_number
+               )
+               value.save()
+    return render(request, 'dashboard/index.html')
+# def importExcel(request):
+#     if request.method == 'POST':
+#         invoice_resource = InvoiceResource()
+#         dataset = Dataset()
+#         new_invoices = request.FILES["boom"]
+#         imported_data = dataset.load(new_invoices.read(), format="xlsx")
+#         for data in imported_data:
+#             value = Invoice(data[0], data[1], data[2], data[3], data[4])
+#             value.save()
+#     return render(request, 'dashboard/index.html')
+
+# # Import Excel for Equipment
+# def importExcel(request):
+#     if request.method == 'POST':
+#         equipment_resource = EquipmentResource()
+#         dataset = Dataset()
+#         new_equipments = request.FILES["boom"]
+#         imported_data = dataset.load(new_equipments.read(), format="xlsx")
+#         for data in imported_data:
+#             value = Equipment(data[0], data[1], data[2], data[3], data[4], data[5])
+#             value.save()
+#     return render(request, 'dashboard/index.html')
+
+
+
+# # Import Excel for Consumable
+# def importExcel(request):
+#     if request.method == 'POST':
+#         consumable_resource = ConsumableResource()
+#         dataset = Dataset()
+#         new_consumables = request.FILES["boom"]
+#         imported_data = dataset.load(new_consumables.read(), format="xlsx")
+#         for data in imported_data:
+#             value = Consumable(data[0], data[1], data[2], data[3])
+#             value.save()
+#     return render(request, 'dashboard/index.html')
+
+# # Import Excel for ConsumableStock
+# def importExcel(request):
+#     if request.method == 'POST':
+#         consumable_stock_resource = ConsumableStockResource()
+#         dataset = Dataset()
+#         new_consumable_stocks = request.FILES["boom"]
+#         imported_data = dataset.load(new_consumable_stocks.read(), format="xlsx")
+#         for data in imported_data:
+#             value = ConsumableStock(data[0], data[1], data[2], data[3])
+#             value.save()
+#     return render(request, 'dashboard/index.html')
+
+def expImport(request):
+    if request.method == 'POST':
+        dataset = Dataset()
+        new_experiments = request.FILES["boom"]
+        imported_data = dataset.load(new_experiments.read(), format="xlsx")
+        
+        # Find the column indices for "name" and "number"
+        headers = imported_data.headers
+        name_index = headers.index("experiment_name") if "experiment_name" in headers else -1
+        number_index = headers.index("experiment_number") if "experiment_number" in headers else -1
+        
+        # Make sure both "name" and "number" columns are found
+        if name_index != -1 and number_index != -1:
+            for data in imported_data:
+                experiment_name = data[name_index]
+                experiment_number = data[number_index]
+                
+                # Create and save an Experiment instance
+                value = Experiment(experiment_name=experiment_name, experiment_number=experiment_number)
+                value.save()
+        
+    return render(request, 'dashboard/index.html')
+# # Import Excel for Apparatus
+# def importExcel(request):
+#     if request.method == 'POST':
+#         apparatus_resource = ApparatusResource()
+#         dataset = Dataset()
+#         new_apparatuses = request.FILES["boom"]
+#         imported_data = dataset.load(new_apparatuses.read(), format="xlsx")
+#         for data in imported_data:
+#             value = Apparatus(data[0], data[1], data[2])
+#             value.save()
+#     return render(request, 'dashboard/index.html')

@@ -14,7 +14,8 @@ from .views import (
     ConsumableStockViewSet,
     ExperimentViewSet,
     ApparatusViewSet,
-    importExcel
+    purImport,
+    expImport
       # Added InvoiceViewSet
 )
 from lab.views import (
@@ -42,7 +43,8 @@ router.register(r'Experiment', ExperimentViewSet)  # Register InvoiceViewSet
 router.register(r'Apparatus', ApparatusViewSet)  # Register InvoiceViewSet
 
 urlpatterns = [
-    path('import/',importExcel, name='push_excel'),
+    path('import/purchase',purImport, name='push_excel'),
+    path('import/experiment',expImport, name='nothing'),
     path('', include(router.urls)),
     path('register/', UserRegistrationView.as_view(), name='register'),
     path('login/', UserLoginView.as_view(), name='login'),
