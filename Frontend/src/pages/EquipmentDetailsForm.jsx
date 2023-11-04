@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../Components/Button";
 import axios from "../interceptors/axios";
+import Excel from "./Excel";
 function EquipmentsDetails() {
     const navigate = useNavigate();
     const [data, setData] = useState({
@@ -103,6 +104,7 @@ function EquipmentsDetails() {
                             </select>
                         </div>
                         <textarea autoComplete="off" rows="5" required placeholder="Description" id="description" value={description} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 rounded-md transition ease-in-out"></textarea>
+                        <Excel />
                         <Button />
                     </div>
                 </main>
