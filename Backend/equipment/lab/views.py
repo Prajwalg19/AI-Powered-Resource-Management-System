@@ -278,3 +278,72 @@ def upload_excel(request):
             return JsonResponse({'error': 'Invalid file format'}, status=400)
 
     return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])  # Ensure that this view is protected by authentication
+def invoice_excel(request):
+    if request.method == 'POST':
+        file = request.FILES['file']  # Assuming the file input field has the name 'file'
+
+        if file.name.endswith('.xls') or file.name.endswith('.xlsx'):
+            try:
+                df = pd.read_excel(file)  
+                for index, row in df.iterrows():
+                    
+                    Invoice.objects.create(
+                        purchase_order_no = get_object_or_404(PurchaseOrder,purchase_order_number = row['purchase_order_number']),
+                        purchase_date = row['purchase_date'],
+                        item_cost = row['item_cost'] ,
+                        quantity = row['quantity'] ,
+                        item_name = row['item_name'] ,
+                        invoice_number = row['invoice_number']
+                    )
+                return JsonResponse({'message': 'Data uploaded successfully'}, status=200)
+            except Exception as e:
+                return JsonResponse({'error': str(e)}, status=400)
+        else:
+            return JsonResponse({'error': 'Invalid file format'}, status=400)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])  # Ensure that this view is protected by authentication
+def purchase_excel(request):
+    if request.method == 'POST':
+        file = request.FILES['file']  # Assuming the file input field has the name 'file'
+
+        if file.name.endswith('.xls') or file.name.endswith('.xlsx'):
+            try:
+                df = pd.read_excel(file)  
+                for index, row in df.iterrows():
+                    
+                    if   row['originator'] == 'CSE':
+                        row['originator'] = '1'
+                    elif row['originator'] == 'ISE':
+                         row['originator'] = '2'
+                    elif row['originator'] == 'ECE':
+                        row['originator'] =  '3'
+                    elif row['originator'] == 'EEE':
+                        row['originator'] =  '4'
+                    elif row['originator'] == 'MECHANICAL':
+                        row["originator"]= '5' 
+                    elif row['originator'] == 'CIVIL':
+                        row["originator"] =  '6'
+
+                    PurchaseOrder.objects.create(
+                    purchase_order_number = row['purchase_order_number'],
+                    purchase_order_date = row['purchase_order_date'],
+                    originator =  get_object_or_404(Department, department_number = row['originator']),
+                    supplier = row['supplier'],
+                    total_value = row['total_value'], 
+                    )
+                return JsonResponse({'message': 'Data uploaded successfully'}, status=200)
+            except Exception as e:
+                return JsonResponse({'error': str(e)}, status=400)
+        else:
+            return JsonResponse({'error': 'Invalid file format'}, status=400)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../Components/Button";
 import axios from "../interceptors/axios";
+import Excel from "../pages/Excel";
 function PurchaseOrderForm() {
     const navigate = useNavigate();
     const [data, setData] = useState({
@@ -156,7 +157,7 @@ function PurchaseOrderForm() {
 
                             <input required type="text" id="total_value" placeholder="Purchase Order Value" value={total_value} onChange={onChange} className="w-full py-3 pl-2  text-lg border border-gray-300 rounded-md text-center" />
                         </div>
-
+                        <Excel fileName="purchase-excel" />
                         <Button />
                     </div>
                 </main>

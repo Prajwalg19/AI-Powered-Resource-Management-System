@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "../interceptors/axios";
 import { toast } from "react-toastify";
 
-function ExcelUploadComponent() {
+function ExcelUploadComponent({ fileName }) {
     const [file, setFile] = useState(null);
 
     const handleFileChange = (e) => {
@@ -19,21 +19,25 @@ function ExcelUploadComponent() {
         formData.append("file", file);
 
         try {
-            const response = await axios.post("/api/user/upload-excel/", formData, {
+            const response = await axios.post(`/api/user/${fileName}/`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
             });
-            toast.success(response.data.message);
+            if (response?.data?.message) {
+                toast.success(response.data.message);
+            } else {
+                toast.error(response.response.data.error);
+            }
         } catch (error) {
-            toast.error(error.response.data.message);
+            toast.error("Something went wrong");
         }
     };
 
     return (
-        <div className="flex justify-between ">
+        <div className="flex justify-between my-4">
             <input type="file" className="rounded-md" accept=".xls,.xlsx" onChange={handleFileChange} />
-            <button onClick={handleFileUpload} className="bg-green-300 rounded-md px-2">
+            <button onClick={handleFileUpload} className="px-2 bg-green-300  rounded-md">
                 Upload Excel
             </button>
         </div>

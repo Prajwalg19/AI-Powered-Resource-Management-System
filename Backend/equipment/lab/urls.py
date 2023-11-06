@@ -14,7 +14,9 @@ from .views import (
     ConsumableStockViewSet,
     ExperimentViewSet,
     ApparatusViewSet,
-    upload_excel
+    upload_excel,
+    invoice_excel,
+    purchase_excel
       # Added InvoiceViewSet
 )
 from lab.views import (
@@ -45,9 +47,9 @@ urlpatterns = [
     path('', include(router.urls)),
     path('register/', UserRegistrationView.as_view(), name='register'),
     path('login/', UserLoginView.as_view(), name='login'),
-
+    path("purchase-excel/", purchase_excel, name="purchase_excel"),
     path('upload-excel/', upload_excel, name='upload-excel'), 
-
+    path('invoice-excel/', invoice_excel, name='invoice-excel'),
     path('profile/', UserProfileView.as_view(), name='profile'),
     path('changepassword/', UserChangePasswordView.as_view(), name='changepassword'),
     path('send-reset-password-email/', SendPasswordResetEmailView.as_view(), name='send-reset-password-email'),

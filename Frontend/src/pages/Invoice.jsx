@@ -3,6 +3,7 @@ import axios from "../interceptors/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import Button from "../Components/Button";
+import Excel from "../pages/Excel";
 function Invoice() {
     const navigate = useNavigate();
     const [state, setState] = useState({
@@ -90,6 +91,7 @@ function Invoice() {
                                 <input required type="number" autoComplete="off" id="item_cost" placeholder="Cost" value={item_cost} onChange={onChange} className="w-full py-3 pl-2  text-lg border border-gray-300 rounded-md text-center " />
                             </div>
 
+                            <Excel fileName="invoice-excel" />
                             <Button />
                         </div>
                     </main>
