@@ -329,7 +329,7 @@ def purchase_excel(request):
                     elif row['originator'] == 'EEE':
                         row['originator'] =  '4'
                     elif row['originator'] == 'MECHANICAL':
-                        row["originator"]= '5' 
+                        row["originator"]= '5'
                     elif row['originator'] == 'CIVIL':
                         row["originator"] =  '6'
 

@@ -6,13 +6,14 @@ import { setCred, logOut } from "../features/auth/userSlice";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { closeModal } from "../features/modalSlice";
-
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 function Login() {
     const [data, setData] = useState({
         email: "",
         password: "",
     });
 
+    const [visible, setVisible] = useState(false);
     const dispatch = useDispatch();
     dispatch(closeModal());
     const navigate = useNavigate();
@@ -64,7 +65,12 @@ function Login() {
                     <p className="text-3xl font-semibold text-center my-9">Login</p>
                     <div className="flex flex-col w-full max-w-md gap-8 ">
                         <input autoComplete="off" onChange={onChange} required id="email" type="email" value={email} placeholder="email" className="px-4 py-3 rounded-md" />
-                        <input autoComplete="off" onChange={onChange} required id="password" type="password" value={password} placeholder="password" className="px-4 py-3 rounded-md" />
+                        <div className="relative w-full">
+                            <input autoComplete="off" onChange={onChange} required id="password" type={`${visible ? "text" : "password"}`} value={password} placeholder="password" className="px-4 py-3 rounded-md w-full" />
+                            <span className="cursor-pointer absolute top-4 right-3" onClick={() => setVisible(!visible)}>
+                                {visible ? <AiFillEye /> : <AiFillEyeInvisible />}
+                            </span>
+                        </div>
                         <button className="px-8 py-2 text-white bg-blue-600 hover:bg-blue-700 transition ease-in-out rounded-md ">Login </button>
                     </div>
                     <div className="mt-3 text-sm">
