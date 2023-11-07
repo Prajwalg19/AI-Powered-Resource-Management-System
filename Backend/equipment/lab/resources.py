@@ -2,7 +2,6 @@
 from .models  import Department, Apparatus, Consumable, ConsumableStock, Equipment, Experiment, Invoice, PurchaseOrder, EquipmentIssue , EquipmentReview
 
 # Import the required modules
-from import_export import resources
 
 
 

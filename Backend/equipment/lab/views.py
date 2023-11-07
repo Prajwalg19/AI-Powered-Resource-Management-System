@@ -151,7 +151,7 @@ def search(request):
     related_data = []
 
     # Query departments based on department_name
-    departments = Department.objects.filter(Q(department_name_icontains=query) | Q(hod_name_icontains=query))
+    departments = Department.objects.filter(Q(department_name__icontains=query) | Q(hod_name__icontains=query))
     for department in departments:
         department_data = DepartmentSerializer(department).data
         labs = Lab.objects.filter(department_name=department)
@@ -178,7 +178,7 @@ def search(request):
         })
 
     # Query labs
-    labs = Lab.objects.filter(Q(lab_name_icontains=query) | Q(lab_incharge_icontains=query))
+    labs = Lab.objects.filter(Q(lab_name__icontains=query) | Q(lab_incharge__icontains=query))
     for lab in labs:
         lab_data = LabSerializer(lab).data
         department = lab.department_name  # Assuming lab has a foreign key to department
