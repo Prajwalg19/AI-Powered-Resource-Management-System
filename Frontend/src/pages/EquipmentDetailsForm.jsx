@@ -104,7 +104,7 @@ function EquipmentsDetails() {
                             </select>
                         </div>
                         <textarea autoComplete="off" rows="5" required placeholder="Description" id="description" value={description} onChange={onChange} className="w-full py-3 pl-2 my-6 text-lg border-gray-300 rounded-md transition ease-in-out"></textarea>
-                        <Excel />
+                        <Excel fileName="upload-excel" />
                         <Button />
                     </div>
                 </main>
