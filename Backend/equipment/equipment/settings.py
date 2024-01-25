@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-q(i7u&7v1v5h53y@2d7lx*@g0+!bu6p@dj6(5d7aubdpikd0p)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -160,16 +160,20 @@ SIMPLE_JWT = {
     'JTI_CLAIM': 'jti',
 
 }
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = True
 
 # CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:4500",
+    'http://10.42.0.1:4500'
     # Add other frontend URLs if necessary
 ]
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
+    "http://localhost:4500",
+    'http://10.42.0.1:4500'
 ]
 
 
