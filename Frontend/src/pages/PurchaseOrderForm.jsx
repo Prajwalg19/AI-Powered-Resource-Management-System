@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import Button from "../Components/Button";
 import axios from "../interceptors/axios";
 import Excel from "../pages/Excel";
+import ImageUpload from "../Components/ImageUpload";
 function PurchaseOrderForm() {
   const navigate = useNavigate();
   const [data, setData] = useState({
@@ -211,7 +212,10 @@ function PurchaseOrderForm() {
                 />
               </span>
             </div>
-            <Excel fileName="purchase-excel" />
+            {
+              // <Excel fileName="purchase-excel" />
+            }
+            <ImageUpload />
             <Button />
           </div>
         </main>

@@ -29,7 +29,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -175,5 +174,10 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:4500",
     'http://10.42.0.1:4500'
 ]
+
+
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 

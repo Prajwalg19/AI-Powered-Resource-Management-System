@@ -1,7 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-
 from .views import (
     DepartmentViewSet,
     LabViewSet,
@@ -16,7 +15,9 @@ from .views import (
     ApparatusViewSet,
     upload_excel,
     invoice_excel,
-    purchase_excel
+    purchase_excel,
+    upload_image,
+    process_and_delete_images
       # Added InvoiceViewSet
 )
 from lab.views import (
@@ -45,6 +46,7 @@ router.register(r'Apparatus', ApparatusViewSet)  # Register InvoiceViewSet
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('upload_image/', upload_image, name='upload_image'),
     path('register/', UserRegistrationView.as_view(), name='register'),
     path('login/', UserLoginView.as_view(), name='login'),
     path("purchase-excel/", purchase_excel, name="purchase_excel"),
@@ -55,5 +57,7 @@ urlpatterns = [
     path('send-reset-password-email/', SendPasswordResetEmailView.as_view(), name='send-reset-password-email'),
     path('reset-password/<uid>/<token>/', UserPasswordResetView.as_view(), name='reset-password'),
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('ocr/', process_and_delete_images, name='ocr_view'),
+
 
 ]

@@ -18,3 +18,5 @@ urlpatterns = [
     path('api/user/', include('lab.urls')),
     path('api/search/', search, name='search'),
 ]
+
+

@@ -196,3 +196,6 @@ class Person(models.Model):
     name = models.CharField(max_length=100)
     marks = models.CharField(max_length=100)
 
+
+class UploadedImage(models.Model):
+    image = models.ImageField(upload_to='uploaded_images/')

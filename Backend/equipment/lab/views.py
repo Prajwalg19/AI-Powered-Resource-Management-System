@@ -19,6 +19,13 @@ from django.db import models
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 import pandas as pd
+import os
+
+from django.shortcuts import render
+from django.http import JsonResponse
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+
+
 
 @authentication_classes([JWTAuthentication])
 # @permission_classes([IsAuthenticated])
@@ -45,7 +52,6 @@ class InvoiceViewSet(viewsets.ModelViewSet):
 class ConsumableViewSet(viewsets.ModelViewSet):
     serializer_class = ConsumableSerializer
     queryset = Consumable.objects.all()
-
 class ConsumableStockViewSet(viewsets.ModelViewSet):
     serializer_class = ConsumableStockSerializer
     queryset = ConsumableStock.objects.all()
@@ -347,3 +353,133 @@ def purchase_excel(request):
             return JsonResponse({'error': 'Invalid file format'}, status=400)
 
     return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+
+
+from django.views.decorators.csrf import csrf_exempt
+from .models import UploadedImage
+
+@csrf_exempt
+def upload_image(request):
+    if request.method == 'POST':
+        image = request.FILES.get('image')
+
+        if image:
+            uploaded_image = UploadedImage.objects.create(image=image)
+            return JsonResponse({'success': True, 'image_url': uploaded_image.image.url})
+
+    return JsonResponse({'success': False})
+
+
+
+##invoice processing 
+
+import pytesseract
+from PIL import Image
+import torch
+def perform_ocr_and_query(image_path, questions, tokenizer, model, tok_len):
+    image = Image.open(image_path)
+    
+    extracted_text = pytesseract.image_to_string(image)
+    
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(device)
+    model = model.to(device)
+    
+    def query_from_list(query, options, tok_len):
+        t5query = f"""Question: "{query}" Context: {options}"""
+        inputs = tokenizer(t5query, return_tensors="pt").to(device)
+        outputs = model.generate(**inputs, max_new_tokens=tok_len)
+        return tokenizer.batch_decode(outputs, skip_special_tokens=True)
+    
+    input_data = extracted_text
+    results = {question: query_from_list(question, input_data, tok_len) for question in questions}
+    print(results)
+    return results
+
+
+from django.views.decorators.csrf import csrf_exempt
+import json
+from datetime import datetime
+from decimal import Decimal
+from dateutil import parser
+@csrf_exempt
+def process_and_delete_images(request):
+    try:
+        decoded_body = request.body.decode('utf-8')
+        json_data = json.loads(decoded_body)
+        path = json_data.get('path', None)
+        depNo = json_data.get('selection', None)
+        files = os.listdir(path)
+
+        for file_name in files:
+            if file_name.lower().endswith(('.png', '.jpg', '.jpeg')):
+                image_path = os.path.join(path, file_name)
+
+                model_name = "google/flan-t5-large"
+                local_model_directory = "/local_models/flan-t5-large"
+                
+                if not os.path.exists(local_model_directory):
+                    tokenizer = AutoTokenizer.from_pretrained(model_name)
+                    model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+                
+                    tokenizer.save_pretrained(local_model_directory)
+                    model.save_pretrained(local_model_directory)
+                else:
+                    tokenizer = AutoTokenizer.from_pretrained(local_model_directory)
+                    model = AutoModelForSeq2SeqLM.from_pretrained(local_model_directory)
+
+                questions = [
+                    "What is the Invoice no?",
+                    "What is the Invoice issue Date?",
+                    "What is the supplier name?",
+                    "What is the Total amount?",
+                ]
+
+                results = perform_ocr_and_query(image_path, questions, tokenizer, model, 60)
+
+                for question, answer_list in results.items():
+                           if question == "What is the Invoice no?":
+                               purchase_order_number = answer_list[0]
+                           elif question == "What is the Invoice issue Date?":
+                                  try:
+                                      purchase_order_date = parser.parse(answer_list[0]).date()
+                                  except ValueError:
+                                      purchase_order_date = None  # Set to None if parsing fails
+                           elif question == "What is the supplier name?":
+                               supplier_name = answer_list[0]
+                           elif question == "What is the Total amount?":
+                               total_amount_str = answer_list[0]
+                               tt = ""
+                               for char in total_amount_str:
+                                      if char.isdigit() or char == '.':
+                                              tt += char
+                               try:
+                                     total_amount = Decimal(tt)
+                               except :
+                                     numbers = tt.split()
+                                     total_amount = sum(Decimal(number) for number in numbers)
+
+               
+                department, created = Department.objects.get_or_create(
+                            department_number = depNo,
+                )
+                purchase_order, created = PurchaseOrder.objects.update_or_create(
+                           purchase_order_number=purchase_order_number,
+                           originator= department,
+                           defaults={
+                               'purchase_order_date': purchase_order_date,
+                               'supplier': supplier_name,
+                               'total_value': total_amount,
+                           }
+                )
+               
+                os.remove(image_path)
+
+        return JsonResponse({'success': True, 'message':results })
+
+    except Exception as e:
+       os.remove(image_path)
+       return JsonResponse({'success': False , "error" : str(e)})
+
