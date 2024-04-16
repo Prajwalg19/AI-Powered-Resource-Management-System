@@ -4,6 +4,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import Filter from "../Components/Filter";
 import { toast } from "react-toastify";
 import TextModal from "../Components/TextModal";
+import { AudioRecorder } from "react-audio-voice-recorder";
 export const DateContext = createContext();
 function Search() {
   const [didFind, setDidFind] = useState(true);
@@ -34,6 +35,35 @@ function Search() {
   function descDisplay(desc) {
     setDescPanel({ panel: true, value: desc });
   }
+  const sendAudioToBackend = async (blob) => {
+    try {
+      // Create a FormData object
+      const formData = new FormData();
+      formData.append("audio", blob);
+
+      // Send a POST request to your backend API endpoint
+      let response = await axios.post(
+        "/api/user/speech-to-text-search/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.data.status) {
+        setDidFind(true);
+        setResult(Object.entries(response.data?.data[0]));
+      } else {
+        setDidFind(false);
+        setResult([]);
+      }
+      setStr(response.data?.speech);
+    } catch (error) {
+      console.error("Error sending audio to backend:", error);
+      // Handle error
+    }
+  };
   return (
     <>
       <main className="flex flex-col items-center w-full max-w-6xl px-3 py-2 mx-auto">
@@ -43,10 +73,22 @@ function Search() {
             onChange={(e) => setStr(e.target.value)}
             placeholder="Search"
             className="w-[20%] border-gray-300 rounded-md"
+            value={searchStr}
           />
           <button type="submit" className="" onClick={SearchIt}>
             <AiOutlineSearch />
           </button>
+          <div>
+            <AudioRecorder
+              onRecordingComplete={sendAudioToBackend}
+              audioTrackConstraints={{
+                noiseSuppression: true,
+                echoCancellation: true,
+              }}
+              //downloadOnSavePress={true}
+              downloadFileExtension="webm"
+            />
+          </div>
           <DateContext.Provider value={{ result, updateContext }}>
             <Filter />
           </DateContext.Provider>

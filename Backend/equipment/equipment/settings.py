@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from django.conf.urls.static import static
+from django.conf import settings
 from pathlib import Path
 from datetime import timedelta
 import os
@@ -44,7 +46,6 @@ INSTALLED_APPS = [
     'lab',
     'corsheaders',
 ]
-
 
 
 MIDDLEWARE = [
@@ -174,10 +175,3 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:4500",
     'http://10.42.0.1:4500'
 ]
-
-
-from django.conf import settings
-from django.conf.urls.static import static
-
-
-

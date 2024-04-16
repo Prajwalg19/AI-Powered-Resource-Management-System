@@ -8,7 +8,7 @@ from .views import (
     EquipmentViewSet,
     EquipmentIssueViewSet,
     EquipmentReviewViewSet,
-    InvoiceViewSet, 
+    InvoiceViewSet,
     ConsumableViewSet,
     ConsumableStockViewSet,
     ExperimentViewSet,
@@ -17,8 +17,9 @@ from .views import (
     invoice_excel,
     purchase_excel,
     upload_image,
-    process_and_delete_images
-      # Added InvoiceViewSet
+    process_and_delete_images,
+    speechToTextSearch
+    # Added InvoiceViewSet
 )
 from lab.views import (
     SendPasswordResetEmailView,
@@ -40,7 +41,8 @@ router.register(r'equipment_issue', EquipmentIssueViewSet)
 router.register(r'equipment_review', EquipmentReviewViewSet)
 router.register(r'invoice', InvoiceViewSet)  # Register InvoiceViewSet
 router.register(r'Consumable', ConsumableViewSet)  # Register InvoiceViewSet
-router.register(r'ConsumableStock', ConsumableStockViewSet)  # Register InvoiceViewSet
+# Register InvoiceViewSet
+router.register(r'ConsumableStock', ConsumableStockViewSet)
 router.register(r'Experiment', ExperimentViewSet)  # Register InvoiceViewSet
 router.register(r'Apparatus', ApparatusViewSet)  # Register InvoiceViewSet
 
@@ -50,14 +52,17 @@ urlpatterns = [
     path('register/', UserRegistrationView.as_view(), name='register'),
     path('login/', UserLoginView.as_view(), name='login'),
     path("purchase-excel/", purchase_excel, name="purchase_excel"),
-    path('upload-excel/', upload_excel, name='upload-excel'), 
+    path('upload-excel/', upload_excel, name='upload-excel'),
     path('invoice-excel/', invoice_excel, name='invoice-excel'),
     path('profile/', UserProfileView.as_view(), name='profile'),
     path('changepassword/', UserChangePasswordView.as_view(), name='changepassword'),
-    path('send-reset-password-email/', SendPasswordResetEmailView.as_view(), name='send-reset-password-email'),
-    path('reset-password/<uid>/<token>/', UserPasswordResetView.as_view(), name='reset-password'),
+    path('send-reset-password-email/', SendPasswordResetEmailView.as_view(),
+         name='send-reset-password-email'),
+    path('reset-password/<uid>/<token>/',
+         UserPasswordResetView.as_view(), name='reset-password'),
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('ocr/', process_and_delete_images, name='ocr_view'),
+    path('speech-to-text-search/', speechToTextSearch, name='speech'),
 
 
 ]

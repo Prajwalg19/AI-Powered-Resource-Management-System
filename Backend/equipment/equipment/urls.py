@@ -4,6 +4,7 @@ from django.urls import path, include
 from lab import views
 from lab.views import search
 
+
 # router = routers.DefaultRouter()
 # router.register(r'Departments', views.DepartmentViewSet, basename='Department')
 # router.register(r'Labs', views.LabViewSet, basename='Lab')
@@ -18,5 +19,3 @@ urlpatterns = [
     path('api/user/', include('lab.urls')),
     path('api/search/', search, name='search'),
 ]
-
-
