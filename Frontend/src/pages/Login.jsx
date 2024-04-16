@@ -37,7 +37,7 @@ function Login() {
         }
       );
       let statusCode = response.status;
-      if (response.data.role.toLowerCase() == "admin") {
+      if (response?.data?.role.toLowerCase() == "admin") {
         toast.error("Not Permitted");
         return;
       }
