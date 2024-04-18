@@ -4,7 +4,6 @@ from django.urls import path, include
 from lab import views
 from lab.views import search
 
-
 # router = routers.DefaultRouter()
 # router.register(r'Departments', views.DepartmentViewSet, basename='Department')
 # router.register(r'Labs', views.LabViewSet, basename='Lab')
@@ -12,6 +11,8 @@ from lab.views import search
 # router.register(r'Equipments', views.EquipmentViewSet, basename='Equipment')
 # router.register(r'EquipmentIssues', views.EquipmentIssueViewSet, basename='EquipmentIssue')
 # router.register(r'equipment_review', views.EquipmentReviewViewSet, basename='equipment_review')
+
+from django.urls import re_path
 
 urlpatterns = [
     path('admin/', admin.site.urls),

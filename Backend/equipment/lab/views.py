@@ -5,6 +5,7 @@ from dateutil import parser
 from decimal import Decimal
 from datetime import datetime
 import json
+import re
 import torch
 from PIL import Image
 import pytesseract
@@ -179,6 +180,16 @@ def search(request):
 
     # Create a list to store related data
     related_data = []
+    if re.search(r'\bcomputer\b', query.lower()):
+        query = "CSE"
+    elif re.search(r'\belect\b', query.lower()):
+        query = "ECE"
+    elif re.search(r'\binformation\b', query.lower()):
+        query = "ISE"
+    elif re.search(r'\bcivil\b', query.lower()):
+        query = "CIVIL"
+    elif re.search(r'\bcommunication\b', query.lower()):
+        query = "EEE"
 
     # Query departments based on department_name
     departments = Department.objects.filter(
@@ -530,7 +541,6 @@ def process_and_delete_images(request):
 # speech to text
 
 #!/usr/bin/env python3
-
 @api_view(['POST'])
 @csrf_exempt
 def speechToTextSearch(request):
@@ -561,7 +571,7 @@ def speechToTextSearch(request):
                        print(rec.Result())
                    else:
                        print(rec.PartialResult())
-        
+
        # Get the final transcription
     final_result = rec.FinalResult()
     result_dict = json.loads(final_result)
@@ -574,6 +584,19 @@ def speechToTextSearch(request):
         return Response({"status": False, "speech":"", "data": "" })
     # Create a list to store related data
     related_data = []
+    if re.search(r'\bcomputer\b', query.lower()):
+        query = "CSE"
+    elif re.search(r'\belect\b', query.lower()):
+        query = "ECE"
+    elif re.search(r'\binformation\b', query.lower()):
+        query = "ISE"
+    elif re.search(r'\bcivil\b', query.lower()):
+        query = "CIVIL"
+    elif re.search(r'\bcommunication\b', query.lower()):
+        query = "EEE"
+    elif re.search(r'\bmechan\b', query.lower()):
+        query = "MECHANICAL"
+
 
     # Query departments based on department_name
     departments = Department.objects.filter(
@@ -695,3 +718,8 @@ def speechToTextSearch(request):
     if(related_data != []):
         status = True
     return Response({"data": related_data, "speech": transcribed_text , "status": status} )
+
+
+
+
+

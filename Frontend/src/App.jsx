@@ -33,6 +33,8 @@ import Apparatus from "./pages/ApparatusForm";
 import ExperimentList from "./Components/DashboardPages/ExperimentList";
 import ApparatusList from "./Components/DashboardPages/ApparatusList";
 import InvoiceList from "./Components/DashboardPages/InvoiceList";
+import AdminPrivateRoute from "./Hooks/adminPage/PrivateRoute.jsx";
+import VideoCapture from "./pages/Face";
 function App() {
   return (
     <div className="App">
@@ -69,13 +71,16 @@ function App() {
             <Route path="/util" element={<Util />} />
             <Route path="/depreciation" element={<Dep />} />
             <Route path="/Apparatus_Details" element={<Apparatus />} />
+            <Route path="/experimentlist" element={<ExperimentList />} />
+            <Route path="/apparatuslist" element={<ApparatusList />} />
+            <Route path="/invoicelist" element={<InvoiceList />} />
           </Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />} />
-          <Route path="/login/admin" element={<AdminLogin />} />
-          <Route path="/experimentlist" element={<ExperimentList />} />
-          <Route path="/apparatuslist" element={<ApparatusList />} />
-          <Route path="/invoicelist" element={<InvoiceList />} />
+          <Route path="/verify" element={<VideoCapture />}></Route>
+          <Route path="/login/admin" element={<AdminPrivateRoute />}>
+            <Route path="/login/admin" element={<AdminLogin />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -77,6 +78,7 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = 'equipment.asgi.application'
 WSGI_APPLICATION = 'equipment.wsgi.application'
 
 
@@ -175,3 +177,9 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:4500",
     'http://10.42.0.1:4500'
 ]
+
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels.layers.InMemoryChannelLayer',  # Or use Redis for production
+#     }
+# }

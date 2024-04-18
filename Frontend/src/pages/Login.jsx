@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { setCred, logOut } from "../features/auth/userSlice";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { closeModal } from "../features/modalSlice";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 function Login() {

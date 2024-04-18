@@ -18,7 +18,7 @@ from .views import (
     purchase_excel,
     upload_image,
     process_and_delete_images,
-    speechToTextSearch
+    speechToTextSearch,
     # Added InvoiceViewSet
 )
 from lab.views import (
@@ -31,6 +31,7 @@ from lab.views import (
 )
 from rest_framework_simplejwt import views as jwt_views
 
+# from myapp import views
 # Create a router and register your viewsets with it.
 router = DefaultRouter()
 router.register(r'department', DepartmentViewSet)
@@ -45,7 +46,6 @@ router.register(r'Consumable', ConsumableViewSet)  # Register InvoiceViewSet
 router.register(r'ConsumableStock', ConsumableStockViewSet)
 router.register(r'Experiment', ExperimentViewSet)  # Register InvoiceViewSet
 router.register(r'Apparatus', ApparatusViewSet)  # Register InvoiceViewSet
-
 urlpatterns = [
     path('', include(router.urls)),
     path('upload_image/', upload_image, name='upload_image'),
@@ -63,6 +63,5 @@ urlpatterns = [
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('ocr/', process_and_delete_images, name='ocr_view'),
     path('speech-to-text-search/', speechToTextSearch, name='speech'),
-
 
 ]

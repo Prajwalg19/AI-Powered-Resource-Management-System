@@ -1,4 +1,4 @@
-#!/home/lesstzero/collegeProject/project/Backend/equipment/env/bin/python3
+#!/home/lesstzero/collegeProject/project/Backend/equipment/env/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
