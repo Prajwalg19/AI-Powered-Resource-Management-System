@@ -180,16 +180,18 @@ def search(request):
 
     # Create a list to store related data
     related_data = []
-    if re.search(r'\bcomputer\b', query.lower()):
+    if re.search(r'.*computer.*', query.lower()):
         query = "CSE"
-    elif re.search(r'\belect\b', query.lower()):
+    elif re.search(r'.*communication.*', query.lower()):
         query = "ECE"
-    elif re.search(r'\binformation\b', query.lower()):
+    elif re.search(r'.*information.*', query.lower()):
         query = "ISE"
-    elif re.search(r'\bcivil\b', query.lower()):
+    elif re.search(r'.*civil.*', query.lower()):
         query = "CIVIL"
-    elif re.search(r'\bcommunication\b', query.lower()):
+    elif re.search(r'.*elect.*', query.lower()):
         query = "EEE"
+    elif re.search(r'.*mech.*', query.lower()):
+        query = "MECHANICAL"
 
     # Query departments based on department_name
     departments = Department.objects.filter(
@@ -583,19 +585,21 @@ def speechToTextSearch(request):
     if(query == "") :
         return Response({"status": False, "speech":"", "data": "" })
     # Create a list to store related data
+
     related_data = []
-    if re.search(r'\bcomputer\b', query.lower()):
+    if re.search(r'.*computer.*', query.lower()):
         query = "CSE"
-    elif re.search(r'\belect\b', query.lower()):
+    elif re.search(r'.*communication.*', query.lower()):
         query = "ECE"
-    elif re.search(r'\binformation\b', query.lower()):
+    elif re.search(r'.*information.*', query.lower()):
         query = "ISE"
-    elif re.search(r'\bcivil\b', query.lower()):
+    elif re.search(r'.*civil.*', query.lower()):
         query = "CIVIL"
-    elif re.search(r'\bcommunication\b', query.lower()):
+    elif re.search(r'.*elect.*', query.lower()):
         query = "EEE"
-    elif re.search(r'\bmechan\b', query.lower()):
+    elif re.search(r'.*mech.*', query.lower()):
         query = "MECHANICAL"
+
 
 
     # Query departments based on department_name
