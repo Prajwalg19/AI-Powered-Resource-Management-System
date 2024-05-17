@@ -1,4 +1,5 @@
 from vosk import Model, KaldiRecognizer, SetLogLevel
+from .model_loader import llm_Loader, vosk_loader 
 import sys
 import subprocess
 from dateutil import parser
@@ -470,7 +471,7 @@ def process_and_delete_images(request):
                 image_path = os.path.join(path, file_name)
 
                 model_name = "google/flan-t5-large"
-                local_model_directory = "/local_models/flan-t5-large"
+                local_model_directory = "/flan-t5-large/"
 
                 if not os.path.exists(local_model_directory):
                     tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -479,10 +480,8 @@ def process_and_delete_images(request):
                     tokenizer.save_pretrained(local_model_directory)
                     model.save_pretrained(local_model_directory)
                 else:
-                    tokenizer = AutoTokenizer.from_pretrained(
-                        local_model_directory)
-                    model = AutoModelForSeq2SeqLM.from_pretrained(
-                        local_model_directory)
+                    tokenizer = llm_Loader.tokenizer
+                    model = llm_Loader.model
 
                 questions = [
                     "What is the Invoice no?",
@@ -551,12 +550,9 @@ def speechToTextSearch(request):
         print(audio_file)
 
     SAMPLE_RATE = 16000
-
     SetLogLevel(0)
 
-    path = "local_models/indian"
-    model = Model(path)
-    rec = KaldiRecognizer(model, SAMPLE_RATE)
+    rec = vosk_loader.rec
 
     ffmpeg_cmd = ["ffmpeg", "-loglevel", "quiet", "-i", "pipe:0", "-ar", str(SAMPLE_RATE), "-ac", "1", "-f", "s16le", "-"]
     with subprocess.Popen(ffmpeg_cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE) as process:
