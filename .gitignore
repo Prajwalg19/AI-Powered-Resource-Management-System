@@ -1,4 +1,4 @@
 /Backend/equipment/local_models/
 env
 /Backend/env
-
+__pycache__

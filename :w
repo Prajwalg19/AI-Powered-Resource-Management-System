@@ -39,13 +39,14 @@ export default function VideoCapture() {
       sendVideoFrames();
       ws.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        if (data.message == "recognized") {
+        if (data.message === "done") {
+          if (Number(data.count) >= 25) {
             dispatch(setAdmin(true));
             navigate("/login/admin");
-       } else {
+          } else {
             setError(true);
           }
-        
+        }
       };
     } catch (error) {
       console.error("Error accessing video stream:", error);
@@ -96,8 +97,8 @@ export default function VideoCapture() {
         </p>
         <video
           ref={videoRef}
-          autoPlay
-         controls
+          autoPlay={false}
+         controls={true} 
           className="w-full max-w-md border border-gray-300 rounded-lg shadow-lg"
         ></video>
         {error && (

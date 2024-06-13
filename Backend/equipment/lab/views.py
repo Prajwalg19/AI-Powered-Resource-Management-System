@@ -436,11 +436,13 @@ def upload_image(request):
 
 
 def perform_ocr_and_query(image_path, questions, tokenizer, model, tok_len):
+    torch.cuda.empty_cache()
     image = Image.open(image_path)
 
     extracted_text = pytesseract.image_to_string(image)
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    #device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = "cpu"
     print(device)
     model = model.to(device)
 

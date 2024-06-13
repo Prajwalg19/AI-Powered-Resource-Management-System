@@ -7,6 +7,7 @@ class ModelLoader:
         self.net = None
         self.le = None
         self.model = None
+        self.encoded_data = None
 
     def load_models(self):
         try:
@@ -14,10 +15,14 @@ class ModelLoader:
             model_path = "local_models/face_detector/res10_300x300_ssd_iter_140000.caffemodel"
             self.net = cv2.dnn.readNetFromCaffe(proto_path, model_path)
 
-            with open("local_models/face_detector/le.pickle", "rb") as le_file:
+            # with open("local_models/face_detector/le.pickle", "rb") as le_file:
+            with open("local_models/ok/label_encoder.pickle", "rb") as le_file:
                 self.le = pickle.load(le_file)
+            with open('local_models/ok/encoded_faces.pickle', 'rb') as file:
+                self.encoded_data = pickle.loads(file.read())
 
-            self.model = load_model("local_models/liveness.model.h5")
+            # self.model = load_model("local_models/liveness.model.h5")
+            self.model = load_model("local_models/ok/liveness.model.h5")
             self.model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
         except Exception as e:
             print(f"Error loading models: {e}")
